@@ -2,8 +2,8 @@ import axios from 'axios';
 import storage from '../Storage/Storage';
 
 const axiosClient = axios.create({
-    baseURL: //`http://localhost:8080/api/v1`,
-    'https://653e80399e8bd3be29df643b.mockapi.io/api/v1'
+    baseURL: `http://localhost:8080/api/v1`,
+    //'https://653e80399e8bd3be29df643b.mockapi.io/api/v1'
     // timeout: 5000, // default is `0` (no timeout)
     // responseType: 'json'
 });

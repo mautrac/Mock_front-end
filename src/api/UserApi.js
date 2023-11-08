@@ -80,11 +80,11 @@ const updateProfile = (avatarUrl) => {
 const createAccountFromAdmin = (values) => {
 
     const body = {
-        firstName: values.firstname,
-        lastName: values.lastname,
-        userName: values.username,
+        username: values.userName,
         email: values.email,
         password: values.password,
+        firstName: values.firstName,
+        lastName: values.lastName,
         role: values.role
     }
 
