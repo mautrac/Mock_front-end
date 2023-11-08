@@ -57,7 +57,7 @@ const SignIn = (props) => {
   return (
     <React.Fragment>
       <div className="text-center mt-4">
-        <h2>Welcome to VTI Academy</h2>
+        <h2>Welcome to group management</h2>
         <p className="lead">Sign in to your account to continue</p>
       </div>
 
@@ -130,13 +130,16 @@ const SignIn = (props) => {
                 showErrorNotification("Login Fail!", "Wrong Username or Password!")
               } else {
                 // redirect page error server
-                props.history.push("/auth/500");
+                // đang lỗi ở đây
+                props.history.push("/dashboard/default");
+
+                // props.history.push("/auth/500");
               }
             }
           }
         }
-      // validateOnChange={false}
-      // validateOnBlur={false}
+      validateOnChange={false}
+      validateOnBlur={false}
       >
         {({ isSubmitting }) => (
           <Card>

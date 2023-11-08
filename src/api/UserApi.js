@@ -90,8 +90,20 @@ const createAccountFromAdmin = (values) => {
 
     return Api.post(url, body);
 };
+const getAllUsers = (page = 1 , size = 10, sortField = 'id', sortType = 'desc', search ='') => {
+    const parameters= {
+        page,
+        size,
+        sort: `${sortField},${sortType}`
+    }
+       // search
+       if (search) {
+        parameters.search = search;
+    }
 
+    return Api.get(`${url}`, {params: parameters});
+};
 // export
-const api = { updateProfile, getProfile, create, existsByEmail, existsByUsername, existsByUsername2, 
+const api = {getAllUsers, updateProfile, getProfile, create, existsByEmail, existsByUsername, existsByUsername2, 
     resendEmailToActiveAccount, requestResetPassword, resendEmailToResetpassword, resetPassword, createAccountFromAdmin }
 export default api;

@@ -21,3 +21,5 @@ export const USER_LOGIN_INFO = "USER_LOGIN_INFO";
 // group
 export const GET_LIST_GROUP = "GET_LIST_GROUP";
 export const GET_LIST_GROUP_SELECTED_ROWS = "GET_LIST_GROUP_SELECTED_ROWS";
+//user
+export const GET_LIST_USER = "GET_LIST_USER";
