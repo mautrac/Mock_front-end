@@ -90,8 +90,35 @@ const createAccountFromAdmin = (values) => {
 
     return Api.post(url, body);
 };
+const getAllUsers = (page = 1 , size = 10, sortField = 'id', sortType = 'desc', search ='') => {
+    const parameters= {
+        page,
+        size,
+        sort: `${sortField},${sortType}`
+    }
+       // search
+       if (search) {
+        parameters.search = search;
+    }
 
+    return Api.get(`${url}`, {params: parameters});
+};
+const getById = (id) => {
+    return Api.get(`${url}/${id}`);
+};
+const update = (id, email, firstName, lastName) => {
+    const body = {
+        email, 
+        firstName,
+        lastName
+    }
+    return Api.put(`${url}/${id}`, body);
+};
+
+const deleteByIds = (ids) => {
+    return Api.delete(`${url}/${ids.toString()}`);
+};
 // export
-const api = { updateProfile, getProfile, create, existsByEmail, existsByUsername, existsByUsername2, 
-    resendEmailToActiveAccount, requestResetPassword, resendEmailToResetpassword, resetPassword, createAccountFromAdmin }
+const api = {update ,deleteByIds,getAllUsers, updateProfile, getProfile, create, existsByEmail, existsByUsername, existsByUsername2, 
+    resendEmailToActiveAccount, requestResetPassword, resendEmailToResetpassword, resetPassword, createAccountFromAdmin, getById }
 export default api;
