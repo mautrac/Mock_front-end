@@ -18,6 +18,9 @@ const selectTotalSizeSelector = createSelector(
     userSelector,
     state => state.totalSize);
 
+const selectSelectedRowsSelector = createSelector(
+    userSelector,
+    state => state.selectedRows);
 /** function */
 export const selectUsers = (state) => {
     return selectUserSelector(state);
@@ -32,4 +35,8 @@ export const selectSize = (state) => {
 
 export const selectTotalSize = (state) => {
     return selectTotalSizeSelector(state);
+}
+
+export const selectSelectedRows = (state) => {
+    return selectSelectedRowsSelector(state);
 }

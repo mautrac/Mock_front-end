@@ -1,20 +1,31 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
+  Button,
   Card,
   CardBody,
   Col,
   Container,
-  Row
+  Row,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
 } from "reactstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { connect } from "react-redux";
-import { selectUsers,selectPage,selectSize,selectTotalSize } from "../../redux/selectors/UserSelector";
+import { selectUsers,selectPage,selectSize,selectTotalSize,selectSelectedRows } from "../../redux/selectors/UserSelector";
 import {getListUserAction} from "../../redux/actions/UserActions";
+import { updateSelectedRowsAction } from "../../redux/actions/UserActions";
 import UserApi from "../../api/UserApi";
 import ToolkitProvider from 'react-bootstrap-table2-toolkit';
 import CustomSearch from "./CustomSearch";
 import * as Icon from 'react-feather';
+import { toastr } from "react-redux-toastr";
+import { FastField, Form, Formik } from "formik";
+// import { ReactstrapInput } from "reactstrap-formik";
+// import * as Yup from 'yup';
+
 
 import filterFactory, { customFilter } from 'react-bootstrap-table2-filter';
 // import { FastField, Form, Formik } from "formik";
@@ -94,6 +105,100 @@ const User = (props) =>{
     //   });
     // }
 
+
+  // create
+  const [isOpenModalDelete, setOpenModalDelete] = useState(false);
+
+
+  // refresh form
+  const refreshForm = () => {
+    // refresh selected rows
+    props.updateSelectedRowsAction([]);
+
+    //refresh table 
+    handleTableChange(null,
+      {
+        page: 1,
+        sortField: null,
+        sortOrder: null,
+        searchText: null,
+        filters: null
+      }
+    );
+  }
+
+    const showSuccessNotification = (title, message) => {
+      const options = {
+        timeOut: 3000,
+        showCloseButton: false,
+        progressBar: false,
+        position: "top-right"
+      };
+  
+      // show notification
+      toastr.success(title, message, options);
+    }
+  
+    const showErrorNotification = (title, message) => {
+      const options = {
+        timeOut: 3000,
+        showCloseButton: false,
+        progressBar: false,
+        position: "top-right"
+      };
+  
+      // show notification
+      toastr.error(title, message, options);
+    }
+
+     //handle select row
+  const handleOnSelect = (row, isSelect) => {
+
+    let selected = props.selectedRows;
+ 
+    if (isSelect) {
+      selected = [...props.selectedRows, row.id]
+    } else {
+      selected = props.selectedRows.filter(x => x !== row.id)
+    }
+    console.log(selected);
+    props.updateSelectedRowsAction(selected);
+  }
+
+  //handle select all rows
+  const handleOnSelectAll = (isSelect, rows) => {
+
+    let selected = props.selectedRows;
+
+    const ids = rows.map(r => r.id);
+    if (isSelect) {
+      selected = ids
+    } else {
+      selected = []
+    }
+    console.log(selected);
+
+    props.updateSelectedRowsAction(selected);
+  }
+    const handleDeleteConfirm  = async () => {
+    
+      try {
+        await UserApi.deleteByIds(props.selectedRows);
+        setOpenModalDelete(false);
+        showSuccessNotification(
+          "Delete User",
+          "Đã xóa thành công!");
+        refreshForm();
+      } catch (error) {
+        console.log(error);
+        // redirect page error server
+        props.history.push("/auth/500");
+      }
+    }
+    const handleDeleteCancel =() =>{
+      setOpenModalDelete(false);
+    };
+
    return (
   <Container fluid className="p-0">
     <h1 className="h3 mb-3">Admin Management</h1>
@@ -126,12 +231,14 @@ const User = (props) =>{
                 <Col lg="3">
                   <CustomSearch {...toolkitprops.searchProps} />
                 </Col>
-                <Col lg="9">
+                <Col lg="9"> 
                   <div className="float-right pull-right">
-                    <Icon.Filter size={24} className="align-middle mr-2" />
-                    <Icon.RefreshCcw className="align-middle mr-2" size={24}/>
-                    <Icon.PlusCircle className="align-middle mr-2" size={24} />
-                    <Icon.Trash2 className="align-middle mr-2" size={24}/>
+                    <Icon.RefreshCcw type="button" className="align-middle mr-3" size={24} onClick={refreshForm}/>
+                    <Icon.PlusCircle type="button" className="align-middle mr-3"/>
+                    <Icon.Trash2 type="button" className="align-middle mr-3" onClick={() =>{ if (props.selectedRows.length !== 0) {setOpenModalDelete(true)}else{showErrorNotification(
+                      "Delete User",
+                      "Bạn hãy chọn user cần xóa!!!"
+                    );}}}/>
                   </div>
                 </Col>
               </Row>
@@ -153,6 +260,13 @@ const User = (props) =>{
                 alwaysShowAllBtns: true,
                 hideSizePerPage:true
               })}
+              selectRow={{
+                mode: 'checkbox',
+                clickToSelect: true,
+                selected: props.selectedRows,
+                onSelect: handleOnSelect,
+                onSelectAll: handleOnSelectAll
+              }}
               onTableChange={handleTableChange}
             />
             </React.Fragment>
@@ -163,6 +277,36 @@ const User = (props) =>{
         </Card>
       </Col>
     </Row>
+    
+    <Modal isOpen={isOpenModalDelete}>
+     
+        
+          {/* header */}
+          <ModalHeader>Delete Group</ModalHeader>
+
+          {/* body */}
+          <ModalBody className="m-3">
+
+            
+                <h2>Bạn có chắc chắn muốn xóa không ?</h2>
+              
+
+          </ModalBody>
+
+          {/* footer */}
+          <ModalFooter>
+            <Button  color="primary" onClick={handleDeleteConfirm}>
+              Xóa
+            </Button>{" "}
+
+            <Button color="primary" onClick={handleDeleteCancel}>
+              Hủy
+            </Button>
+          </ModalFooter>
+  </Modal>
+
+
+
   </Container>
 )};
 const mapGlobalStateToProps = state => {
@@ -170,9 +314,9 @@ const mapGlobalStateToProps = state => {
     users: selectUsers(state),
     page: selectPage(state),
     size: selectSize(state),
-    totalSize: selectTotalSize(state)
-    // selectedRows: selectSelectedRows(state)
+    totalSize: selectTotalSize(state),
+    selectedRows: selectSelectedRows(state),
   };
 };
-export default connect(mapGlobalStateToProps,{getListUserAction})(User);
+export default connect(mapGlobalStateToProps,{getListUserAction,updateSelectedRowsAction})(User);
  

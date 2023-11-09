@@ -103,7 +103,11 @@ const getAllUsers = (page = 1 , size = 10, sortField = 'id', sortType = 'desc', 
 
     return Api.get(`${url}`, {params: parameters});
 };
+
+const deleteByIds = (ids) => {
+    return Api.delete(`${url}/${ids.toString()}`);
+};
 // export
-const api = {getAllUsers, updateProfile, getProfile, create, existsByEmail, existsByUsername, existsByUsername2, 
+const api = {deleteByIds,getAllUsers, updateProfile, getProfile, create, existsByEmail, existsByUsername, existsByUsername2, 
     resendEmailToActiveAccount, requestResetPassword, resendEmailToResetpassword, resetPassword, createAccountFromAdmin }
 export default api;

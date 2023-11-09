@@ -4,7 +4,10 @@ const initialState = {
   users: [],
   page: 2,
   size: 7,
-  totalSize: 0
+  totalSize: 0,
+
+   // selected rows
+   selectedRows: []
 };
 
 export default function reducer(state = initialState, actions) {
@@ -18,6 +21,11 @@ export default function reducer(state = initialState, actions) {
         totalSize: actions.payload.totalSize
 
       };
+      case types.GET_LIST_USER_SELECTED_ROWS:
+        return{
+          ...state,
+          selectedRows: actions.payload,
+        };
     default:
       return state;
   }

@@ -10,3 +10,9 @@ export function getListUserAction(users,page,totalSize){
     }
   };
 } 
+export function updateSelectedRowsAction(selectedRows){
+  return{
+    type: types.GET_LIST_USER_SELECTED_ROWS,
+    payload:selectedRows
+  };
+} 
