@@ -33,6 +33,8 @@ import filterFactory, { customFilter } from 'react-bootstrap-table2-filter';
 // import * as Yup from 'yup';
 // import { toastr } from "react-redux-toastr";
 
+import AddAccount from '../acount/AddAccountAdmin';
+
 const tableColumns = [
   {
     dataField: "username",
@@ -65,6 +67,12 @@ const tableColumns = [
 const User = (props) =>{
   const getListUser = props.getListUserAction;
   const size = props.size;
+
+  const [isOpenModalCreate, setOpenModalCreate] = useState(false);
+  const createAccountModel = ({isOpenModalCreate}) => (
+    isOpenModalCreate ? <AddAccount refreshForm={refreshForm} setOpenModalCreate={setOpenModalCreate} /> : ''
+  );
+
   useEffect(() =>{
     const getAllUser = async() =>{
       const result = await UserApi.getAllUsers(1, size);
@@ -234,7 +242,7 @@ const User = (props) =>{
                 <Col lg="9"> 
                   <div className="float-right pull-right">
                     <Icon.RefreshCcw type="button" className="align-middle mr-3" size={24} onClick={refreshForm}/>
-                    <Icon.PlusCircle type="button" className="align-middle mr-3"/>
+                    <Icon.PlusCircle type="button" className="align-middle mr-3" onClick={() => setOpenModalCreate(true)}/>
                     <Icon.Trash2 type="button" className="align-middle mr-3" onClick={() =>{ if (props.selectedRows.length !== 0) {setOpenModalDelete(true)}else{showErrorNotification(
                       "Delete User",
                       "Bạn hãy chọn user cần xóa!!!"
@@ -278,6 +286,10 @@ const User = (props) =>{
       </Col>
     </Row>
     
+    {isOpenModalCreate}
+    <AddAccount refreshForm={refreshForm} setOpenModalCreate={setOpenModalCreate} isOpenModalCreate={isOpenModalCreate}/>
+
+    {isOpenModalCreate} 
     <Modal isOpen={isOpenModalDelete}>
      
         

@@ -50,7 +50,6 @@ const Feather = async(() => import("../pages/icons/Feather"));
 const Group = async(() => import("../pages/group/Group"));
 const User = async(() => import("../pages/user/User"));
 
-
 //
 const AddAccountAdmin = async(() => import("../pages/acount/AddAccountAdmin"));
 
@@ -93,6 +92,7 @@ const groupRoutes = {
   component: withAuth(Group),
   children: null
 };
+
 const userRoutes = {
   path: "/users",
   name: "User Manager",
@@ -100,6 +100,7 @@ const userRoutes = {
   component: User,
   children: null
 };
+
 
 const authRoutes = {
   path: "/auth",
@@ -210,7 +211,7 @@ const SettingsRoutes = {
 
 // Dashboard specific routes
 export const dashboard = [
-  addAccountAdminRoutes,
+  //addAccountAdminRoutes,
   dashboardRoutes,
   groupRoutes,
   userRoutes,
@@ -228,7 +229,7 @@ export const page = [authRoutes];
 
 // All routes
 export default [
-  addAccountAdminRoutes,
+  //addAccountAdminRoutes,
   dashboardRoutes,
   groupRoutes,
   userRoutes,

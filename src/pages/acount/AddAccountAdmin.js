@@ -22,7 +22,7 @@ import { toastr } from "react-redux-toastr";
 
 function AddAccountAdmin(props) {
 
-  const [isOpenModalCreate, setOpenModalCreate] = useState(true);
+  //const [isOpenModalCreate, setOpenModalCreate] = useState(true);
   
   const showSuccessNotification = (title, message) => {
     const options = {
@@ -37,36 +37,36 @@ function AddAccountAdmin(props) {
   }
 
   return (
-    <Modal isOpen={isOpenModalCreate}>
+    <Modal isOpen={props.isOpenModalCreate}>
         <Formik
             initialValues={
                 {
-                    firstname: '',
+                    firstName: '',
                     lastName: '',
-                    userName: '',
+                    username: '',
                     password: '',
                     confirmPassword: '',
                     email: '',
-                    role: ''
+                    role: 'admin'
                 }
             }
             validationSchema={
                 Yup.object({
-                    firstname: Yup.string()
+                    firstName: Yup.string()
                         .required("Required")
-                        .min(1, 'Required'),
+                        .max(50, '50 characters max'),
                     lastName: Yup.string()
                         .required("Required")
-                        .min(1, 'Required'),
-                    userName: Yup.string()
+                        .max(50, '50 characters max'),
+                    username: Yup.string()
                         .min(6, 'Must be between 6 and 50 characters')
                         .max(50, 'Must be between 6 and 50 characters')
                         .required('Required')
-                        .test('checkUniqueUserName', 'This user name is already registered.', async userName => {
+                        .test('checkUniqueUserName', 'This user name is already registered.', async username => {
                         // call api
-                        const isExists = await userApi.existsByUsername2(1);
-                        
-                        return !isExists;
+                        const isExists =await userApi.existsByUsername(username);
+          
+                          return !isExists;
                         }),
                     password: Yup.string()
                         .min(6, 'Must be between 6 and 50 characters')
@@ -86,37 +86,40 @@ function AddAccountAdmin(props) {
                         .required('Required')
                         .test('checkExistsEmail', 'This email is already registered.', async email => {
                             // call api
-                            const isExists = //await userApi.existsByEmail(email);
-                            false;
+                            const isExists = await userApi.existsByEmail(email);
+          
                             return !isExists;
-                        })
-                    
+                        }),
+                    role: Yup.string()
+                        .required("Please  select role!")
+                        .matches("manager|admin|user")
                     
                 })
-          }
+            }
 
-          onSubmit={
-            async values => {
+            onSubmit={
+              async values => {
 
-              try {
-                await userApi.createAccountFromAdmin(values);
-                // show notification
-                showSuccessNotification(
-                  "Create Addcount",
-                  "Create Account Successfully!"
-                );
-                // close modal
-                setOpenModalCreate(false);
-                // Refresh table
-                props.refreshForm();
-              } catch (error) {
-                console.log(error);
-                setOpenModalCreate(false);
-                // redirect page error server
-                props.history.push("/auth/500");
+                try {
+                  await userApi.createAccountFromAdmin(values);
+                  // show notification
+                  console.log(values);
+                  showSuccessNotification(
+                    "Create Addcount",
+                    "Create Account Successfully!"
+                  );
+                  // close modal
+                  props.setOpenModalCreate(false);
+                  // Refresh table
+                  props.refreshForm();
+                } catch (error) {
+                  console.log(error);
+                  props.setOpenModalCreate(false);
+                  // redirect page error server
+                  props.history.push("/auth/500");
+                }
               }
             }
-          }
 
           validateOnChange={false}
           validateOnBlur={false}
@@ -155,7 +158,7 @@ function AddAccountAdmin(props) {
                       label="Username"
                       type="text"
                       bsSize="lg"
-                      name="userName"
+                      name="username"
                       placeholder="Enter username"
                       component={ReactstrapInput}
                     />
@@ -208,13 +211,11 @@ function AddAccountAdmin(props) {
 
               {/* footer */}
               <ModalFooter>
-                <Button type="submit" color="primary" disabled={isSubmitting}>
+                <Button type="submit" color="primary" disabled={isSubmitting} >
                   Save
                 </Button>{" "}
 
-                <Button onClick={test_fun} disabled={true}></Button>
-
-                <Button color="primary" onClick={() => setOpenModalCreate(false)}>
+                <Button color="primary" onClick={() => props.setOpenModalCreate(false)}>
                   Close
                 </Button>
               </ModalFooter>
@@ -226,8 +227,6 @@ function AddAccountAdmin(props) {
 
 }
 
-var test_fun = () => {
-  console.log("FUK");
-}
+
 
 export default AddAccountAdmin;

@@ -7,12 +7,9 @@ const existsByEmail = (email) => {
 };
 
 const existsByUsername = (username) => {
-    return Api.get(`${url}/userName/${username}`);
+    return Api.get(`${url}/username/${username}`);
 };
 
-const existsByUsername2 = (id) => {
-    return Api.get(`${url}/${id}`);
-};
 
 const create = (firstname, lastname, username, email, password) => {
 
@@ -80,9 +77,9 @@ const updateProfile = (avatarUrl) => {
 const createAccountFromAdmin = (values) => {
 
     const body = {
-        firstName: values.firstname,
-        lastName: values.lastname,
-        userName: values.username,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        username: values.username,
         email: values.email,
         password: values.password,
         role: values.role
@@ -108,6 +105,6 @@ const deleteByIds = (ids) => {
     return Api.delete(`${url}/${ids.toString()}`);
 };
 // export
-const api = {deleteByIds,getAllUsers, updateProfile, getProfile, create, existsByEmail, existsByUsername, existsByUsername2, 
+const api = {deleteByIds,getAllUsers, updateProfile, getProfile, create, existsByEmail, existsByUsername, 
     resendEmailToActiveAccount, requestResetPassword, resendEmailToResetpassword, resetPassword, createAccountFromAdmin }
 export default api;
