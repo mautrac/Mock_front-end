@@ -49,6 +49,7 @@ const Feather = async(() => import("../pages/icons/Feather"));
 // groups
 const Group = async(() => import("../pages/group/Group"));
 const User = async(() => import("../pages/user/User"));
+const Film = async(() => import("../pages/film/Film"));
 
 //
 const AddAccountAdmin = async(() => import("../pages/acount/AddAccountAdmin"));
@@ -101,6 +102,13 @@ const userRoutes = {
   children: null
 };
 
+const filmRoutes = {
+  path: "/films",
+  name: "Film Manager",
+  icon: ListIcon,
+  component: Film,
+  children: null
+};
 
 const authRoutes = {
   path: "/auth",
@@ -215,7 +223,7 @@ export const dashboard = [
   dashboardRoutes,
   groupRoutes,
   userRoutes,
-  //pageRoutes,
+  filmRoutes,
   layoutRoutes,
   ProfileRoutes,
   SettingsRoutes
@@ -233,7 +241,7 @@ export default [
   dashboardRoutes,
   groupRoutes,
   userRoutes,
-  // pageRoutes,
+  filmRoutes,
   authRoutes,
  
 ];

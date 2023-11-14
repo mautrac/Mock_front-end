@@ -26,7 +26,6 @@ import { FastField, Form, Formik } from "formik";
 // import { ReactstrapInput } from "reactstrap-formik";
 // import * as Yup from 'yup';
 
-
 import filterFactory, { customFilter } from 'react-bootstrap-table2-filter';
 // import { FastField, Form, Formik } from "formik";
 // import { ReactstrapInput } from "reactstrap-formik";
@@ -114,12 +113,12 @@ const User = (props) =>{
     // }
 
 
-  // create
+  // delete
   const [isOpenModalDelete, setOpenModalDelete] = useState(false);
-
-
   // refresh form
   const refreshForm = () => {
+    window.location.reload();
+    
     // refresh selected rows
     props.updateSelectedRowsAction([]);
 
@@ -262,8 +261,8 @@ const User = (props) =>{
                 sizePerPage: props.size,
                 totalSize: props.totalSize,
 
-                nextPageText:'Next',
-                prePageText:'Prev',
+                nextPageText:'>',
+                prePageText:'<',
                 // withFirstAndLast: false,
                 alwaysShowAllBtns: true,
                 hideSizePerPage:true

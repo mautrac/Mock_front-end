@@ -6,7 +6,7 @@ import theme from "./themeReducer";
 import UserLoginInfo from "./UserLoginInfoReducers";
 import Group from "./GroupReducers";
 import User from "./UserReducer";
-
+import Film from "./FilmReducer"
 import { reducer as toastr } from "react-redux-toastr";
 
 export default combineReducers({
@@ -16,5 +16,6 @@ export default combineReducers({
   toastr,
   UserLoginInfo,
   Group,
-  User
+  User,
+  Film
 });
