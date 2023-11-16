@@ -41,31 +41,31 @@ function AddAccountAdmin(props) {
         <Formik
             initialValues={
                 {
-                    firstname: '',
+                    firstName: '',
                     lastName: '',
                     userName: '',
                     password: '',
                     confirmPassword: '',
                     email: '',
-                    role: ''
+                    role: 'admin'
                 }
             }
             validationSchema={
                 Yup.object({
-                    firstname: Yup.string()
+                    firstName: Yup.string()
                         .required("Required")
-                        .min(1, 'Required'),
+                        .max(50, '50 characters max'),
                     lastName: Yup.string()
                         .required("Required")
-                        .min(1, 'Required'),
+                        .max(50, '50 characters max'),
                     userName: Yup.string()
                         .min(6, 'Must be between 6 and 50 characters')
                         .max(50, 'Must be between 6 and 50 characters')
                         .required('Required')
                         .test('checkUniqueUserName', 'This user name is already registered.', async userName => {
                         // call api
-                        const isExists = await userApi.existsByUsername2(1);
-                        
+                        const isExists = //await userApi.existsByUsername2(1);
+                        false;
                         return !isExists;
                         }),
                     password: Yup.string()
@@ -89,34 +89,37 @@ function AddAccountAdmin(props) {
                             const isExists = //await userApi.existsByEmail(email);
                             false;
                             return !isExists;
-                        })
-                    
+                        }),
+                    role: Yup.string()
+                        .required("Please  select role!")
+                        .matches("manager|admin|user")
                     
                 })
-          }
+            }
 
-          onSubmit={
-            async values => {
+            onSubmit={
+              async values => {
 
-              try {
-                await userApi.createAccountFromAdmin(values);
-                // show notification
-                showSuccessNotification(
-                  "Create Addcount",
-                  "Create Account Successfully!"
-                );
-                // close modal
-                setOpenModalCreate(false);
-                // Refresh table
-                props.refreshForm();
-              } catch (error) {
-                console.log(error);
-                setOpenModalCreate(false);
-                // redirect page error server
-                props.history.push("/auth/500");
+                try {
+                  await userApi.createAccountFromAdmin(values);
+                  // show notification
+                  console.log(values);
+                  showSuccessNotification(
+                    "Create Addcount",
+                    "Create Account Successfully!"
+                  );
+                  // close modal
+                  setOpenModalCreate(false);
+                  // Refresh table
+                  props.refreshForm();
+                } catch (error) {
+                  console.log(error);
+                  setOpenModalCreate(false);
+                  // redirect page error server
+                  props.history.push("/auth/500");
+                }
               }
             }
-          }
 
           validateOnChange={false}
           validateOnBlur={false}
@@ -208,11 +211,9 @@ function AddAccountAdmin(props) {
 
               {/* footer */}
               <ModalFooter>
-                <Button type="submit" color="primary" disabled={isSubmitting}>
+                <Button type="submit" color="primary" disabled={isSubmitting} >
                   Save
                 </Button>{" "}
-
-                <Button onClick={test_fun} disabled={true}></Button>
 
                 <Button color="primary" onClick={() => setOpenModalCreate(false)}>
                   Close
@@ -226,8 +227,6 @@ function AddAccountAdmin(props) {
 
 }
 
-var test_fun = () => {
-  console.log("FUK");
-}
+
 
 export default AddAccountAdmin;
