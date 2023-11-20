@@ -21,7 +21,7 @@
     padding: 0;
     margin: 0;
     width: 100%;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
   }
   
   .film-lists .product-images {
@@ -50,6 +50,7 @@
   
   .film-lists .product-info .cgv-movie-info .cgv-info-bold {
     font-weight: bold;
+    font-size: medium;
   }
   
   .film-lists .product-info .cgv-movie-info .cgv-info-normal {

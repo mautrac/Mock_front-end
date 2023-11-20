@@ -2,18 +2,18 @@ import Api from './Api';
 
 const url = "/films";
 
-const getAllFilm = () => {
+const getAllFilm = (search = '') => {
 
-    // const parameters = {
-    //     page,
-    //     size,
-    //     sort: `${sortField},${sortType}`
-    // }
+    const parameters = {
+        // page,
+        // size,
+        // sort: `${sortField},${sortType}`
+    }
 
-    // // search
-    // if (search) {
-    //     parameters.search = search;
-    // }
+    // search
+    if (search) {
+        parameters.search = search;
+    }
 
     // // filter
     // if (minTotalMember !== null && minTotalMember !== undefined) {
@@ -24,7 +24,7 @@ const getAllFilm = () => {
     //     parameters.maxTotalMember = maxTotalMember;
     // }
 
-    return Api.get(`${url}`);
+    return Api.get(`${url}`,{params: parameters});
 };
 
 // const existsByName = (name) => {
