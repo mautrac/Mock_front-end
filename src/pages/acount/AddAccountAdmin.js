@@ -98,13 +98,17 @@ function AddAccountAdmin(props) {
                 }
             }
             validationSchema={
+
                 validationSchemaObject
+
             }
 
             onSubmit={
               async values => {
+
                 
                 //console.log(values);
+
                 try {
                   await userApi.createAccountFromAdmin(values);
                   // show notification
@@ -164,8 +168,7 @@ function AddAccountAdmin(props) {
                   <FormGroup>
                     <FastField
                       label="Username"
-                      type="text"
-                      
+                      type="text" 
                       name="username"
                       placeholder="Enter username"
                       component={TextInput}

@@ -11,6 +11,7 @@ import {
   ModalFooter,
   ModalHeader,
 } from "reactstrap";
+
 import BootstrapTable from "react-bootstrap-table-nextgen";
 import paginationFactory from "react-bootstrap-table-nextgen-paginator";
 import ToolkitProvider, { Search } from 'react-bootstrap-table-nextgen-toolkit';
@@ -20,7 +21,6 @@ import { selectUsers,selectPage,selectSize,selectTotalSize,selectSelectedRows } 
 import {getListUserAction} from "../../redux/actions/UserActions";
 import { updateSelectedRowsAction } from "../../redux/actions/UserActions";
 import UserApi from "../../api/UserApi";
-
 import CustomSearch from "./CustomSearch";
 import * as Icon from 'react-feather';
 import { toastr } from "react-redux-toastr";
@@ -144,6 +144,9 @@ const tableColumns = [
 
   // refresh form
   const refreshForm = () => {
+
+    window.location.reload();
+
     // refresh selected rows
     props.updateSelectedRowsAction([]);
 
@@ -166,7 +169,6 @@ const tableColumns = [
         progressBar: false,
         position: "top-right"
       };
-      
       // show notification
       toastr.success(title, message, options);
     }
@@ -181,6 +183,7 @@ const tableColumns = [
       }
       //update modal
     const [isOpenModalUpdate, setOpenModalUpdate] = useState(false);
+
     const showErrorNotification = (title, message) => {
       const options = {
         timeOut: 3000,
@@ -298,6 +301,7 @@ const tableColumns = [
 
                 nextPageText:'Next',
                 prePageText:'Prev',
+
                 // withFirstAndLast: false,
                 alwaysShowAllBtns: true,
                 hideSizePerPage:true
@@ -318,12 +322,13 @@ const tableColumns = [
           </CardBody>
         </Card>
       </Col>
+
     </Row> 
+
     
     {isOpenModalCreate}
     <AddAccount refreshForm={refreshForm} setOpenModalCreate={setOpenModalCreate} isOpenModalCreate={isOpenModalCreate}/>
 
-     
     {isOpenModalCreate} 
     <Modal isOpen={isOpenModalDelete}>
      
@@ -480,6 +485,7 @@ const tableColumns = [
           )}
         </Formik >
       </Modal>
+
 
 
   </Container>

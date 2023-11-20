@@ -60,6 +60,8 @@ const User = async(() => import("../pages/user/User"));
 
 
 
+
+
 //
 
 // Routes
@@ -120,6 +122,21 @@ const userRoutes = {
   children: null
 };
 
+const userRoutes = {
+  path: "/users",
+  name: "User Manager",
+  icon: ListIcon,
+  component: User,
+  children: null
+};
+
+const filmRoutes = {
+  path: "/films",
+  name: "Film Manager",
+  icon: ListIcon,
+  component: Film,
+  children: null
+};
 
 const authRoutes = {
   path: "/auth",
@@ -231,12 +248,14 @@ const SettingsRoutes = {
 // Dashboard specific routes
 export const dashboard = [
   //addAccountAdminRoutes,
+
   addFilmRoutes,
   filmRoutes,
   dashboardRoutes,
   //groupRoutes,
   userRoutes,
   //pageRoutes,
+
   layoutRoutes,
   ProfileRoutes,
   SettingsRoutes
@@ -257,6 +276,7 @@ export default [
   //groupRoutes,
   userRoutes,
   // pageRoutes,
+
   authRoutes,
  
 ];

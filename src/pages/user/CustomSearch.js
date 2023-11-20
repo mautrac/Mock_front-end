@@ -11,6 +11,7 @@ import { selectSearch } from "../../redux/selectors/GroupSelector";
 import { connect } from "react-redux";
 
 
+
 const CustomSearch = (props) => {
 
     return (
@@ -44,6 +45,7 @@ const CustomSearch = (props) => {
                         <div className="input-group-append" addonType="append" color="primary" >
                             <Button type='submit'>Search</Button>
                         </div>
+
                     </Col>
                 </Row>
             </Form>

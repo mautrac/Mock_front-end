@@ -16,9 +16,10 @@ import { getListFilmAction } from "../../redux/actions/FilmActions";
 import '../../css/film.css'
 import FilmApi from "../../api/FilmApi"
 
+// import { Search } from "react-bootstrap-table2-toolkit";
 const Film = (props) => {
   const getListFilm = props.getListFilmAction;
-  
+
   useEffect(() =>{
     const getAllFilm = async() =>{
       const result = await FilmApi.getAllFilm();
@@ -38,6 +39,7 @@ const Film = (props) => {
         <Card>
           <CardHeader>
             <CardTitle tag="h5" className="mb-0">Danh sách phim</CardTitle>
+
           </CardHeader>
           <CardBody>
           <div className="category-products cgv-movies">
@@ -69,14 +71,9 @@ const Film = (props) => {
                   {film.name}
                 </a>
               </h2>
-              <div className="cgv-movie-info">
-                <span className="cgv-info-bold">Đạo diễn: </span>
-                <span className="cgv-info-normal">{film.directors}</span>
-              </div>
-              <div className="cgv-movie-info">
-                <span className="cgv-info-bold">Diễn viên: </span>
-                <span className="cgv-info-normal">{film.actors}</span>
-              </div>
+
+
+
               <div className="cgv-movie-info">
                 <span className="cgv-info-bold">Thể loại: </span>
                 <span className="cgv-info-normal">
@@ -87,10 +84,8 @@ const Film = (props) => {
                 <span className="cgv-info-bold">Thời lượng: </span>
                 <span className="cgv-info-normal">{film.duration}</span>
               </div>
-              <div className="cgv-movie-info">
-                <span className="cgv-info-bold">Mô tả: </span>
-                <span className="cgv-info-normal">{film.description}</span>
-              </div>
+
+            
               <div className="cgv-movie-info">
                 <span className="cgv-info-bold">Khởi chiếu: </span>
                 <span className="cgv-info-normal">{film.releaseDate}</span>
