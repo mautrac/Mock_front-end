@@ -5,7 +5,9 @@ const axiosClient = axios.create({
     baseURL: `http://localhost:8080/api/v1`,
     //'https://653e80399e8bd3be29df643b.mockapi.io/api/v1'
     // timeout: 5000, // default is `0` (no timeout)
-    // responseType: 'json'
+    // responseType: 'json',
+    // headers: {"Access-Control-Allow-Origin": "*",
+    //         "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"}
 });
 
 axiosClient.interceptors.request.use(async (config) => {
@@ -15,6 +17,8 @@ axiosClient.interceptors.request.use(async (config) => {
     if (token !== null && token !== undefined) {
         config.headers.Authorization = token;
     }
+    // config.headers["Access-Control-Allow-Origin"] = "*";
+    // config.headers["Access-Control-Allow-Headers"] = "Origin, X-Requested-With, Content-Type, Accept";
 
     return config;
 });

@@ -58,7 +58,7 @@ const SignIn = (props) => {
   return (
     <React.Fragment>
       <div className="text-center mt-4">
-        <h2>Welcome to VTI Academy</h2>
+        <h2>Welcome to Team one project</h2>
         <p className="lead">Sign in to your account to continue</p>
       </div>
 
@@ -143,19 +143,13 @@ const SignIn = (props) => {
           <Card>
             <CardBody>
               <div className="m-sm-4">
-                <div className="text-center">
-                  <img
-                    src={avatar}
-                    alt="Chris Wood"
-                    className="img-fluid rounded-circle"
-                    width="132"
-                    height="132"
-                  />
-                </div>
+                
                 <Form>
 
                   <FormGroup>
                     <FastField
+                      label_width={3}
+                      input_width={9}
                       label="Username"
                       type="text"
                       bsSize="lg"
@@ -167,6 +161,8 @@ const SignIn = (props) => {
 
                   <FormGroup>
                     <FastField
+                      label_width={3}
+                      input_width={9}
                       label="Password"
                       type="password"
                       bsSize="lg"
@@ -176,6 +172,10 @@ const SignIn = (props) => {
                     />
                     <small>
                       <Link to="/auth/reset-password">Forgot password?</Link>
+                    </small>
+                    
+                    <small style={{float: "right"}}>
+                      <Link to="/auth/sign-up">Sign up</Link>
                     </small>
                   </FormGroup>
 
@@ -188,13 +188,14 @@ const SignIn = (props) => {
                       defaultChecked={checkedRememberMe}
                       onChange={() => setCheckedRememberMe(!checkedRememberMe)}
                     />
+                    <div>Remember me next time</div>
                   </div>
 
                   {/* submit */}
                   <div className="text-center mt-3">
                     <Button type='submit' color="primary" size="lg" disabled={isSubmitting}>
                       Sign in
-                  </Button>
+                    </Button>
                   </div>
                 </Form>
               </div>

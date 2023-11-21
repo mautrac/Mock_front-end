@@ -146,7 +146,8 @@ const tableColumns = [
   const refreshForm = () => {
     // refresh selected rows
     props.updateSelectedRowsAction([]);
-
+    window.location.reload();
+    
     //refresh table 
     handleTableChange(null,
       {

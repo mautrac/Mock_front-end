@@ -58,7 +58,7 @@ export default function UploadImageModal(props) {
                 <Row className="justify-content-md-center">
                     <div style={{width:'50%'}}>
                         <TextInput placeholder="Enter image link" onChange={handleChange} size={3}/>    
-                        <div>Preview</div>
+                        <div style={{textAlign:"center"}}>Preview</div>
                     </div>
                     
                 </Row>

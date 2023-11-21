@@ -196,16 +196,7 @@ const SignUp = (props) => {
                       placeholder="Enter confirm password"
                       component={TextInput}
                     />
-                  </FormGroup>
-
-                  <FormGroup>
-                    <Field as="select" name="role" placeholder="Select role">
-                      <option value="admin">Admin</option>
-                      <option value="manager">Manager</option>
-                      <option value="user">User</option>
-                    </Field>
-                  </FormGroup>
-                  
+                  </FormGroup>       
 
                   <div className="text-center mt-3">
                     <Button type='submit' color="primary" size="lg" disabled={isSubmitting}>

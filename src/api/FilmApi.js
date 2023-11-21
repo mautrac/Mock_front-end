@@ -59,5 +59,20 @@ const getAllFilm = () => {
 // };
 
 // export
-const api = { getAllFilm}
+const createFilm = (values) => {
+    const body = {
+        name: values.name,
+        directors: values.directors,
+        actors: values.actors,
+        genre: values.genre,
+        duration: values.duration,
+        description: values.description,
+        ticketPrice: values.ticketPrice,
+        poster: values.poster,
+        //release_date: values.release_date
+    }
+    Api.post(`${url}`, body);
+}
+
+const api = { getAllFilm, createFilm}
 export default api;

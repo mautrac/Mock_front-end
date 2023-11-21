@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import { Col, Input, Label, Row } from "reactstrap";
+import "../css/general.scss";
+
 
 function TextArea(props) {
 
 
     return (
-        <textarea className="film-infor-textarea" placeholder="Enter description"
-            {...props.field} {...props.form}
-        />
+        <Col lg={props.input_width}>
+            <Input type="textarea" placeholder="Enter description" className="general-input"
+            {...props.field} 
+            />
+        </Col>
+        
     )
 }
 
@@ -17,17 +22,18 @@ function TextInput(props) {
     var Lab;
 
     if (!check)
-        Lab = (<label htmlFor={props.field.name}>{props.label}</label>);
+        Lab = (<label htmlFor={props.field.name} style={{textAlign: "center", margin: "auto", fontWeight: "bold"}}
+            className={props.classNameLabel}
+        >{props.label}</label>);
 
-    let Inp = <Input className="film-infor-input" placeholder={props.placeholder}
-            {...props.field} {...props}
+    let Inp = <Input className="general-input" placeholder={props.placeholder}
+            {...props.field} {...props} 
         />;
 
-    console.log(props);
+    //console.log(props);
 
     return (
         <>
-
             {check &&
                 <>
                     {Inp}
@@ -35,13 +41,14 @@ function TextInput(props) {
             }
             {!check &&
                 <>
-                    <Row >
-                        <Col lg={3}>
+                    <Row style={{display:"flex", alignItems: "center"}}>
+                        <Col lg={props.label_width}>
                             {Lab}
                         </Col>
-                        <Col>
+                        <Col lg={props.input_width}>
                             {Inp}
                         </Col>
+  
                     </Row>
                 </>
             }

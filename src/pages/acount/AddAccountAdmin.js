@@ -23,6 +23,17 @@ import userApi from '../../api/UserApi'
 import { toastr } from "react-redux-toastr";
 
 function AddAccountAdmin(props) {
+  
+  const label_width = 4;
+  const input_width = {
+    firstName: 6,
+    lastName: 6,
+    username: 6,
+    password: 6,
+    confirmPassword: 6,
+    email: 6,
+    role: 3
+  }
 
   
   const showSuccessNotification = (title, message) => {
@@ -78,8 +89,8 @@ function AddAccountAdmin(props) {
             return !isExists;
         }),
     role: Yup.string()
-        .required("Please  select role!")
-        .matches("manager|admin|user")
+        .required("Please select role!")
+        .matches("Manager|Admin|User")
     
       });
 
@@ -94,7 +105,7 @@ function AddAccountAdmin(props) {
                     password: '',
                     confirmPassword: '',
                     email: '',
-                    role: 'admin'
+                    role: 'Admin'
                 }
             }
             validationSchema={
@@ -138,6 +149,8 @@ function AddAccountAdmin(props) {
               <ModalBody className="m-3">
                   <FormGroup>
                     <FastField
+                      label_width={label_width}
+                      input_width={input_width.firstName}
                       label="First Name"
                       type="text"
                       
@@ -151,6 +164,8 @@ function AddAccountAdmin(props) {
 
                   <FormGroup>
                     <FastField
+                      label_width={label_width}
+                      input_width={input_width.lastName}
                       label="Last Name"
                       type="text"
                       
@@ -163,6 +178,8 @@ function AddAccountAdmin(props) {
                   
                   <FormGroup>
                     <FastField
+                      label_width={label_width}
+                      input_width={input_width.username}
                       label="Username"
                       type="text"
                       
@@ -176,6 +193,8 @@ function AddAccountAdmin(props) {
                   
                   <FormGroup>
                     <FastField
+                      label_width={label_width}
+                      input_width={input_width.email}
                       label="Email"
                       type="email"
                       
@@ -188,6 +207,8 @@ function AddAccountAdmin(props) {
 
                   <FormGroup>
                     <FastField
+                      label_width={label_width}
+                      input_width={input_width.password}
                       label="Password"
                       type="password"
                       
@@ -201,6 +222,8 @@ function AddAccountAdmin(props) {
 
                   <FormGroup>
                     <FastField
+                      label_width={label_width}
+                      input_width={input_width.confirmPassword}
                       label="Confirm Password"
                       type="password"
                       
@@ -212,12 +235,19 @@ function AddAccountAdmin(props) {
                   </FormGroup>
 
                   <FormGroup>
-                    <Label label-for="role" >Select role: </Label>
-                    <Field as="select" name="role" placeholder="Select role">
-                      <option value="admin">Admin</option>
-                      <option value="manager">Manager</option>
-                      <option value="user">User</option>
-                    </Field>
+                    <Row>
+                      <Col lg={label_width}>
+                        <Label label-for="role" >Select role: </Label>
+                      </Col>
+                      <Col>
+                        <Field as="select" name="role" placeholder="Select role" >
+                        <option value="Admin">Admin</option>
+                        <option value="Manager">Manager</option>
+                        <option value="User">User</option>
+                      </Field>
+                      </Col>
+                    </Row>
+                    
                     <ErrorMessage name="role" />
                   </FormGroup>
 

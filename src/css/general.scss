@@ -2,15 +2,49 @@
     color: red;
 }
 
+.general-input {
+    padding: 5px
+}
+
+ListGroup {
+    display: flex;
+    border-bottom: 1px solid;
+    border-color: #002843
+}
+
+.film-schedule {
+    &-date-bar{
+        display: flex;
+        border-bottom: 1px solid;
+        border-color: #002843;
+    }
+}
+
 .film-infor {
+    &-frame {
+        width: 100%;
+        margin: 5px;
+        border: 2px solid;
+        border-radius: 5px;
+        border-color: #3498db;
+        
+    }
     &-img {
         max-width: -webkit-fill-available;
+        border-radius: 3px;
+    }
+    &-edit-frame{
+        border-left: 1px solid #002843;
+        padding-left: 10px;
+        height: 100%;
     }
     &-label{
         color: black;
         size: 18px;
         font-size: 18px;
         font-weight: bold;
+        vertical-align: middle;
+        text-align: center;
     }
     &-textarea {
         border-radius: 5px;
@@ -19,6 +53,13 @@
     }
     &-input {
         border-radius: 5px;
+    }
+    &-save-row {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin: 50px;
+
     }
 }
 
@@ -35,4 +76,6 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+
+
 

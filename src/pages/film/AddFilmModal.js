@@ -13,9 +13,11 @@ import {
   ModalHeader,
   Label,
   Input,
+  ListGroup,
+  ListGroupItem,
 
 } from "reactstrap";
-import { FastField, Form, Formik, Field, FormikConsumer } from "formik";
+import { FastField, Form, Formik, Field, FormikConsumer, ErrorMessage } from "formik";
 
 import * as Yup from 'yup';
 import userApi from '../../api/UserApi'
@@ -27,12 +29,25 @@ import {TextArea, TextInput} from "../../custom_/Text"
 import  '../../css/general.scss';
 import UploadImageModal from "./UploadImageModal";
 
+import daysOfWeek from "../../utils/DaysOfWeek";
+import { FilmScheduleList } from "./FilmScheduleList";
+
+import api from "../../api/FilmApi";
 
 
 function AddFilmModal(props) {
 
     const label_width = 3;
-    const input_width = 6;
+    const input_width = {
+        name: 9,
+        description: 12,
+        directors: 9,
+        actors: 9,
+        genre: 9,
+        duration: 5,
+        ticket_price: 5,
+        release_date: 5
+    }
 
     const [isOpenUploadModal, setOpenUploadModal] = useState(false);
 
@@ -44,7 +59,17 @@ function AddFilmModal(props) {
         genre: "Hành động, phiêu lưu",
         duration: "104 phút",
         release_date: "10/11/2023",
-        poster: 'https://files.betacorp.vn/files/media%2fimages%2f2023%2f10%2f23%2f400x633%2D133942%2D231023%2D43.png'
+        poster: 'https://files.betacorp.vn/files/media%2fimages%2f2023%2f10%2f23%2f400x633%2D133942%2D231023%2D43.png',
+        schedule: [
+            {
+                timeSlot: "2023-11-20T20:30",
+                seatNumber: 120
+            },
+            {
+                timeSlot: "2023-11-21T20:00",
+                seatNumber: 96
+            }
+        ]
     }
 
     const showSuccessNotification = (title, message) => {
@@ -58,6 +83,36 @@ function AddFilmModal(props) {
     // show notification
     toastr.success(title, message, options);
     }
+
+    let validatationObject = Yup.object().shape({
+        name: Yup.string()
+            .required("Required")
+            .max(50, '50 characters max'),
+        directors: Yup.string()
+            .required("Required")
+            .max(50, '50 characters max'),
+        actors: Yup.string()
+            .required("Required")
+            .max(50, '50 characters max'),
+        genre: Yup.string()
+            .required("Required")
+            .max(100, '100 characters max'),
+        duration: Yup.number()
+            .required("Required")
+            .integer()
+            .positive(),
+        description: Yup.string()
+            .required("Required")
+            .max(50, '50 characters max'),
+        release_date: Yup.date()
+            .required("Required"),
+            
+        ticket_price: Yup.number()
+            .required("Required")
+            .integer()
+            .positive()
+
+    });
 
     return (
     <>
@@ -77,57 +132,27 @@ function AddFilmModal(props) {
                 }
             }
             validationSchema={
-                Yup.object({
-                    // name: Yup.string()
-                    //     .required("Required")
-                    //     .max(50, '50 characters max'),
-                    // directors: Yup.string()
-                    //     .required("Required")
-                    //     .max(50, '50 characters max'),
-                    // actors: Yup.string()
-                    //     .required("Required")
-                    //     .max(50, '50 characters max'),
-                    // genre: Yup.string()
-                    //     .required("Required")
-                    //     .max(20, '20 characters max'),
-                    // duration: Yup.number()
-                    //     .required("Required")
-                    //     .integer()
-                    //     .positive(),
-                    // description: Yup.string()
-                    //     .required("Required")
-                    //     .max(50, '50 characters max'),
-                    // release_date: Yup.date()
-                    //     .required("Required")
-                    //     .isValid(),
-                    // ticket_price: Yup.string()
-                    //     .required("Required")
-                    //     .max(50, '50 characters max'),
-                    
-                })
+                validatationObject
             }
 
             onSubmit={
               async values => {
-                console.log(values);
-                // try {
-                //   await userApi.createAccountFromAdmin(values);
-                //   // show notification
-                //   console.log(values);
-                //   showSuccessNotification(
-                //     "Create Addcount",
-                //     "Create Account Successfully!"
-                //   );
-                //   // close modal
-                //   props.setOpenModalCreate(false);
-                //   // Refresh table
-                //   props.refreshForm();
-                // } catch (error) {
-                //   console.log(error);
-                //   props.setOpenModalCreate(false);
-                //   // redirect page error server
-                //   props.history.push("/auth/500");
-                // }
+
+                try {
+                    await api.createFilm(values);
+                    // show notification
+                    console.log(values);
+                    showSuccessNotification(
+                        "Create film",
+                        "Create film Successfully!"
+                    );
+
+                } catch (error) {
+                  console.log(error);
+                  props.setOpenModalCreate(false);
+                  // redirect page error server
+                  props.history.push("/auth/500");
+                }
               }
             }
 
@@ -138,168 +163,171 @@ function AddFilmModal(props) {
             <Form>
                 <Container fluid>
                     <div >
-                        <Row>
-                            <Col xs={3} >
-                                <Row>
-                                    <FormikConsumer>
-                                        {({values}) => (
-                                            <img src={values.poster} 
-                                            alt="anh" className="film-infor-img"
-                                            />
-                                        )}
-                                    </FormikConsumer>
-                                </Row>
-                                <br />
-                                <Row className="justify-content-md-center">
-                                    <Button color="primary" onClick={() => setOpenUploadModal(true)}>Upload image</Button>
-                                </Row>
+                        <Row >
+                            <Col lg={3} >
+                                
+                                    <Row>
+                                        <FormikConsumer>
+                                            {({values}) => (
+                                                <div className="film-infor-frame">
+                                                    <img src={values.poster} 
+                                                    alt="anh" className="film-infor-img"
+                                                    />
+
+                                                </div>
+                                            )}
+                                        </FormikConsumer>
+                                    </Row>
+                                    <br />
+                                    <Row className="justify-content-md-center">
+                                        <Button color="primary" onClick={() => setOpenUploadModal(true)}>Upload image</Button>
+                                    </Row>
+
                             </Col>
-                            <Col>
-                                <Row>
-                                    <Col lg = {label_width}>
-                                        <label htmlFor="name" className="film-infor-label ">Film name</label>
-                                    </Col>
-                                    <Col lg = {input_width}>
+                            <Col lg = {6} >
+                                <div className="film-infor-edit-frame">
+                                    <FormGroup>
                                         <FastField
-                                        type="text"
-                                        
-                                        name="name"
-                                        placeholder="Enter film name"
-                                        component={TextInput}
-                                        />
-                                    </Col>
-                                </Row>
-
-                                <Row>
-                                    <Col lg = '1'>
-                                        <label htmlFor="description" className="film-infor-label ">Description</label>
-                                    </Col>
-                                </Row>
-                                <Row lg = '2' form="true">
-                                    <Col lg="1" xs = "auto">
-                                    <FastField
-                                            
-                                            name="description"
-                                            placeholder="Enter description"
-                                            component={TextArea}
-                                        
-                                    />
-                                    </Col>
-                                </Row>
-
-                                <Row>
-                                    <Col lg = {label_width}>
-                                        <label htmlFor="directors" className="film-infor-label ">Directors</label>
-                                    </Col>
-                                    <Col lg = {input_width}>
-                                        <FastField
+                                            classNameLabel="film-infor-label"
+                                            label_width={label_width}
+                                            input_width={input_width.name}
                                             type="text"
+                                            label="Film name"
+                                            name="name"
+                                            placeholder="Enter film name"
+                                            component={TextInput}
+                                        />
+                                        <ErrorMessage name="name" />
+                                    </FormGroup>
+                                    
+                                    <FormGroup>
+                                        <Row>
+                                            <Col>
+                                                <label htmlFor="description" className="film-infor-label" >Description</label>
+                                            </Col>
+                                        </Row>
+                                        <Row >
                                             
+                                            <FastField
+                                                input_width={input_width.description}
+                                                name="description"
+                                                placeholder="Enter description"
+                                                component={TextArea}
+                                                
+                                            />
+                                            
+                                        </Row>
+                                        <ErrorMessage name="description" />
+                                    </FormGroup>
+
+                                    <FormGroup>
+                                        <FastField
+                                            classNameLabel="film-infor-label"
+                                            label_width={label_width}
+                                            input_width={input_width.directors}
+                                            type="text"
+                                            label="Directors"
                                             name="directors"
                                             placeholder="Enter directors"
                                             component={TextInput}
                                         />
-                                        
-                                    </Col>
-                                </Row>
-
-                                <Row>
-                                    <Col lg = {label_width}>
-                                        <label htmlFor="actors" className="film-infor-label ">Actors</label>
-                                    </Col>
-                                    <Col lg = {input_width}>
+                                        <ErrorMessage name="directors" />
+                                    </FormGroup>
+                                    
+                                    <FormGroup>
                                         <FastField
+                                            classNameLabel="film-infor-label"
+                                            label_width={label_width}
+                                            input_width={input_width.actors}
                                             type="text"
-                                            
+                                            label="Actors"
                                             name="actors"
                                             placeholder="Enter actors"
                                             component={TextInput}
                                         />
-                                    </Col>
-                                </Row>
+                                        <ErrorMessage name="actors" />
+                                    </FormGroup>
 
-                                <Row>
-                                    <Col lg = {label_width}>
-                                        <label htmlFor="genre" className="film-infor-label ">Genre</label>
-                                    </Col>
-                                    <Col lg = {input_width}>
+                                    <FormGroup>
                                         <FastField
+                                            classNameLabel="film-infor-label"
+                                            label_width={label_width}
+                                            input_width={input_width.genre}
                                             type="text"
-                                            
+                                            label="Genre"
                                             name="genre"
                                             placeholder="Enter genre"
                                             component={TextInput}
                                         />
-                                    </Col>
-                                </Row>
+                                        <ErrorMessage name="genre" />
+                                    </FormGroup>
 
-                                <Row>
-                                    <Col lg = {label_width}>
-                                        <label htmlFor="duration" className="film-infor-label ">Duration</label>
-                                    </Col>
-                                    <Col lg = {input_width}>
-                                        <span>
-                                            <FastField
+                                    <FormGroup>
+                                        <FastField
+                                            classNameLabel="film-infor-label"
+                                            label_width={label_width}
+                                            input_width={input_width.duration}
                                             type="number"
-                                            
+                                            label="Duration"
                                             name="duration"
                                             placeholder="Enter duration"
                                             component={TextInput}
-                                            />
-                                        </span> Phút
-                                        
-                                    </Col>
-                                </Row>
-
-                                <Row>
-                                    <Col lg = {label_width}>
-                                        <label htmlFor="ticket_price" className="film-infor-label ">Ticket price</label>
-                                    </Col>
-                                    <Col lg = {input_width}>
-                                        <span>
-                                            <FastField
-                                                type="text"
-                                                
-                                                name="ticket_price"
-                                                placeholder="Ex: 100,000"
-                                                component={TextInput}
-                                            /> VND
-                                        </span>
-                                        
-                                        
-                                    </Col>
-                                </Row>
-
-                                <Row>
-                                    <Col lg = {label_width}>
-                                        <label htmlFor="ticket_price" className="film-infor-label ">Release date</label>
-                                    </Col>
-                                    <Col lg = {input_width}>
+                                        />
+                                        <ErrorMessage name="duration" />
+                                    </FormGroup>
+                                    
+                                    <FormGroup>
                                         <FastField
+                                            classNameLabel="film-infor-label"
+                                            label_width={label_width}
+                                            input_width={input_width.ticket_price}
+                                            type="text"
+                                            label="Ticket price"
+                                            name="ticket_price"
+                                            placeholder="Ex: 100,000"
+                                            component={TextInput}
+                                        /> 
+                                        <ErrorMessage name="ticket_price" />
+                                    </FormGroup>
+                                    
+                                    <FormGroup>
+                                        <FastField
+                                            classNameLabel="film-infor-label"
+                                            label_width={label_width}
+                                            input_width={input_width.release_date}
                                             type="date"
-                                            
+                                            label="Release date"
                                             name="release_date"
                                             component={TextInput}
                                         />
-                                    </Col>
-                                </Row>
+                                        <ErrorMessage name="release_date" />
+                                    </FormGroup>
+
+                                </div>
+
 
                             </Col>
                         </Row>
-                        <Row className="justify-content-md-center">
-                            <Button type="submit" color="primary">
-                                    Save
-                            </Button>{" "}
+                        
+                        <div className="film-infor-save-row">
+                            <p>
+                                <Button type="submit" color="primary" style={{marginRight: "50px"}}>
+                                        Save
+                                </Button>
+                                
+                                <Button color="primary" >
+                                    Close
+                                </Button>
 
-                            <Button color="primary" >
-                                Close
-                            </Button>
-                        </Row>
+                            </p>
+                        </div>
+                            
                     </div>
                     
                     
 
                 </Container>
+                
                 <FormikConsumer>
                     {(formik) => (
                         <UploadImageModal isOpenUploadModal={isOpenUploadModal} setOpenUploadModal={setOpenUploadModal} formik={formik}/>
@@ -308,9 +336,9 @@ function AddFilmModal(props) {
             </Form>
             )}
 
-            
         </Formik >
-                               
+        <h3>Film schedule</h3>
+        <FilmScheduleList film={film} />   
         
     </>
   )
