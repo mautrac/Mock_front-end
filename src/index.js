@@ -3,11 +3,7 @@ import 'react-app-polyfill/stable';
 
 import React from "react";
 import ReactDOM from "react-dom";
-
 import "@fontsource/source-sans-pro";
-
-
-// import { BrowserRouter } from 'react-router-dom';
 
 import App from "./App";
 

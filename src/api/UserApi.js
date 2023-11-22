@@ -101,7 +101,6 @@ const getAllUsers = (page = 1 , size = 10, sortField = 'id', sortType = 'desc', 
     return Api.get(`${url}`, {params: parameters});
 };
 
-
 const getById = (id) => {
     return Api.get(`${url}/${id}`);
 };
@@ -114,16 +113,13 @@ const update = (id, email, firstName, lastName) => {
     return Api.put(`${url}/${id}`, body);
 };
 
-
 const deleteByIds = (ids) => {
     return Api.delete(`${url}/${ids.toString()}`);
 };
 // export
 const api = {deleteByIds,getAllUsers, updateProfile, getProfile, create, existsByEmail, existsByUsername, 
-
     resendEmailToActiveAccount, requestResetPassword, resendEmailToResetpassword, resetPassword, createAccountFromAdmin,
     getById, update
 
 }
-
 export default api;
