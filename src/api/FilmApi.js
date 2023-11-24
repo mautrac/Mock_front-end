@@ -1,6 +1,8 @@
 import Api from './Api';
+import scheduleAPI from "./ScheduleApi";
 
 const url = "/films";
+
 
 const getAllFilm = () => {
 
@@ -69,10 +71,17 @@ const createFilm = (values) => {
         description: values.description,
         ticketPrice: values.ticketPrice,
         poster: values.poster,
-        //release_date: values.release_date
+        releaseDate: values.releaseDate
     }
     Api.post(`${url}`, body);
+    // values.schedules.forEach(element => {
+    //     scheduleAPI.createScheduleInFilm()
+    // });
 }
 
-const api = { getAllFilm, createFilm}
+const getFilmById = (id)  => {
+    return Api.get(`${url}/${id}`);
+}
+
+const api = { getAllFilm, createFilm, getFilmById}
 export default api;

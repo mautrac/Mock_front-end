@@ -78,7 +78,7 @@ const Film = (props) => {
                      </div>
                     <div
               className="product-info"
-              style={{ maxHeight: "none", height: "auto", minHeight: 36 }}
+              style={{ maxHeight: "none", height: 121, minHeight: 36 }}
             >
               <h2 className="product-name">
                 <a

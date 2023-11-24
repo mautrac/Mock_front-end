@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Col, Input, Label, Row } from "reactstrap";
+import { Col, Input, Label, Row, Text } from "reactstrap";
 import "../css/general.scss";
 
 
@@ -57,4 +57,31 @@ function TextInput(props) {
     )
 }
 
-export {TextArea, TextInput};
+function TextInfor(props) {
+
+    var Lab = (<label style={{textAlign: "center", margin: "auto", fontWeight: "bold"}}
+            className={props.classNameLabel}
+        >{props.label}</label>);
+
+    let Text = <div className="general-infor" >
+        {props.value}
+        </div>
+
+    //console.log(props);
+
+    return (
+        <>
+            <Row style={{display:"flex", alignItems: "center"}}>
+                <Col lg={props.label_width}>
+                    {Lab}
+                </Col>
+                <Col lg={props.input_width}>
+                    {Text}
+                </Col>
+
+            </Row>
+        </>
+    )
+}
+
+export {TextArea, TextInput, TextInfor};

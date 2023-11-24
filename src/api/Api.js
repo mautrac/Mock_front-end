@@ -6,8 +6,8 @@ const axiosClient = axios.create({
     //'https://653e80399e8bd3be29df643b.mockapi.io/api/v1'
     // timeout: 5000, // default is `0` (no timeout)
     // responseType: 'json',
-    // headers: {"Access-Control-Allow-Origin": "*",
-    //         "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"}
+    // headers: {"Access-Control-Allow-Origin": "http://localhost:3000",
+    //          "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"}
 });
 
 axiosClient.interceptors.request.use(async (config) => {
@@ -15,7 +15,7 @@ axiosClient.interceptors.request.use(async (config) => {
     // if token exists then attach token
     const token = storage.getToken();
     if (token !== null && token !== undefined) {
-        config.headers.Authorization = token;
+        config.headers.Authorization = "Bearer " + token;
     }
     // config.headers["Access-Control-Allow-Origin"] = "*";
     // config.headers["Access-Control-Allow-Headers"] = "Origin, X-Requested-With, Content-Type, Accept";
@@ -28,6 +28,8 @@ axiosClient.interceptors.response.use((response) => {
         // only get data
         return response.data;
     }
+    // response.headers["Access-Control-Allow-Origin"] = "*";
+    // response.headers["Access-Control-Allow-Headers"] = "Origin, X-Requested-With, Content-Type, Accept";
 
     return response;
 }, (error) => {

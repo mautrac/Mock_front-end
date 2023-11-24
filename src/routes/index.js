@@ -2,19 +2,11 @@ import async from "../components/Async";
 
 import {
   Bell as Bellicon,
-  BookOpen as BookOpenIcon,
-  Calendar as CalendarIcon,
-  CheckSquare as CheckSquareIcon,
-  Grid as GridIcon,
-  Heart as HeartIcon,
-  Layout as LayoutIcon,
-  List as ListIcon,
-  MapPin as MapPinIcon,
   Monitor as MonitorIcon,
-  PieChart as PieChartIcon,
   Sliders as SlidersIcon,
   Users as UsersIcon,
-  Film
+  Film,
+  CheckCircle
 } from "react-feather";
 
 // Landing
@@ -44,20 +36,19 @@ import NewPassword from "../pages/auth/NewPassword";
 import withAuth from "../HOC/withAuth";
 
 //films
-import AddFilmModal from "../pages/film/AddFilmModal";
+import AddFilmPage from "../pages/film/AddFilmPage";
+import UpdateFilmPage from "../pages/film/UpdateFilmPage";
 
 const FilmManager = async(() => import("../pages/film/Film"));
 
 // Dashboards
 const Default = async(() => import("../pages/dashboards/Default"));
 // Icons
-const FontAwesome = async(() => import("../pages/icons/FontAwesome"));
-const Feather = async(() => import("../pages/icons/Feather"));
 
 // groups
 const Group = async(() => import("../pages/group/Group"));
 const User = async(() => import("../pages/user/User"));
-
+const Schedule = async(() => import("../pages/schedule/Schedule"));
 
 
 //
@@ -100,14 +91,22 @@ const addFilmRoutes = {
   path: "/films/add",
   name: "Add film",
   icon: Film,
-  component: AddFilmModal,
+  component: AddFilmPage,
   children: null
 };
+
+const updateFilmRoutes = {
+  path: "/films/:id",
+  name: "Update film",
+  icon: Film,
+  component: UpdateFilmPage,
+  children: null
+}
 
 const filmRoutes = {
   path: "/films",
   name: "Film Manager",
-  icon: ListIcon,
+  icon: Film,
   component: FilmManager,
   children: null
 };
@@ -115,8 +114,15 @@ const filmRoutes = {
 const userRoutes = {
   path: "/users",
   name: "User Manager",
-  icon: ListIcon,
+  icon: UsersIcon,
   component: User,
+  children: null
+};
+const scheduleRoutes = {
+  path: "/film-schedules",
+  name: "Schedule Manager",
+  icon: CheckCircle,
+  component: Schedule,
   children: null
 };
 
@@ -232,10 +238,12 @@ const SettingsRoutes = {
 export const dashboard = [
   //addAccountAdminRoutes,
   addFilmRoutes,
+  updateFilmRoutes,
   filmRoutes,
   dashboardRoutes,
   //groupRoutes,
   userRoutes,
+  scheduleRoutes,
   //pageRoutes,
   layoutRoutes,
   ProfileRoutes,
@@ -251,11 +259,13 @@ export const page = [authRoutes];
 // All routes
 export default [
   //addAccountAdminRoutes,
-  addFilmRoutes,
-  filmRoutes,
+  //addFilmRoutes,
+  //updateFilmRoutes,
   dashboardRoutes,
   //groupRoutes,
+  filmRoutes,
   userRoutes,
+  scheduleRoutes,
   // pageRoutes,
   authRoutes,
  

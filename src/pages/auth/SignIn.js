@@ -92,7 +92,7 @@ const SignIn = (props) => {
                 values.password
               );
 
-              // check user active
+              //check user active
               if (result.token === null || result.token === undefined) {
                 setEmail(result.email);
                 setOpenModal(true);
@@ -100,16 +100,12 @@ const SignIn = (props) => {
               } else {
                 // set remember me
                 storage.setRememberMe(checkedRememberMe);
-
+                console.log(result);
                 // save token & UserInfo to storage
                 storage.setToken(result.token);
                 storage.setUserInfo(
-                  result.userName,
-                  result.email,
-                  result.firstName,
-                  result.lastName,
-                  result.role,
-                  result.status);
+                  result
+                  );
 
                 // save token & UserInfo to redux
                 props.setTokenInfo(result.token);
@@ -122,10 +118,11 @@ const SignIn = (props) => {
                   result.status)
 
                 // redirect to home page
-                props.history.push("/dashboard/default");
               }
+              props.history.push("/films/add");
 
             } catch (error) {
+              console.log(error);
               if (error.status === 401) {
                 // show error notification
                 showErrorNotification("Login Fail!", "Wrong Username or Password!")

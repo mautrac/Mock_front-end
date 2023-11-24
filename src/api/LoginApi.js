@@ -7,7 +7,7 @@ const login = (username, password) => {
         password: password
     }
 
-    return Api.post(`/login`, { params: parameters });
+    return Api.get(`/login`, { params: parameters });
 };
 
 // export

@@ -19,7 +19,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import * as Icon from 'react-feather';
 
 // import { Search } from "react-bootstrap-table2-toolkit";
-const Film = (props) => {
+const FilmPage = (props) => {
   const getListFilm = props.getListFilmAction;
   const history = useHistory();
 
@@ -78,7 +78,7 @@ const Film = (props) => {
                      </div>
                     <div
               className="product-info"
-              style={{ maxHeight: "none", height: "auto", minHeight: 36 }}
+              style={{ maxHeight: "none", height: 121, minHeight: 36 }}
             >
               <h2 className="product-name">
                 <a
@@ -131,4 +131,4 @@ const mapGlobalStateToProps = state => {
     // selectedRows: selectSelectedRows(state),
   };
 };
-export default connect(mapGlobalStateToProps,{getListFilmAction})(Film);
+export default connect(mapGlobalStateToProps,{getListFilmAction})(FilmPage);
