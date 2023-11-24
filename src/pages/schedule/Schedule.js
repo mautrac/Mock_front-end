@@ -64,6 +64,12 @@ const actionFormatter = (cell, row, rowIndex) => {
 };
 
 const tableColumns = [
+
+  {
+    dataField: "film.name",
+    text: "Film name",
+    sort: true
+  },
   {
     dataField: "seatNumber",
     text: "Seat number",
@@ -74,7 +80,7 @@ const tableColumns = [
     text: "Time slot",
     sort: true
   },
- 
+
   {
     dataField: "action",
     text: "Action",
