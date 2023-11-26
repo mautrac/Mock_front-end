@@ -6,7 +6,8 @@ import {
   Sliders as SlidersIcon,
   Users as UsersIcon,
   Film,
-  CheckCircle
+  CheckCircle,
+  Home
 } from "react-feather";
 
 // Landing
@@ -62,21 +63,22 @@ const landingRoutes = {
 };
 
 const dashboardRoutes = {
-  path: "/dashboard",
-  name: "Dashboards",
+  path: "/",
+  name: "Home",
   header: "Pages",
   badgeColor: "primary",
   badgeText: "5",
-  icon: SlidersIcon,
+  icon: Home,
   containsHome: true,
-  children: [
-    {
-      path: "/dashboard/default",
-      name: "Default",
-      component: Default
-    }
+  component: Default,
+  // children: [
+  //   {
+  //     path: "/",
+  //     name: "Default",
+  //     component: Default
+  //   }
    
-  ]
+  // ]
 };
 
 // const groupRoutes = {
@@ -91,7 +93,7 @@ const addFilmRoutes = {
   path: "/films/add",
   name: "Add film",
   icon: Film,
-  component: AddFilmPage,
+  component: withAuth(AddFilmPage),
   children: null
 };
 
@@ -99,7 +101,7 @@ const updateFilmRoutes = {
   path: "/films/:id",
   name: "Update film",
   icon: Film,
-  component: UpdateFilmPage,
+  component: withAuth(UpdateFilmPage),
   children: null
 }
 
@@ -107,7 +109,7 @@ const filmRoutes = {
   path: "/films",
   name: "Film Manager",
   icon: Film,
-  component: FilmManager,
+  component: withAuth(FilmManager),
   children: null
 };
 
@@ -115,14 +117,14 @@ const userRoutes = {
   path: "/users",
   name: "User Manager",
   icon: UsersIcon,
-  component: User,
+  component: withAuth(User),
   children: null
 };
 const scheduleRoutes = {
   path: "/film-schedules",
   name: "Schedule Manager",
   icon: CheckCircle,
-  component: Schedule,
+  component: withAuth(Schedule),
   children: null
 };
 

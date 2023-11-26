@@ -4,6 +4,7 @@ import { Container, Row, Col } from "reactstrap";
 
 const Default = () => (
   <Container fluid className="p-0">
+    <h1>HOME PAGE</h1>
     {/* <Header />
     <Statistics />
     <Row>

@@ -13,8 +13,18 @@ function AddFilmScheduleModal(props) {
         //setSubmitting(false);
         console.log(values);
         try {
+            let d = values.timeSlot;
             let newSchedules = props.schedules;
-            newSchedules.push(values);
+            let check = false;
+            for (let i = 0; i < newSchedules.length; ++i) {
+                if (newSchedules[i].timeSlot == d) {
+                    newSchedules[i].seatNumber = values.seatNumber;
+                    check = true;
+                }
+            }
+            if (!check)
+                newSchedules.push({scheduleId: '-1', timeSlot: values.timeSlot, seatNumber: values.seatNumber});
+            
             props.setField(newSchedules);
             //props.schedules.push(values);
             props.close();
@@ -34,12 +44,14 @@ function AddFilmScheduleModal(props) {
                         }}
                         validationSchema={Yup.object().shape({
                             timeSlot: Yup.date()
-                            .required("Choose schedule!")
-                            .min(new Date(), "Can not choose past day!"),
+                                .required("Choose schedule!")
+                                .min(new Date(), "Can not choose past day!"),
                             seatNumber: Yup.number()
-                            .required("Enter seat number")
-                            .integer("Integer number only")
-                            .positive("Positive only")
+                                .required("Enter seat number")
+                                .min(50, "Min 50 seats")
+                                .max(100, "Max 100 seats")
+                                .integer("Integer number only")
+                                .positive("Positive only")
                         })}
                         onSubmit={
                             submit

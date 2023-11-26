@@ -75,7 +75,7 @@ function AddFilmPage(props) {
             .max(50, '50 characters max'),
         actors: Yup.string()
             .required("Required")
-            .max(50, '50 characters max'),
+            .max(200, '50 characters max'),
         genre: Yup.string()
             .required("Required")
             .max(100, '100 characters max'),
@@ -85,7 +85,7 @@ function AddFilmPage(props) {
             .positive(),
         description: Yup.string()
             .required("Required")
-            .max(50, '50 characters max'),
+            .max(500, '50 characters max'),
         releaseDate: Yup.date()
             .required("Required"),
             
@@ -125,7 +125,7 @@ function AddFilmPage(props) {
                 try {
                     await api.createFilm(values);
                     // show notification
-                    console.log(values);
+                    //console.log(values);
                     showSuccessNotification(
                         "Create film",
                         "Create film Successfully!"
@@ -289,8 +289,6 @@ function AddFilmPage(props) {
                                     </FormGroup>
 
                                 </div>
-
-
                             </Col>
                         </Row>
                         <br />

@@ -19,14 +19,14 @@ function FilmScheduleList(props) {
     props.schedules.forEach(element => {
         let d = new Date(element.timeSlot);
         let seatNumber = element.seatNumber;
-
-        let date = element.timeSlot.substring(0, 10);
+        
+        let date = `${d.getMonth() + 1}-${d.getDate()}`;
         let hour = d.toLocaleTimeString();
 
         if (scheduleMap.get(date) === undefined) {
-            scheduleMap.set(date, []);
+            scheduleMap.set(date, {});
         }
-        scheduleMap.get(date).push({id: element.scheduleId, hour: hour, seatNumber: seatNumber});
+        Object.assign(scheduleMap.get(date), {id: element.scheduleId, hour: hour, seatNumber: seatNumber});
     });
     
     //console.log(scheduleMap);
@@ -34,23 +34,32 @@ function FilmScheduleList(props) {
     const handleDelete = (e) => {
         //console.log(e.currentTarget);
         //console.log(props.schedules);
+        //console.log("event", e);
         let d = e.currentTarget.id;
         //scheduleMap.delete(e.currentTarget.id);
-        let newSchedules = props.schedules.filter((value) => {
-            return !value.timeSlot.startsWith(d);
+
+        let newSchedules = props.schedules.filter((value, index) => {
+            return !value.timeSlot.includes(d);
         })
+        //console.log("d:", d, newSchedules, scheduleMap);
+        props.setField("filmSchedules", newSchedules);
+
         // for (let i = 0; i < props.schedules.length; i++)
         //     if (props.schedules[i].timeSlot.startsWith(d)) {
         //         props.schedules.splice(i, 1);
         //     }
-        props.setField("filmSchedules", newSchedules);
+        //props.setField("filmSchedules", props.schedules);
+    }
+
+    const handleChange = (values) => {
+
     }
 
     return (
         <> 
             <ListGroup horizontal style={{borderBottom: "1px solid", borderColor: "#002843", borderRadius: 0}}>
                 
-                    {Array.from(scheduleMap).map(([key, value]) => {
+                    {Array.from(scheduleMap).map(([key, value], idx) => {
                         return (
                             <>
                                 <ListGroupItem  key={key} className="film-infor-schedule-list-item" >
@@ -60,7 +69,7 @@ function FilmScheduleList(props) {
                                                 (() => {
                                                     let d = new Date(key);
                                                     let day = d.getDay();
-                                                    let date = d.toLocaleDateString().substring(0, 5);
+                                                    let date = `${d.getMonth() + 1}/${d.getDate()}`;
                                                     return `${daysOfWeek[day]} - ${date}`;
                                                 })()
                                             }
@@ -69,7 +78,7 @@ function FilmScheduleList(props) {
                                             <Icon.X/>
                                         </div>
                                         <div style={{gridColumn: 1, gridRow: 2}}>
-                                            {`No. seat: ${value[0].seatNumber}`}
+                                            {`No. seat: ${value.seatNumber}`}
                                         </div>
 
                                     </div>

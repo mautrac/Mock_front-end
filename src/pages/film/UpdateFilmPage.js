@@ -4,6 +4,9 @@ import {
   Col,
   Container,
   FormGroup,
+  Modal,
+  ModalBody,
+  ModalHeader,
   Row,
 } from "reactstrap";
 import * as Icon from 'react-feather';
@@ -44,7 +47,8 @@ function UpdateFilmPage(props) {
     
     const [isOpenUploadModal, setOpenUploadModal] = useState(false);
     const [isOpenAddScheduleModal, setOpenAddScheduleModal] = useState(false);
-    
+    const [isOpenDelete, setOpenDelete] = useState(false);
+
     const openAddScheduleModal = (e) => {
         setOpenAddScheduleModal(true);
     }
@@ -70,21 +74,21 @@ function UpdateFilmPage(props) {
         .required("Required")
         .max(50, '50 characters max'),
         directors: Yup.string()
-        .required("Required")
-        .max(50, '50 characters max'),
-        actors: Yup.string()
-        .required("Required")
-        .max(50, '50 characters max'),
-        genre: Yup.string()
-        .required("Required")
-        .max(100, '100 characters max'),
-        duration: Yup.number()
-        .required("Required")
-        .integer()
-        .positive(),
-        description: Yup.string()
             .required("Required")
             .max(50, '50 characters max'),
+        actors: Yup.string()
+            .required("Required")
+            .max(200, '50 characters max'),
+        genre: Yup.string()
+            .required("Required")
+            .max(100, '100 characters max'),
+        duration: Yup.number()
+            .required("Required")
+            .integer()
+            .positive(),
+        description: Yup.string()
+            .required("Required")
+            .max(500, '50 characters max'),
         releaseDate: Yup.date()
             .required("Required"),
             
@@ -153,14 +157,14 @@ function UpdateFilmPage(props) {
               async values => {
                 
                 try {
-                    await filmApi.createFilm(values);
+                    await filmApi.updateFilm(values);
                     // show notification
-                    console.log(values);
+                    //console.log(values);
                     showSuccessNotification(
-                        "Create film",
-                        "Create film Successfully!"
+                        "Update film",
+                        "Update film Successfully!"
                     );
-
+                    //props.history.goBack();
                 } catch (error) {
                   console.log(error);
                   props.setOpenModalCreate(false);
@@ -320,6 +324,7 @@ function UpdateFilmPage(props) {
                                             label="Release date"
                                             name="releaseDate"
                                             component={TextInput}
+                                            editable={false}
                                         />
                                         <ErrorMessage name="releaseDate" />
                                     </FormGroup>
@@ -365,8 +370,8 @@ function UpdateFilmPage(props) {
                                             Save
                                     </Button>
                                     
-                                    <Button color="primary" >
-                                        Close
+                                    <Button type="button" color="primary" >
+                                        Delete
                                     </Button>
 
                                 </p>
@@ -385,7 +390,35 @@ function UpdateFilmPage(props) {
                     {(formik) => (
                         <UploadImageModal isOpenUploadModal={isOpenUploadModal} setOpenUploadModal={setOpenUploadModal} formik={formik}/>
                     )}
-                </FormikConsumer>     
+                </FormikConsumer>  
+
+                <FormikConsumer>
+                        {(formik) => {
+                            return (
+                                <>
+                                    <Modal isOpen={isOpenDelete}>
+                                        <ModalHeader>
+                                            Do you want to delete <h3>{formik.values.name}</h3> ?
+                                        </ModalHeader>
+                                        <ModalBody>
+                                            <Row lg={2} >
+                                                <Col style={{display:"flex", justifyContent: "center"}}>    
+                                                    <Button type="button" onClick={() => {
+                                                        setOpenDelete(false);
+                                                        props.history.goBack();
+                                                        filmApi.deleteFilm(formik.values.filmId);
+                                                    }} >Yes</Button>
+                                                </Col>
+                                                <Col style={{display:"flex", justifyContent: "center"}}>    
+                                                    <Button type="button" onClick={() => setOpenDelete(false)} >No</Button>
+                                                </Col>
+                                            </Row>
+                                        </ModalBody>
+                                    </Modal>
+                                </>
+                            )
+                        }}
+                </FormikConsumer>   
             </Form>
             )}
 

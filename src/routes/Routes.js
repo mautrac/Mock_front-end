@@ -49,7 +49,7 @@ const Routes = () => (
   <Router>
     <ScrollToTop>
       <Switch>
-        {childRoutes(LandingLayout, landingRoutes)}
+        {/* {childRoutes(LandingLayout, landingRoutes)} */}
         {childRoutes(DashboardLayout, dashboardRoutes)}
         {childRoutes(AuthLayout, pageRoutes)}
     
