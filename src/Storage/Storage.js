@@ -50,8 +50,9 @@ const isAuth = () => {
 }
 
 const setUserInfo = (user) => {
-    setItem("firstname", user.firstname);
-    setItem("lastname", user.lastname);
+    setItem("user_id", user.user_id);
+    setItem("firstName", user.firstName);
+    setItem("lastName", user.lastName);
     setItem("username", user.username);
     setItem("email", user.email);
     setItem("role", user.role);
@@ -60,8 +61,9 @@ const setUserInfo = (user) => {
 
 const getUserInfo = () => {
     return {
-        "firstname": getItem("firstname"),
-        "lastname": getItem("lastname"),
+        "user_id": getItem("user_id"),
+        "firstname": getItem("firstName"),
+        "lastname": getItem("lastName"),
         "username": getItem("username"),
         "email": getItem("email"),
         "role": getItem("role"),
@@ -70,9 +72,10 @@ const getUserInfo = () => {
 }
 
 const removeUserInfo = () => {
-    removeItem("firstname");
-    removeItem("lastname");
-    removeItem("username");
+    removeItem("user_id");
+    removeItem("firstName");
+    removeItem("lastName");
+    removeItem("userName");
     removeItem("email");
     removeItem("role");
     removeItem("status");

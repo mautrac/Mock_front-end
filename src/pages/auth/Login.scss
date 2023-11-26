@@ -1,0 +1,73 @@
+// Trong tệp Login.scss hoặc tạo một tệp mới cho các kiểu dáng liên quan
+
+// Đăng nhập qua Facebook
+.facebook-login-button {
+  background-color: #1877f2; // Màu của Facebook
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: #1465c4; // Màu tối hơn khi hover
+  }
+}
+
+// Đăng nhập qua Gmail
+.google-login-button {
+  background-color: #fff; // Màu nền Gmail
+  color: #000;
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: #f0f0f0; // Màu tối hơn khi hover
+  }
+}
+
+
+/* Trong file CSS hoặc thẻ style của React */
+.text-center {
+  text-align: center;
+}
+
+/* Nút Sign In */
+.text-center .signin-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Nút Sign Up */
+.text-center .signup-button {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Hiệu ứng hover */
+.text-center .signin-button:hover,
+.text-center .signup-button:hover {
+  opacity: 0.8;
+}
+
+.signup-text {
+  font-size: large;
+  margin-bottom: 10px;
+}
+
+.forgotpw-text {
+  font-size: 16px; 
+}
+/* Adjust the styles based on your design */

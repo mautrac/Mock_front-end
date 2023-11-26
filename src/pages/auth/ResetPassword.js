@@ -11,7 +11,7 @@ import {
   ModalHeader,
 } from "reactstrap";
 import { FastField, Form, Formik } from "formik";
-import { ReactstrapInput } from "reactstrap-formik";
+import { TextInput } from "../../custom_/Text";
 import * as Yup from 'yup';
 import UserApi from "../../api/UserApi";
 
@@ -91,7 +91,7 @@ const ResetPassword = (props) => {
                       bsSize="lg"
                       name="email"
                       placeholder="Enter your email"
-                      component={ReactstrapInput}
+                      component={TextInput}
                     />
                   </FormGroup>
 

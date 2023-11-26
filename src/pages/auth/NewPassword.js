@@ -7,7 +7,7 @@ import {
   FormGroup
 } from "reactstrap";
 import { FastField, Form, Formik } from "formik";
-import { ReactstrapInput } from "reactstrap-formik";
+import { TextInput } from "../../custom_/Text";
 import * as Yup from 'yup';
 import UserApi from "../../api/UserApi";
 import { useParams } from "react-router-dom";
@@ -103,7 +103,7 @@ const NewPassword = (props) => {
                       bsSize="lg"
                       name="password"
                       placeholder="Enter new password"
-                      component={ReactstrapInput}
+                      component={TextInput}
                     />
                   </FormGroup>
 
@@ -114,7 +114,7 @@ const NewPassword = (props) => {
                       bsSize="lg"
                       name="confirmPassword"
                       placeholder="Enter confirm new password"
-                      component={ReactstrapInput}
+                      component={TextInput}
                     />
                   </FormGroup>
 

@@ -128,7 +128,7 @@ const NavbarDropdown = ({
 
 const NavbarDropdownItem = ({ icon, title, description, time, spacing }) => (
   <ListGroupItem>
-    <Row noGutters className="align-items-center">
+    <Row className="align-items-center g-0">
       <Col xs={2}>{icon}</Col>
       <Col xs={10} className={spacing ? "pl-2" : null}>
         <div className="text-dark">{title}</div>
@@ -154,7 +154,7 @@ const NavbarComponent = (props) => {
         <i className="hamburger align-self-center" />
       </span>
 
-      <Form inline>
+      <Form inline="True">
         <Input
           type="text"
           placeholder="Search projects..."

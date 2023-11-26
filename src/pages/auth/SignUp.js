@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 import {
   Button,
@@ -11,7 +12,7 @@ import {
   ModalHeader
 } from "reactstrap";
 import { FastField, Form, Formik, Field } from "formik";
-import { ReactstrapInput } from "reactstrap-formik";
+import { TextInput } from "../../custom_/Text";
 import * as Yup from 'yup';
 import UserApi from "../../api/UserApi";
 import { withRouter } from "react-router-dom";
@@ -39,7 +40,7 @@ const SignUp = (props) => {
       <div className="text-center mt-4">
         <h1 className="h2">Get started</h1>
         <p className="lead">
-          Start creating account to experience in VTI Academy.
+          Start creating account in Team 1 Cinema Booking.
       </p>
       </div>
 
@@ -51,7 +52,8 @@ const SignUp = (props) => {
             username: '',
             email: '',
             password: '',
-            confirmPassword: ''
+            confirmPassword: '',
+            role: 'user' // Thêm giá trị mặc định cho role
           }
         }
         validationSchema={
@@ -68,6 +70,7 @@ const SignUp = (props) => {
               .min(6, 'Must be between 6 and 50 characters')
               .max(50, 'Must be between 6 and 50 characters')
               .required('Required')
+              .matches(/^[a-zA-Z0-9]+$/, 'Only alphanumeric characters are allowed')
               .test('checkExistsUsername', 'This username is already registered.', async username => {
                 // call api
                 const isExists = await UserApi.existsByUsername(username);
@@ -105,11 +108,11 @@ const SignUp = (props) => {
             try {
               // call api
               await UserApi.create(
-                values.firstname,
-                values.lastname,
                 values.username,
                 values.email,
-                values.password
+                values.password,
+                values.firstname,
+                values.lastname,                                        
               );
 
               // message
@@ -129,6 +132,13 @@ const SignUp = (props) => {
           <Card>
             <CardBody>
               <div className="m-sm-4">
+
+                  {/* Nút Sign in */}
+                  <div className="text-center mt-3">
+                  <Link to="/auth/sign-in" className="signup-link">
+                    <span className="signup-text">Already have account? Sign in</span>
+                  </Link>
+                </div>
                 <Form>
 
                   <FormGroup>
@@ -138,7 +148,7 @@ const SignUp = (props) => {
                       bsSize="lg"
                       name="firstname"
                       placeholder="Enter your first name"
-                      component={ReactstrapInput}
+                      component={TextInput}
                     />
                   </FormGroup>
 
@@ -149,7 +159,7 @@ const SignUp = (props) => {
                       bsSize="lg"
                       name="lastname"
                       placeholder="Enter your last name"
-                      component={ReactstrapInput}
+                      component={TextInput}
                     />
                   </FormGroup>
 
@@ -160,7 +170,7 @@ const SignUp = (props) => {
                       bsSize="lg"
                       name="username"
                       placeholder="Enter your username"
-                      component={ReactstrapInput}
+                      component={TextInput}
                     />
                   </FormGroup>
 
@@ -171,7 +181,7 @@ const SignUp = (props) => {
                       bsSize="lg"
                       name="email"
                       placeholder="Enter your email"
-                      component={ReactstrapInput}
+                      component={TextInput}
                     />
                   </FormGroup>
 
@@ -182,7 +192,7 @@ const SignUp = (props) => {
                       bsSize="lg"
                       name="password"
                       placeholder="Enter password"
-                      component={ReactstrapInput}
+                      component={TextInput}
                     />
                   </FormGroup>
 
@@ -193,7 +203,7 @@ const SignUp = (props) => {
                       bsSize="lg"
                       name="confirmPassword"
                       placeholder="Enter confirm password"
-                      component={ReactstrapInput}
+                      component={TextInput}
                     />
                   </FormGroup>
 

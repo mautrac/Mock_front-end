@@ -8,7 +8,8 @@ import Content from "../components/Content";
 import Footer from "../components/Footer";
 import Settings from "../components/Settings";
 
-const Dashboard = ({ children }) => (
+function Dashboard({ children }) {
+  return (
   <React.Fragment>
     <Wrapper>
       <Sidebar />
@@ -20,6 +21,6 @@ const Dashboard = ({ children }) => (
     </Wrapper>
     <Settings />
   </React.Fragment>
-);
+)};
 
 export default Dashboard;

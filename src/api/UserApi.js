@@ -7,12 +7,9 @@ const existsByEmail = (email) => {
 };
 
 const existsByUsername = (username) => {
-    return Api.get(`${url}/userName/${username}`);
+    return Api.get(`${url}/username/${username}`);
 };
 
-const existsByUsername2 = (id) => {
-    return Api.get(`${url}/${id}`);
-};
 
 const create = (firstname, lastname, username, email, password) => {
 
@@ -80,9 +77,9 @@ const updateProfile = (avatarUrl) => {
 const createAccountFromAdmin = (values) => {
 
     const body = {
-        firstName: values.firstname,
-        lastName: values.lastname,
-        userName: values.username,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        username: values.username,
         email: values.email,
         password: values.password,
         role: values.role
@@ -90,8 +87,39 @@ const createAccountFromAdmin = (values) => {
 
     return Api.post(url, body);
 };
+const getAllUsers = (page = 1 , size = 10, sortField = 'id', sortType = 'desc', search ='') => {
+    const parameters= {
+        page,
+        size,
+        sort: `${sortField},${sortType}`
+    }
+       // search
+       if (search) {
+        parameters.search = search;
+    }
 
+    return Api.get(`${url}`, {params: parameters});
+};
+
+const getById = (id) => {
+    return Api.get(`${url}/${id}`);
+};
+const update = (id, email, firstName, lastName) => {
+    const body = {
+        email, 
+        firstName,
+        lastName
+    }
+    return Api.put(`${url}/${id}`, body);
+};
+
+const deleteByIds = (ids) => {
+    return Api.delete(`${url}/${ids.toString()}`);
+};
 // export
-const api = { updateProfile, getProfile, create, existsByEmail, existsByUsername, existsByUsername2, 
-    resendEmailToActiveAccount, requestResetPassword, resendEmailToResetpassword, resetPassword, createAccountFromAdmin }
+const api = {deleteByIds,getAllUsers, updateProfile, getProfile, create, existsByEmail, existsByUsername, 
+    resendEmailToActiveAccount, requestResetPassword, resendEmailToResetpassword, resetPassword, createAccountFromAdmin,
+    getById, update
+
+}
 export default api;
