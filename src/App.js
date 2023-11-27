@@ -4,11 +4,12 @@ import ReduxToastr from "react-redux-toastr";
 
 import store from "./redux/store/index";
 import Routes from "./routes/Routes";
+import RoutesUser from "./USER/routes/RoutesUser";
 
 const App = () => (
   <Provider store={store}>
     
-    <Routes />
+    <RoutesUser />
     <ReduxToastr
       timeOut={5000}
       newestOnTop={true}

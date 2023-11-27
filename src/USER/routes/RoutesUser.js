@@ -2,6 +2,13 @@ import React from "react";
 import { Switch } from "react-router-dom/cjs/react-router-dom";
 import { Route, Router } from "react-router-dom/cjs/react-router-dom.min";
 
+import {
+  page as pageRoutes
+} from "./indexUser"
+
+import AuthLayout from "../../layouts/Auth";
+import Page404 from "../../pages/auth/Page404";
+import ScrollToTop from "../../components/ScrollToTop";
 
 const childRoutes = (Layout, routes) =>
   routes.map(({ children, path, component: Component }, index) =>
@@ -34,7 +41,7 @@ const childRoutes = (Layout, routes) =>
     )
   );
 
-const Routes = () => (
+const RoutesUser = () => (
   <Router>
     <ScrollToTop>
       <Switch>
@@ -53,4 +60,4 @@ const Routes = () => (
   </Router>
 );
 
-export default Routes;
+export default RoutesUser;

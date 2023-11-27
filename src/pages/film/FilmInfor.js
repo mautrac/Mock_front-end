@@ -12,6 +12,7 @@ import { FilmScheduleList } from "./FilmScheduleList";
 
 
 import api from "../../api/FilmApi";
+import Film from "./Film";
 
 
 function FilmInfor(props) {
@@ -83,7 +84,7 @@ function FilmInfor(props) {
                                 
                                     <Row>
                                         <div className="film-infor-frame">
-                                            <img src={values.poster} 
+                                            <img src={Film.poster} 
                                             alt="anh" className="film-infor-img"
                                             />
                                         </div>
