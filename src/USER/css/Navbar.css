@@ -14,8 +14,13 @@
     z-index: 1;
 }
 
-.open { 
+.open {
     display: flex;
+    flex-direction: row;
+}
+.notOpen{
+    display: flex;
+    flex-direction: row;
 }
 .abc {
    list-style: none; 
