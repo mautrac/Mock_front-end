@@ -1,13 +1,21 @@
 import React from "react";
-import { Switch } from "react-router-dom/cjs/react-router-dom";
-import { Route, Router } from "react-router-dom/cjs/react-router-dom.min";
-
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import {
-  page as pageRoutes
-} from "./indexUser"
+  landing as landingRoutes,
+  dashboard as dashboardRoutes,
+  page as pageRoutes,
 
+} from "../../routes/index";
+
+import DashboardLayout from "../../layouts/Dashboard";
+import LandingLayout from "../../layouts/Landing";
 import AuthLayout from "../../layouts/Auth";
 import Page404 from "../../pages/auth/Page404";
+
+//user
+import LayoutUser from "../layout/LayoutUser";
+import { UserHome } from "./indexUser";
+
 import ScrollToTop from "../../components/ScrollToTop";
 
 const childRoutes = (Layout, routes) =>
@@ -45,9 +53,11 @@ const RoutesUser = () => (
   <Router>
     <ScrollToTop>
       <Switch>
-        
+        {/*{childRoutes(LandingLayout, landingRoutes)}
+        {childRoutes(DashboardLayout, dashboardRoutes)} */}
         {childRoutes(AuthLayout, pageRoutes)}
-    
+        {childRoutes(LayoutUser, UserHome)}
+        
         <Route
           render={() => (
             <AuthLayout>

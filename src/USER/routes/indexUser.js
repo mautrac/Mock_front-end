@@ -100,12 +100,13 @@ const ticketPriceView = {
 
 export const page = [authRoutes];
 
-export const UserHome = [ticketViewRoutes];
+export const UserHome = [viewFilmRoutes, ticketViewRoutes, filmScheduleViewRoutes, filmInforViewRoutes, ticketPriceView ];
 
 export default [
     authRoutes,
-    filmInforViewRoutes,
     viewFilmRoutes,
+    ticketViewRoutes,
     filmScheduleViewRoutes,
+    filmInforViewRoutes,
     ticketPriceView
 ];

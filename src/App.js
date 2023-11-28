@@ -8,8 +8,7 @@ import RoutesUser from "./USER/routes/RoutesUser";
 
 const App = () => (
   <Provider store={store}>
-    
-    <RoutesUser />
+    <RoutesUser/>
     <ReduxToastr
       timeOut={5000}
       newestOnTop={true}

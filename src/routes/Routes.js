@@ -52,7 +52,13 @@ const Routes = () => (
         {childRoutes(LandingLayout, landingRoutes)}
         {childRoutes(DashboardLayout, dashboardRoutes)}
         {childRoutes(AuthLayout, pageRoutes)}
-    
+        <Route 
+          path="/abc"
+          render={() => {
+            return (<div>abasoidh</div>)
+          }}
+          />
+          
         <Route
           render={() => (
             <AuthLayout>
