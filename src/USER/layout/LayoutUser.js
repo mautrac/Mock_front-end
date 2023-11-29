@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import {Navbar} from "../component/Navbar";
 const Layout = (props) => {
 
@@ -6,7 +6,10 @@ const Layout = (props) => {
         <>
             <main>
                 <Navbar />
-                {props.children}
+                <Suspense fallback={<div>Loading page</div>}>
+                    {props.children}
+
+                </Suspense>
             </main>
         </>
     )

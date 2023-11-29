@@ -64,6 +64,7 @@ const FilmPage = (props) => {
                               className="product-image"
                             >
                                 <img
+                                  className="product-images"
                                   id="product-collection-image-5416"
                                     src={film.poster}
                                     alt={film.name}

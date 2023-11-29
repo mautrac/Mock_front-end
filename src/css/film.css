@@ -28,6 +28,8 @@
 
 .film-lists .product-images {
   width: 100%;
+  max-width: -webkit-fill-available;
+  border-radius: 5px;
 }
 
 .film-lists .product-images img {

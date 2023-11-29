@@ -65,10 +65,10 @@ const Film = (props) => {
                 <li className="film-lists item last">
                      <div className="product-images">
                         <a
-                           href={`/films/${film.filmId}`}
-                title={film.name}
-                className="product-image"
-                        >
+                           href={`/admin/films/${film.filmId}`}
+                          title={film.name}
+                          className="product-image"
+                                  >
                             <img
                                id="product-collection-image-5416"
                                 src={film.poster}

@@ -21,7 +21,7 @@ import FilmInfor from "../../pages/film/FilmInfor"
 
 const TicketView = lazy(() => import("../pages/TicketPage"));
 const FilmPage = lazy(() => import("../pages/FilmsPage"));
-const Schedule = lazy(() => import("../../pages/schedule/Schedule"))
+const Schedule = lazy(() => import("../pages/ScheduleUser"));
 
 
 const viewFilmRoutes = {

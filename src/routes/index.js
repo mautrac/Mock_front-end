@@ -137,32 +137,32 @@ const authRoutes = {
   badgeText: "Special",
   children: [
     {
-      path: "/auth/sign-in",
+      path: "/sign-in",
       name: "Sign In",
       component: SignIn
     },
     {
-      path: "/auth/sign-up",
+      path: "/sign-up",
       name: "Sign Up",
       component: SignUp
     },
     {
-      path: "/auth/reset-password",
+      path: "/reset-password",
       name: "Reset Password",
       component: ResetPassword
     },
     {
-      path: "/auth/new-password/:token",
+      path: "/new-password/:token",
       name: "New Password",
       component: NewPassword
     },
     {
-      path: "/auth/404",
+      path: "/404",
       name: "404 Page",
       component: Page404
     },
     {
-      path: "/auth/500",
+      path: "/500",
       name: "500 Page",
       component: Page500
     }
