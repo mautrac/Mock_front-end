@@ -56,14 +56,14 @@ const Schedule = async(() => import("../pages/schedule/Schedule"));
 
 // Routes
 const landingRoutes = {
-  path: "/",
+  path: "/admin",
   name: "Landing Page",
   component: Landing,
   children: null
 };
 
 const dashboardRoutes = {
-  path: "/",
+  path: "/admin",
   name: "Home",
   header: "Pages",
   badgeColor: "primary",
@@ -90,7 +90,7 @@ const dashboardRoutes = {
 // };
 
 const addFilmRoutes = {
-  path: "/films/add",
+  path: "/admin/films/add",
   name: "Add film",
   icon: Film,
   component: withAuth(AddFilmPage),
@@ -98,7 +98,7 @@ const addFilmRoutes = {
 };
 
 const updateFilmRoutes = {
-  path: "/films/:id",
+  path: "/admin/films/:id",
   name: "Update film",
   icon: Film,
   component: withAuth(UpdateFilmPage),
@@ -106,7 +106,7 @@ const updateFilmRoutes = {
 }
 
 const filmRoutes = {
-  path: "/films",
+  path: "/admin/films",
   name: "Film Manager",
   icon: Film,
   component: withAuth(FilmManager),
@@ -114,14 +114,14 @@ const filmRoutes = {
 };
 
 const userRoutes = {
-  path: "/users",
+  path: "/admin/users",
   name: "User Manager",
   icon: UsersIcon,
   component: withAuth(User),
   children: null
 };
 const scheduleRoutes = {
-  path: "/film-schedules",
+  path: "/admin/film-schedules",
   name: "Schedule Manager",
   icon: CheckCircle,
   component: withAuth(Schedule),

@@ -7,33 +7,37 @@ export const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav>
+    <nav className="father">
       <Link to="/" className="title">
          <img src='https://betacinemas.vn/Assets/Common/logo/logo.png'alt='logo' ></img> 
       </Link>
-      <div className="menu" onClick={() => setMenuOpen(!menuOpen)}>
-        <span></span>
-        <span></span>
-        <span></span>
+      <div>
+        <NavLink className="z" to="/admin">MANAGER</NavLink>
       </div>
-      <ul className={menuOpen ? "open" : ""}>
-        <li>
-          <NavLink to={"/lich-theo-rap"}>LỊCH THEO RẠP</NavLink>
+      <div className="menu" onClick={() => setMenuOpen(!menuOpen)}>
+        <span className="s"></span>
+        <span className="s"></span>
+        <span className="s"></span>
+      </div>
+      <ul className= {menuOpen ? "open" :"notOpen"} >      
+        <li className="abc">
+          <NavLink className={"z"} to={"/schedules"}>FILM SCHEDULE</NavLink>
         </li>
-        <li>
-          <NavLink to={"/phim"}>PHIM</NavLink>
+        <li className="abc">
+          <NavLink className={"z"} to={"/phim"}>FILM</NavLink>
         </li>
-        <li>
-          <NavLink  to={"/rap"}>RẠP</NavLink>
+
+        <li className="abc">
+          <NavLink className={"z"} to={"/ticket-price"}>TICKET PRICE</NavLink>
         </li>
-        <li>
-          <NavLink to={"/gia-ve"}>GIÁ VÉ</NavLink>
+        <li className="abc">
+          <NavLink className={"z"} to={"/tin-moi-va-uu-dai"}>NEWS AND OFFERS</NavLink>
         </li>
-        <li>
-          <NavLink to={"/tin-moi-va-uu-dai"}>TIN MỚI VÀ ƯU ĐÃI</NavLink>
-        </li>
-        <li>
-          <NavLink to={"/thanh-vien"}>THÀNH VIÊN</NavLink>
+        {/* <li className="abc">
+          <NavLink className={"z"} to={"/nhuong-quyen"}>NHƯỢNG QUYỀN</NavLink>
+        </li> */}
+        <li className="abc">
+          <NavLink className={"z"} to={"/thanh-vien"}>MEMBERS</NavLink>
         </li>
       </ul>
     </nav>

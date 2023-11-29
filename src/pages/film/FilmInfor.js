@@ -76,7 +76,7 @@ function FilmInfor(props) {
     return (
     <>
             
-                <Container fluid>
+                {/* <Container fluid>
                     <div >
                         <Row >
                             <Col lg={3} >
@@ -173,7 +173,7 @@ function FilmInfor(props) {
                                       
                     </div>
 
-                </Container>
+                </Container> */}
                 
     </>
   )

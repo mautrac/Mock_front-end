@@ -119,6 +119,7 @@ const SignIn = (props) => {
 
                 // redirect to home page
               }
+              
               props.history.push("/films/add");
 
             } catch (error) {
