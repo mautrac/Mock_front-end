@@ -14,14 +14,14 @@ const existsByUsername = (username) => {
 const create = (values) => {
     
     const body = {
-        firstName: values.firstName,
-        lastName: values.lastName,
+        firstName: values.firstname,
+        lastName: values.lastname,
         username: values.username,
         email: values.email,
         password: values.password
     }
-
-    return Api.post(url, body);
+    console.log(body);
+    return Api.post(`${url}`, body);
 };
 
 const resendEmailToActiveAccount = (email) => {
