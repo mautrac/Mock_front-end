@@ -30,9 +30,9 @@ const getAllSchedules = (page = 1, size = 10, sortField = 'scheduleId', sortType
 //     return Api.post(url, body);
 // };
 
-// const getById = (id) => {
-//     return Api.get(`${url}/${id}`);
-// };
+const getById = (id) => {
+    return Api.get(`${url}/${id}`);
+};
 
 
 const deleteByscheduleIds = (scheduleIds) => {
@@ -40,5 +40,5 @@ const deleteByscheduleIds = (scheduleIds) => {
 };
 
 // export
-const api = { getAllSchedules, deleteByscheduleIds }
+const api = { getAllSchedules, deleteByscheduleIds,getById }
 export default api;

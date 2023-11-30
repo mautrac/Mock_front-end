@@ -1,21 +1,162 @@
-//Luồng xử lý
-//1) vào ticket đặt hàng sẽ được list ticket theo id của người dùng
-//Router 1: /api/v1/tickets/list
-//2) Trong trường "id" sẽ lấy được scheduleId của từng ticket được đặt
-//Thông qua scheduleId sẽ lấy được lịch chiếu (1 id tương ứng với 1 lịch chiếu)
-//Router 2: /api/v1/film-schedules/:scheduleId
-//3) Trong trường "film" sẽ lấy được filmId của phim trong lịch chiếu đó (1 id lịch chiếu chỉ có 1 phim)
-//Thông qua filmId sẽ lấy được phim
-//Router 3: /api/v1/films/:filmId
-//4)Từ các router sẽ lấy được kết quả cần trả về cho các trường cart item
-// poster  |   Tên phim   |  Thời gian chiếu   |  Số lượng  |  Tổng tiền
-//5) 2-3-4 sẽ được chạy trong vòng for để lấy hết các item trong list ticket
-import React from "react";
-const CartItem = () => (
-  <div className="text-center">
-    <p className="h2 font-weight-normal mt-3 mb-4">
-     This thi cart page
-    </p>
+
+import React, { useEffect,useState } from "react";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+} from "reactstrap";
+import { getListTicketAction } from '../../redux/actions/TicketActions';
+import { connect } from "react-redux";
+import { selectTickets } from '../../redux/selectors/TicketSelector';
+import TicketApi from '../../api/TicketApi'
+import axios from "axios";
+import '../../css/ticket.css'
+const CartItem = (props) => {
+
+    //Hàm gọi modal thanh toán
+const [isOpenModalPay, setOpenModalPay] = useState(false);
+const handlePayConfirm  =  () => {
+
+    props.history.push("/");
+  }
+
+const handlePayCancel =() =>{
+  setOpenModalPay(false);
+}
+  const getListTicket = props.getListTicketAction;
+  useEffect(() =>{
+    const getAllTicket = async() =>{
+      const tickets = await TicketApi.getAllTicketByUser();
+      getListTicket(tickets);
+    }
+    getAllTicket();
+  },[getListTicket]);
+  const refreshForm = () => {
+    window.location.reload();
+  }
+  
+  const tickets = props.tickets;
+  //Hàm gọi các api
+  async function mapItems(){
+ const items = await Promise.all
+          (tickets.map(async (ticket) => {
+  const scheduleId = ticket.id.scheduleId;
+  const schedule = await  axios.get(`http://localhost:8080/api/v1/film-schedules/${scheduleId}`).then(
+    (response)=> response.data
+  );
+  const film = await axios.get(`http://localhost:8080/api/v1/films/${schedule.film.filmId}`).then(
+    (response)=> response.data
+  );
+  return{
+    name: film.name,
+    bookingDate:ticket.bookingDate,
+    time: schedule.timeSlot,
+    quantity: ticket.quantity,
+    total: ticket.total
+
+  };
+ })
+ );
+ return items;
+}
+const [allItems, setAllItems] = useState([]);
+
+useEffect(() => {
+  const fetchData = async () => {
+    const items = await mapItems();
+    setAllItems(items);
+  };
+  fetchData();
+}, [tickets]);
+//Hàm render nếu có item trong cart list
+const renderCartItems = () => {
+  if (allItems.length > 0) {
+    const headers = [
+      <th>Tên phim</th>,
+      <th>Thời gian đặt vé</th>,
+      <th>Thời gian chiếu</th>,
+      <th>Số lượng vé đặt</th>,
+      <th>Tổng tiền</th>,
+      <th></th>
+    ];
+    const totalAmount = allItems.reduce((total, item) => total + item.total, 0);
+    return (
+      <div className="cart-item-list">
+        <table>
+          <thead>
+            {headers}
+          </thead>
+          <tbody>
+          {allItems.map((item) => (
+            <tr key={item.id}>
+              {Object.keys(item).map((key) => (
+                <td>{item[key]}</td>
+              ))}
+              <td>
+                <button className="btnDelete">Xóa</button>
+              </td>
+            </tr>
+          ))}
+          </tbody>
+        </table>
+        <div>
+          <p className="TotalAmount">Tổng tiền thanh toán: {totalAmount} VNĐ</p>
+          <Button color="primary" className="thanh-toan" onClick={() => setOpenModalPay(true)}>Thanh toán</Button>
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div className="cart-item-empty">
+        <h3>Bạn chưa đặt vé vui lòng <a href="/">nhấn vào đây</a> để quay lại trang chủ!!!</h3>
+      </div>
+    );
+  }
+};
+//Chỗ render
+return (
+  <div className="gio-hang">
+    <h2>Danh sách vé đặt</h2>
+    {renderCartItems()}
+    {isOpenModalPay && (
+      <Modal isOpen={isOpenModalPay}>
+        
+        
+          {/* header */}
+          <ModalHeader>Thanh toán</ModalHeader>
+
+          {/* body */}
+          <ModalBody className="m-3">
+
+            
+                <h2>Bạn đã thanh toán thành công xin cảm ơn!!!</h2>
+              
+
+          </ModalBody>
+
+          {/* footer */}
+          <ModalFooter>
+            <Button  color="primary" onClick={handlePayConfirm}>
+               Xác nhận
+            </Button>{" "}
+
+            <Button color="primary" onClick={handlePayCancel}>
+              Hủy
+            </Button>
+          </ModalFooter>
+      </Modal>
+    )}
   </div>
 );
-export default CartItem;
+};
+
+
+const mapGlobalStateToProps = state => {
+  return {
+    tickets: selectTickets(state)
+  };
+};
+
+export default connect(mapGlobalStateToProps, { getListTicketAction })(CartItem);

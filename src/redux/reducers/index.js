@@ -5,6 +5,7 @@ import layout from "./layoutReducer";
 import theme from "./themeReducer";
 import UserLoginInfo from "./UserLoginInfoReducers";
 import Group from "./GroupReducers";
+import Ticket from "./TicketReducers";
 import User from "./UserReducer";
 import Film from "./FilmReducer";
 import Schedule from "./ScheduleReducer"
@@ -19,5 +20,6 @@ export default combineReducers({
   Group,
   User,
   Film,
-  Schedule
+  Schedule,
+  Ticket
 });

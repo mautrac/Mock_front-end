@@ -26,7 +26,6 @@ import SignUp from "../pages/auth/SignUp";
 import ResetPassword from "../pages/auth/ResetPassword";
 import Page404 from "../pages/auth/Page404";
 import Page500 from "../pages/auth/Page500";
-
 // Layouts
 import Boxed from "../pages/layouts/Boxed";
 import SidebarCollapsed from "../pages/layouts/SidebarCollapsed";
@@ -58,6 +57,7 @@ const Feather = async(() => import("../pages/icons/Feather"));
 const Group = async(() => import("../pages/group/Group"));
 const User = async(() => import("../pages/user/User"));
 const Schedule = async(() => import("../pages/schedule/Schedule"));
+const Ticket = async(() => import("../pages/ticket/CartItem"));
 
 
 
@@ -128,6 +128,13 @@ const scheduleRoutes = {
   children: null
 };
 
+const ticketRoutes = {
+  path: "/tickets/list",
+  name: "Ticket",
+  icon: ListIcon,
+  component: Ticket,
+  children: null
+};
 const authRoutes = {
   path: "/auth",
   name: "Auth",
@@ -167,6 +174,7 @@ const authRoutes = {
     }
   ]
 };
+
 
 const layoutRoutes = {
   path: "/layouts",
@@ -243,7 +251,7 @@ export const dashboard = [
   dashboardRoutes,
   userRoutes,
   scheduleRoutes,
-
+  ticketRoutes,
   //pageRoutes,
   layoutRoutes,
   ProfileRoutes,
@@ -266,5 +274,5 @@ export default [
   scheduleRoutes,
   // pageRoutes,
   authRoutes,
- 
+  ticketRoutes
 ];
