@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 import {
   Button,
@@ -15,7 +16,6 @@ import { TextInput } from "../../custom_/Text";
 import * as Yup from 'yup';
 import UserApi from "../../api/UserApi";
 import { withRouter } from "react-router-dom";
-//import { withRouter } from "../../compatible/withRouter";
 
 const SignUp = (props) => {
 
@@ -32,7 +32,7 @@ const SignUp = (props) => {
   }
 
   const redirectToLogin = () => {
-    props.history.push("/auth/sign-in");
+    props.history.push("/sign-in");
   }
 
   return (
@@ -40,7 +40,7 @@ const SignUp = (props) => {
       <div className="text-center mt-4">
         <h1 className="h2">Get started</h1>
         <p className="lead">
-          Start creating account to experience in VTI Academy.
+          Start creating account in Team 1 Cinema Booking.
       </p>
       </div>
 
@@ -52,7 +52,8 @@ const SignUp = (props) => {
             username: '',
             email: '',
             password: '',
-            confirmPassword: ''
+            confirmPassword: '',
+            role: 'User' // Thêm giá trị mặc định cho role
           }
         }
         validationSchema={
@@ -69,6 +70,7 @@ const SignUp = (props) => {
               .min(6, 'Must be between 6 and 50 characters')
               .max(50, 'Must be between 6 and 50 characters')
               .required('Required')
+              .matches(/^[a-zA-Z0-9]+$/, 'Only alphanumeric characters are allowed')
               .test('checkExistsUsername', 'This username is already registered.', async username => {
                 // call api
                 const isExists = await UserApi.existsByUsername(username);
@@ -106,11 +108,11 @@ const SignUp = (props) => {
             try {
               // call api
               await UserApi.create(
-                values.firstname,
-                values.lastname,
                 values.username,
                 values.email,
-                values.password
+                values.password,
+                values.firstname,
+                values.lastname,                                        
               );
 
               // message
@@ -119,7 +121,7 @@ const SignUp = (props) => {
 
             } catch (error) {
               // redirect page error server
-              props.history.push("/auth/500");
+              props.history.push("/500");
             }
           }
         }
@@ -131,7 +133,6 @@ const SignUp = (props) => {
             <CardBody>
               <div className="m-sm-4">
                 <Form>
-
                   <FormGroup>
                     <FastField
                       label="First Name"
@@ -196,12 +197,19 @@ const SignUp = (props) => {
                       placeholder="Enter confirm password"
                       component={TextInput}
                     />
-                  </FormGroup>       
+                  </FormGroup>
+
+                  {/* Nút Sign in */}
+                  <div className="text-center mt-3">
+                    <Link to="/sign-in" className="signup-link">
+                      <span className="signup-text">Already have account? Sign in</span>
+                    </Link>
+                  </div>
 
                   <div className="text-center mt-3">
                     <Button type='submit' color="primary" size="lg" disabled={isSubmitting}>
                       Sign up
-                </Button>
+                    </Button>
                   </div>
                 </Form>
               </div>

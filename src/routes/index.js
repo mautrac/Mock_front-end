@@ -81,6 +81,12 @@ const dashboardRoutes = {
   // ]
 };
 
+const redirectUserPage = {
+  path: "/",
+  name: "User Page",
+  icon: Home
+};
+
 // const groupRoutes = {
 //   path: "/groups",
 //   name: "Group Management",
@@ -263,12 +269,13 @@ export default [
   //addAccountAdminRoutes,
   //addFilmRoutes,
   //updateFilmRoutes,
-  dashboardRoutes,
+  // dashboardRoutes,
+  redirectUserPage,
   //groupRoutes,
   filmRoutes,
   userRoutes,
   scheduleRoutes,
   // pageRoutes,
   authRoutes,
- 
+  
 ];

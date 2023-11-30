@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect  } from "react";
 
 import "../css/Navbar.css";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useHistory } from "react-router-dom";
 import { GoSignIn } from "react-icons/go";
 import Storage from "../../Storage/Storage";
 
@@ -10,21 +10,37 @@ export const Navbar = () => {
   const role = Storage.getUserInfo().role;
   const checkRole = role == "Admin";
 
+  const checkToken = Storage.getToken();
+
+  const handleSignout = () =>{
+    if(Storage.getToken() !== null || Storage.getToken() !== undefined){
+      Storage.removeUserInfo();
+      Storage.removeToken();
+    }
+  }
   return (
     <div className="f">
-    <div className="bt"> 
-        <button className="btc"> 
-        <Link className="dangnhap" to="/sign-in">Sign in</Link>
-        </button> 
-        <GoSignIn className="c"></GoSignIn>
-        <button className="btc">
-          <Link className="dangky" to="/sign-up">Sign up</Link>   
-        </button>
-       
-      </div>
+
+      {!checkToken ? (
+          <div className="bt"> 
+            <button className="btc"> 
+              <Link className="dangnhap" to="/sign-in">Sign in</Link>
+            </button> 
+            <GoSignIn className="c"></GoSignIn>
+            <button className="btc">
+              <Link className="dangky" to="/sign-up">Sign up</Link>   
+            </button> 
+          </div> 
+        ) : (
+          <div className="bt">
+            <button className="btc">
+              <Link className="dangnhap" onClick={handleSignout} to="/">Sign out</Link>   
+            </button>
+          </div>
+        )}
     <nav className="father">
       <Link to="/" className="title">
-         <img src='https://betacinemas.vn/Assets/Common/logo/logo.png'alt='logo' ></img> 
+         <img src='https://betacinemas.vn/Assets/Common/logo/logo.png'alt='logo' style={{width:"120%"}}></img> 
       </Link>
       <div className="menu" onClick={() => setMenuOpen(!menuOpen)}>
         <span className="s"></span>

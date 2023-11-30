@@ -42,7 +42,8 @@ const FilmPage = (props) => {
 //  console.log(data);
   return(
   <Container fluid className="p-0">
-    <h1 className="h3 mb-3">Film Page</h1>
+    {/* <h1 className="h3 mb-3">Film Page</h1> */}
+    <div className="h3 mb-5"></div>
     <Row>
       <Col> 
         <Card>
