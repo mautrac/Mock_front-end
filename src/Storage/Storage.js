@@ -60,8 +60,8 @@ const setUserInfo = (user) => {
 
 const getUserInfo = () => {
     return {
-        "firstname": getItem("firstName"),
-        "lastname": getItem("lastName"),
+        "firstName": getItem("firstName"),
+        "lastName": getItem("lastName"),
         "username": getItem("username"),
         "email": getItem("email"),
         "role": getItem("role"),

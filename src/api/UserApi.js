@@ -11,17 +11,17 @@ const existsByUsername = (username) => {
 };
 
 
-const create = (firstname, lastname, username, email, password) => {
-
+const create = (values) => {
+    
     const body = {
-        firstName: firstname,
-        lastName: lastname,
-        userName: username,
-        email: email,
-        password: password
+        firstName: values.firstname,
+        lastName: values.lastname,
+        username: values.username,
+        email: values.email,
+        password: values.password
     }
-
-    return Api.post(url, body);
+    console.log(body);
+    return Api.post(`${url}`, body);
 };
 
 const resendEmailToActiveAccount = (email) => {

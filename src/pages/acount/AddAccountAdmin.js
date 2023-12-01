@@ -132,7 +132,7 @@ function AddAccountAdmin(props) {
                   console.log(error);
                   props.setOpenModalCreate(false);
                   // redirect page error server
-                  props.history.push("/auth/500");
+                  props.history.push("/500");
                 }
               }
             }

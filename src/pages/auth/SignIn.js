@@ -119,7 +119,8 @@ const SignIn = (props) => {
 
                 // redirect to home page
               }
-              props.history.push("/films/add");
+              
+              props.history.push("/");
 
             } catch (error) {
               console.log(error);
@@ -128,7 +129,7 @@ const SignIn = (props) => {
                 showErrorNotification("Login Fail!", "Wrong Username or Password!")
               } else {
                 // redirect page error server
-                props.history.push("/auth/500");
+                props.history.push("/500");
               }
             }
           }
@@ -172,7 +173,7 @@ const SignIn = (props) => {
                     </small>
                     
                     <small style={{float: "right"}}>
-                      <Link to="/auth/sign-up">Sign up</Link>
+                      <Link to="/sign-up">Sign up</Link>
                     </small>
                   </FormGroup>
 

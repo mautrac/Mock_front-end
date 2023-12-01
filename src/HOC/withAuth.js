@@ -11,7 +11,7 @@ function withAuth(AuthenticatedComponent) {
         }
 
         render() {
-            return !this.isAuthenticated() ? <Redirect to='/auth/sign-in' /> : <AuthenticatedComponent {...this.props} />;
+            return !this.isAuthenticated() ? <Redirect to='/sign-in' /> : <AuthenticatedComponent {...this.props} />;
         }
     }
 

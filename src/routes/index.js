@@ -6,7 +6,8 @@ import {
   Sliders as SlidersIcon,
   Users as UsersIcon,
   Film,
-  CheckCircle
+  CheckCircle,
+  Home
 } from "react-feather";
 
 // Landing
@@ -55,28 +56,35 @@ const Schedule = async(() => import("../pages/schedule/Schedule"));
 
 // Routes
 const landingRoutes = {
-  path: "/",
+  path: "/admin",
   name: "Landing Page",
   component: Landing,
   children: null
 };
 
 const dashboardRoutes = {
-  path: "/dashboard",
-  name: "Dashboards",
+  path: "/admin",
+  name: "Home",
   header: "Pages",
   badgeColor: "primary",
   badgeText: "5",
-  icon: SlidersIcon,
+  icon: Home,
   containsHome: true,
-  children: [
-    {
-      path: "/dashboard/default",
-      name: "Default",
-      component: Default
-    }
+  component: Default,
+  // children: [
+  //   {
+  //     path: "/",
+  //     name: "Default",
+  //     component: Default
+  //   }
    
-  ]
+  // ]
+};
+
+const redirectUserPage = {
+  path: "/",
+  name: "User Page",
+  icon: Home
 };
 
 // const groupRoutes = {
@@ -88,41 +96,41 @@ const dashboardRoutes = {
 // };
 
 const addFilmRoutes = {
-  path: "/films/add",
+  path: "/admin/films/add",
   name: "Add film",
   icon: Film,
-  component: AddFilmPage,
+  component: withAuth(AddFilmPage),
   children: null
 };
 
 const updateFilmRoutes = {
-  path: "/films/:id",
+  path: "/admin/films/:id",
   name: "Update film",
   icon: Film,
-  component: UpdateFilmPage,
+  component: withAuth(UpdateFilmPage),
   children: null
 }
 
 const filmRoutes = {
-  path: "/films",
+  path: "/admin/films",
   name: "Film Manager",
   icon: Film,
-  component: FilmManager,
+  component: withAuth(FilmManager),
   children: null
 };
 
 const userRoutes = {
-  path: "/users",
+  path: "/admin/users",
   name: "User Manager",
   icon: UsersIcon,
-  component: User,
+  component: withAuth(User),
   children: null
 };
 const scheduleRoutes = {
-  path: "/film-schedules",
+  path: "/admin/film-schedules",
   name: "Schedule Manager",
   icon: CheckCircle,
-  component: Schedule,
+  component: withAuth(Schedule),
   children: null
 };
 
@@ -135,32 +143,32 @@ const authRoutes = {
   badgeText: "Special",
   children: [
     {
-      path: "/auth/sign-in",
+      path: "/sign-in",
       name: "Sign In",
       component: SignIn
     },
     {
-      path: "/auth/sign-up",
+      path: "/sign-up",
       name: "Sign Up",
       component: SignUp
     },
     {
-      path: "/auth/reset-password",
+      path: "/reset-password",
       name: "Reset Password",
       component: ResetPassword
     },
     {
-      path: "/auth/new-password/:token",
+      path: "/new-password/:token",
       name: "New Password",
       component: NewPassword
     },
     {
-      path: "/auth/404",
+      path: "/404",
       name: "404 Page",
       component: Page404
     },
     {
-      path: "/auth/500",
+      path: "/500",
       name: "500 Page",
       component: Page500
     }
@@ -261,12 +269,13 @@ export default [
   //addAccountAdminRoutes,
   //addFilmRoutes,
   //updateFilmRoutes,
-  dashboardRoutes,
+  // dashboardRoutes,
+  redirectUserPage,
   //groupRoutes,
   filmRoutes,
   userRoutes,
   scheduleRoutes,
   // pageRoutes,
   authRoutes,
- 
+  
 ];

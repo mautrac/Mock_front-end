@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 import {
   Button,
@@ -10,12 +11,11 @@ import {
   ModalFooter,
   ModalHeader
 } from "reactstrap";
-import { FastField, Form, Formik, Field } from "formik";
+import { FastField, Form, Formik, Field, ErrorMessage } from "formik";
 import { TextInput } from "../../custom_/Text";
 import * as Yup from 'yup';
 import UserApi from "../../api/UserApi";
 import { withRouter } from "react-router-dom";
-//import { withRouter } from "../../compatible/withRouter";
 
 const SignUp = (props) => {
 
@@ -32,7 +32,7 @@ const SignUp = (props) => {
   }
 
   const redirectToLogin = () => {
-    props.history.push("/auth/sign-in");
+    props.history.push("/sign-in");
   }
 
   return (
@@ -40,7 +40,7 @@ const SignUp = (props) => {
       <div className="text-center mt-4">
         <h1 className="h2">Get started</h1>
         <p className="lead">
-          Start creating account to experience in VTI Academy.
+          Start creating account in Team 1 Cinema Booking.
       </p>
       </div>
 
@@ -56,7 +56,7 @@ const SignUp = (props) => {
           }
         }
         validationSchema={
-          Yup.object({
+          Yup.object().shape({
             firstname: Yup.string()
               .max(50, 'Must be less than 50 characters')
               .required('Required'),
@@ -69,6 +69,7 @@ const SignUp = (props) => {
               .min(6, 'Must be between 6 and 50 characters')
               .max(50, 'Must be between 6 and 50 characters')
               .required('Required')
+              .matches(/^[a-zA-Z0-9]+$/, 'Only alphanumeric characters are allowed')
               .test('checkExistsUsername', 'This username is already registered.', async username => {
                 // call api
                 const isExists = await UserApi.existsByUsername(username);
@@ -79,6 +80,7 @@ const SignUp = (props) => {
               .email('Invalid email address')
               .required('Required')
               .test('checkExistsEmail', 'This email is already registered.', async email => {
+                // console.log(email);
                 // call api
                 const isExists = await UserApi.existsByEmail(email);
                 return !isExists;
@@ -89,14 +91,14 @@ const SignUp = (props) => {
               .max(50, 'Must be between 6 and 50 characters')
               .required('Required'),
 
-            confirmPassword: Yup.string()
+              confirmPassword: Yup.string()
               .required('Required')
               .when("password", {
-                is: value => (value && value.length > 0 ? true : false),
-                then: Yup.string().oneOf(
-                  [Yup.ref("password")],
+                  is: value => (value && value.length > 0 ? true : false),
+                  then: () => Yup.string().oneOf(
+                  [Yup.ref("password"), null],
                   "Confirm Password do not match"
-                )
+                  )
               })
           })
         }
@@ -104,22 +106,26 @@ const SignUp = (props) => {
         onSubmit={
           async (values) => {
             try {
+                console.log(values);
+              // const userInfo = {
+              //   username:values.username,
+              //   email:values.email,
+              //   password:values.password,
+              //   firstName:values.firstname,
+              //   lastName:values.lastname, 
+              // }
+              
               // call api
-              await UserApi.create(
-                values.firstname,
-                values.lastname,
-                values.username,
-                values.email,
-                values.password
-              );
+              await UserApi.create(values);
 
               // message
               setEmail(values.email);
               setOpenModal(true);
 
             } catch (error) {
+              console.log(error);
               // redirect page error server
-              props.history.push("/auth/500");
+              props.history.push("/500");
             }
           }
         }
@@ -131,9 +137,9 @@ const SignUp = (props) => {
             <CardBody>
               <div className="m-sm-4">
                 <Form>
-
                   <FormGroup>
                     <FastField
+                    
                       label="First Name"
                       type="text"
                       bsSize="lg"
@@ -141,6 +147,7 @@ const SignUp = (props) => {
                       placeholder="Enter your first name"
                       component={TextInput}
                     />
+                    <ErrorMessage name="firstname" />
                   </FormGroup>
 
                   <FormGroup>
@@ -152,6 +159,7 @@ const SignUp = (props) => {
                       placeholder="Enter your last name"
                       component={TextInput}
                     />
+                    <ErrorMessage name="lastname" />
                   </FormGroup>
 
                   <FormGroup>
@@ -163,6 +171,7 @@ const SignUp = (props) => {
                       placeholder="Enter your username"
                       component={TextInput}
                     />
+                    <ErrorMessage name="username" />
                   </FormGroup>
 
                   <FormGroup>
@@ -174,6 +183,7 @@ const SignUp = (props) => {
                       placeholder="Enter your email"
                       component={TextInput}
                     />
+                    <ErrorMessage name="email" />
                   </FormGroup>
 
                   <FormGroup>
@@ -185,6 +195,7 @@ const SignUp = (props) => {
                       placeholder="Enter password"
                       component={TextInput}
                     />
+                    <ErrorMessage name="password" />
                   </FormGroup>
 
                   <FormGroup>
@@ -196,12 +207,20 @@ const SignUp = (props) => {
                       placeholder="Enter confirm password"
                       component={TextInput}
                     />
-                  </FormGroup>       
+                    <ErrorMessage name="confirmPassword" />
+                  </FormGroup>
+
+                  {/* Nút Sign in */}
+                  <div className="text-center mt-3">
+                    <Link to="/sign-in" className="signup-link">
+                      <span className="signup-text">Already have account? Sign in</span>
+                    </Link>
+                  </div>
 
                   <div className="text-center mt-3">
                     <Button type='submit' color="primary" size="lg" disabled={isSubmitting}>
                       Sign up
-                </Button>
+                    </Button>
                   </div>
                 </Form>
               </div>

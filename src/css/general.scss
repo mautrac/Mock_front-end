@@ -20,21 +20,31 @@
 }
 
 .film-infor {
+    &-form {
+        margin-top: 100px;
+        margin-left: 18%;
+        margin-bottom: 100px;
+    }
     &-frame {
         width: 100%;
-        margin: 5px;
-        border: 2px solid;
-        border-radius: 5px;
-        border-color: #3498db;
-        
+        margin: 5px;  
     }
     &-img {
-        max-width: -webkit-fill-available;
-        border-radius: 3px;
+        // max-width: -webkit-fill-available;
+        max-width: 100%;
+        height: auto;
+        width: 350px; /* Độ rộng cố định */
+        max-height: 500px; /* Chiều cao tối đa */
+        border-radius: 30px;
+    }
+    &-film-name {
+        font-size: 50px;
+        font-weight: bold;
+        color: #0070cc;
+        padding-bottom: 20px;
     }
     &-edit-frame{
-        border-left: 1px solid #002843;
-        padding-left: 10px;
+        padding-left: 35px;
         height: 100%;
     }
     &-label{
@@ -44,11 +54,6 @@
         font-weight: bold;
         vertical-align: middle;
         text-align: center;
-    }
-    &-textarea {
-        border-radius: 5px;
-        min-width: 500px;
-        min-height: 100px;
     }
     &-input {
         border-radius: 5px;
@@ -60,6 +65,9 @@
         margin: 50px;
 
     }
+    &-schedules {
+        margin-top: 125px;
+    }
     &-schedule-list-item {
         display: flex;
     }
@@ -68,7 +76,7 @@
         cursor: pointer;
     }
     &-schedule-list-item:hover .film-infor-schedule-close {
-        display: flex;
+        // display: flex;
     }
     
     &-schedule-close{

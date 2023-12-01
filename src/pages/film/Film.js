@@ -35,7 +35,7 @@ const Film = (props) => {
  const data = props.films;
 
  const gotoAddFilm = () => {
-  history.push("/films/add");
+  history.push("/admin/films/add");
  }
 //  console.log(data);
   return(
@@ -65,10 +65,10 @@ const Film = (props) => {
                 <li className="film-lists item last">
                      <div className="product-images">
                         <a
-                           href={`/films/${film.filmId}`}
-                title={film.name}
-                className="product-image"
-                        >
+                           href={`/admin/films/${film.filmId}`}
+                          title={film.name}
+                          className="product-image"
+                                  >
                             <img
                                id="product-collection-image-5416"
                                 src={film.poster}
@@ -82,7 +82,7 @@ const Film = (props) => {
             >
               <h2 className="product-name">
                 <a
-                  href="#"
+                  href={`/admin/films/${film.filmId}`}
                   title={film.name}
                 >
                   {film.name}
