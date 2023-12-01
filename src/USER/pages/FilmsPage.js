@@ -1,12 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
+  Button,
   Card,
   CardBody,
   CardHeader,
   CardTitle,
   Col,
   Container,
+  ListGroup,
+  ListGroupItem,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
   Row
 } from "reactstrap";
 import { connect } from "react-redux";
@@ -14,9 +21,15 @@ import { selectFilms } from "../../redux/selectors/FilmSelector";
 // import paginationFactory from "react-bootstrap-table2-paginator";
 import { getListFilmAction } from "../../redux/actions/FilmActions";
 import '../../css/film.css'
-import FilmApi from "../../api/FilmApi"
+
+//api
+import ticketApi from "../../api/TicketApi";
+import FilmApi from "../../api/FilmApi";
+import scheduleApi from "../../api/ScheduleApi";
 
 import * as Icon from 'react-feather';
+
+import daysOfWeek from "../../utils/DaysOfWeek";
 
 // import { Search } from "react-bootstrap-table2-toolkit";
 const FilmPage = (props) => {
@@ -36,8 +49,33 @@ const FilmPage = (props) => {
     getAllFilm(); 
   },[getListFilm]);
 
- const data = props.films;
+  const data = props.films;
+  const [isOpenModal, setOpenModal] = useState(false);
+  const [filmname, setFilmname] = useState("");
+  const [filmID, setFilmID] = useState(-1);
+  const [scheduleMap, setScheduleMap] = useState([]);
+  const [time, setTime] = useState("");
+  const [quantity, setQuantity] = useState();
+  const [scheduleId, setscheduleId] = useState();
 
+  const handleCreatTicket = async () => {
+    try {
+      const ticketObj = {
+        quantity: quantity,
+        filmScheduleId: scheduleId
+      }
+      await ticketApi.createTicket(
+        ticketObj
+      );
+      setOpenModal(false);
+    } catch (error) {
+      throw error;
+      console.log(error)
+    }
+  }
+  const handleQuantity = (event) => {
+    setQuantity(event.target.value);
+  }
  
 //  console.log(data);
   return(
@@ -105,6 +143,30 @@ const FilmPage = (props) => {
                         <span className="cgv-info-bold">Giá vé: </span>
                         <span className="cgv-info-normal">{film.ticketPrice} VNĐ</span>
                         </div>
+                        <div><Button type='button' color="primary" size="lg" onClick={() => {
+                          //reset state
+                          setTime('');
+                          setscheduleId('');
+                          
+                          setOpenModal(true);
+                          setFilmname(film.name);
+                          setFilmID(film.filmId);
+                          console.log(film.filmId, "12312414");
+
+                          scheduleApi.getSchedulesByFilmId(film.filmId)
+                            .then((res) => {
+                              console.log(res);
+                              setScheduleMap(res);
+                              Object.assign(scheduleMap, res);
+                            })
+                            .catch((error) => {
+                              console.log(error);
+                            })
+
+
+                        }}>
+                          Mua
+                        </Button></div>
                       </div>
                     </li>
 
@@ -116,6 +178,75 @@ const FilmPage = (props) => {
         </Card>
       </Col>
     </Row>
+
+    <Modal isOpen={isOpenModal}>
+
+      {/* header */}
+      <ModalHeader>
+        <h2>{filmID}</h2>
+        <p>Chọn lịch chiếu</p>
+        <ListGroup horizontal style={{ borderBottom: "1px solid", borderColor: "#002843", borderRadius: 0 }}>
+
+          {Array.from(scheduleMap).map((value) => {
+
+            return (
+              <>
+
+                <ListGroupItem key={value.scheduleId} className="film-infor-schedule-list-item" onClick={() => {
+                  setTime(value.timeSlot);
+                  setscheduleId(value.scheduleId);
+                }}>
+                  <div style={{ display: "grid" }}>
+                    <div style={{ fontWeight: "bold", gridRow: 1, gridColumn: 1 }} >
+                      {
+                        (() => {
+                          let d = new Date(value.timeSlot);
+                          let day = d.getDay();
+                          let date = `${d.getMonth() + 1}/${d.getDate()}`;
+                          return `${daysOfWeek[day]} - ${date}`;
+                        })()
+                      }
+                    </div>
+                    <div style={{ gridColumn: 1, gridRow: 2 }}>
+                      {`No. seat: ${value.seatNumber}`}
+                    </div>
+
+                  </div>
+
+                </ListGroupItem>
+              </>
+            )
+          })}
+
+        </ListGroup>
+        <p></p>
+      </ModalHeader>
+
+      {/* body */}
+      <ModalBody className="m-3">
+        <p className="mb-0">
+          {`Tên Phim: ${filmname}`}
+        </p>
+        <p className="mb-0">
+          {`Xuất chiếu: ${time}`}
+        </p>
+        <label htmlFor="">Chọn số vé cần mua   </label>
+        <input type="number" name="" id="" onChange={handleQuantity} />
+      </ModalBody>
+
+      {/* footer */}
+      <ModalFooter>
+        <Button color="primary" onClick={handleCreatTicket} >
+          Xác nhận
+        </Button>{" "}
+
+        <Button color="primary" onClick={() => setOpenModal(false)}>
+          Close
+        </Button>
+
+      </ModalFooter>
+    </Modal>
+
   </Container>
 )};
 const mapGlobalStateToProps = state => {
