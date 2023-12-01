@@ -116,7 +116,7 @@ const FilmPage = (props) => {
                         >
                         <h2 className="product-name">
                           <a
-                            href="#"
+                            href={`/admin/films/${film.filmId}`}
                             title={film.name}
                           >
                             {film.name}
@@ -147,7 +147,7 @@ const FilmPage = (props) => {
                           //reset state
                           setTime('');
                           setscheduleId('');
-                          
+
                           setOpenModal(true);
                           setFilmname(film.name);
                           setFilmID(film.filmId);

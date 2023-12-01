@@ -82,7 +82,7 @@ const Film = (props) => {
             >
               <h2 className="product-name">
                 <a
-                  href="#"
+                  href={`/admin/films/${film.filmId}`}
                   title={film.name}
                 >
                   {film.name}
