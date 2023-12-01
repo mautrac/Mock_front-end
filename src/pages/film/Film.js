@@ -35,7 +35,7 @@ const Film = (props) => {
  const data = props.films;
 
  const gotoAddFilm = () => {
-  history.push("/films/add");
+  history.push("/admin/films/add");
  }
 //  console.log(data);
   return(
