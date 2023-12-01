@@ -11,8 +11,13 @@ const createTicket = (values) => {
     }
     return Api.post(`${url}`, body);
 }
+
+const getAllTicketByUser = () => {
+
+    return Api.get(`${url}/list`);
+};
 // export
 const api = {
-    createTicket
+    createTicket, getAllTicketByUser
 }
 export default api;
