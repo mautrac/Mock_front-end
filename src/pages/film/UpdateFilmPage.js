@@ -141,6 +141,10 @@ function UpdateFilmPage(props) {
         getData();
     }, []);
 
+    const handleDelete = () => {
+        filmApi.deleteFilm(filmId);
+    }
+
     return (infor.name.length > 1?
     <>
         <Formik
@@ -370,7 +374,7 @@ function UpdateFilmPage(props) {
                                             Save
                                     </Button>
                                     
-                                    <Button type="button" color="primary" >
+                                    <Button type="button" color="primary" onClick={handleDelete}>
                                         Delete
                                     </Button>
 
