@@ -56,7 +56,7 @@ function FilmScheduleListUser(props) {
     return (
         <> 
         {console.log(scheduleMap)}
-            <ListGroup horizontal className={scheduleMap.length > 5 ? "film-infor-user-schedule-list-five" : ""}>
+            <ListGroup horizontal className={scheduleMap.length >= 5 ? "film-infor-user-schedule-list-five" : ""}>
                 
                     {Array.from(scheduleMap).map((value, idx) => {
                         return (
