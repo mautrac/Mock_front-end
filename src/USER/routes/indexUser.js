@@ -17,7 +17,8 @@ import Page404 from "../../pages/auth/Page404";
 import Page500 from "../../pages/auth/Page500";
 import NewPassword from "../../pages/auth/NewPassword";
 // Film
-import FilmInfor from "../../pages/film/FilmInfor"
+import FilmInfor from "../pages/FilmInfor"
+import Cart from "../pages/Cart";
 
 const TicketView = lazy(() => import("../pages/TicketPage"));
 const FilmPage = lazy(() => import("../pages/FilmsPage"));
@@ -26,7 +27,7 @@ const Schedule = lazy(() => import("../pages/ScheduleUser"));
 
 const viewFilmHomeRoutes = {
     path: "/",
-    name: "Film View",
+    name: "Home View",
     component: FilmPage,
     children: null
 }
@@ -66,13 +67,22 @@ const ticketPriceView = {
     children: null
 }
 
+const cartRouts = {
+    path: "/cart",
+    name: "Cart",
+    component: Cart,
+    children: null
+}
 
-export const UserHome = [ticketViewRoutes, ticketPriceView, viewFilmRoutes, filmScheduleViewRoutes, filmInforViewRoutes, viewFilmHomeRoutes];
+
+export const UserHome = [ticketViewRoutes, ticketPriceView, viewFilmHomeRoutes, viewFilmRoutes, filmScheduleViewRoutes,  filmInforViewRoutes, cartRouts];
 
 export default [
     viewFilmHomeRoutes,
     filmInforViewRoutes,
     viewFilmRoutes,
     filmScheduleViewRoutes,
-    ticketPriceView
+    ticketPriceView,
+    filmInforViewRoutes,
+    cartRouts
 ];

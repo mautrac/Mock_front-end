@@ -21,6 +21,16 @@ const getAllSchedules = (page = 1, size = 10, sortField = 'scheduleId', sortType
     return Api.get(`${url}`, { params: parameters });
 };
 
+const getByDate = (date) => {
+    let d1 = `${date.getUTCFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    date.setDate(date.getDate() + 1);
+    let d2 = `${date.getUTCFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    const parameters = {
+        minTimeSlot: d1,
+        maxTimeSlot: d2
+    }
+    return Api.get(`${url}`, { params: parameters });
+};
 
 // const create = (name) => {
 
@@ -105,5 +115,7 @@ const updateFilmSchedules = async (filmId, newSchedules) => {
 }
 
 
-const api = { getAllSchedules, deleteByscheduleIds, getSchedulesByFilmId, createScheduleInFilm, createSchedulesInFilm, updateFilmSchedule, updateFilmSchedules}
+const api = { getAllSchedules, deleteByscheduleIds, 
+getSchedulesByFilmId, createScheduleInFilm, createSchedulesInFilm, 
+updateFilmSchedule, updateFilmSchedules, getByDate}
 export default api;

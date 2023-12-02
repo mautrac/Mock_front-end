@@ -10,7 +10,7 @@ import * as Icon from 'react-feather';
 import "../../css/general.scss";
 
 
-function FilmScheduleList(props) {
+function FilmScheduleListUser(props) {
 
     //console.log(props);
 
@@ -55,12 +55,13 @@ function FilmScheduleList(props) {
 
     return (
         <> 
-            <ListGroup horizontal style={{borderBottom: "1px solid", borderColor: "#002843", borderRadius: 0}}>
+        {console.log(scheduleMap)}
+            <ListGroup horizontal className={scheduleMap.length > 5 ? "film-infor-user-schedule-list-five" : ""}>
                 
                     {Array.from(scheduleMap).map((value, idx) => {
                         return (
                             <>
-                                <ListGroupItem  key={idx} className="film-infor-schedule-list-item" >
+                                <ListGroupItem  key={idx} className="film-infor-user-schedule-list-item" >
                                     <div style={{display: "grid"}}>
                                         <div style={{fontWeight: "bold", gridRow: 1, gridColumn: 1}} >
                                             {
@@ -72,7 +73,7 @@ function FilmScheduleList(props) {
                                                 })()
                                             }
                                         </div>
-                                        <div onClick={(event) => handleDelete(event, value.scheduleId)} className="film-infor-schedule-close" style={{gridColumn: 2, gridRow: "1 / 3", alignItems: "center"}}>
+                                        <div onClick={(event) => handleDelete(event, value.scheduleId)} className="film-infor-user-schedule-close" style={{gridColumn: 2, gridRow: "1 / 3", alignItems: "center"}}>
                                             <Icon.X/>
                                         </div>
                                         <div style={{gridColumn: 1, gridRow: 2}}>
@@ -92,4 +93,4 @@ function FilmScheduleList(props) {
     )
 }
 
-export {FilmScheduleList};
+export {FilmScheduleListUser};
