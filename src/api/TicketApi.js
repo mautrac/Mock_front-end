@@ -16,8 +16,11 @@ const getAllTicketByUser = () => {
 
     return Api.get(`${url}/list`);
 };
+const deleteByscheduleId =(id)=>{
+    return Api.delete(`${url}/${id}`);
+}
 // export
 const api = {
-    createTicket, getAllTicketByUser
+    createTicket, getAllTicketByUser,deleteByscheduleId
 }
 export default api;

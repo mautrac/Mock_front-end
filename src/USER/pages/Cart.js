@@ -31,8 +31,13 @@ const handlePayCancel =() =>{
   const getListTicket = props.getListTicketAction;
   useEffect(() =>{
     const getAllTicket = async() =>{
-      const tickets = await TicketApi.getAllTicketByUser();
-      getListTicket(tickets);
+      try {
+        const tickets = await TicketApi.getAllTicketByUser();
+        getListTicket(tickets);
+      } catch (error) {
+        //throw error;
+        console.log(error);
+      }
     }
     getAllTicket();
   },[getListTicket]);
@@ -52,13 +57,14 @@ const handlePayCancel =() =>{
   const film = await axios.get(`http://localhost:8080/api/v1/films/${schedule.film.filmId}`).then(
     (response)=> response.data
   );
+// console.log(schedule);
   return{
     name: film.name,
     bookingDate:ticket.bookingDate,
     time: schedule.timeSlot,
     quantity: ticket.quantity,
-    total: ticket.total
-
+    total: ticket.total,
+    filmScheduleId:schedule.scheduleId
   };
  })
  );
@@ -73,6 +79,26 @@ useEffect(() => {
   };
   fetchData();
 }, [tickets]);
+const [isOpenModalDelete, setOpenModalDelete] = useState(false);
+const handleDeleteTicket = async (filmScheduleId) => {
+ 
+    try {
+      await TicketApi.deleteByscheduleId(filmScheduleId);
+      setOpenModalDelete(false);
+      // showSuccessNotification(
+      //   "Delete User",
+      //   "Đã xóa thành công!");
+      refreshForm();
+    } catch (error) {
+      console.log(error);
+      // redirect page error server
+      props.history.push("/auth/500");
+    }
+  
+};
+const handleDeleteCancel =() =>{
+  setOpenModalDelete(false);
+};
 //Hàm render nếu có item trong cart list
 const renderCartItems = () => {
   if (allItems.length > 0) {
@@ -85,6 +111,7 @@ const renderCartItems = () => {
       <th></th>
     ];
     const totalAmount = allItems.reduce((total, item) => total + item.total, 0);
+    console.log(allItems);
     return (
         <Container className="cart-main-container">
             <div className="cart-item-list">
@@ -94,14 +121,42 @@ const renderCartItems = () => {
                     {headers}
                 </thead>
                 <tbody>
+                
                 {allItems.map((item) => (
+                 
                     <tr key={item.id}>
-                    {Object.keys(item).map((key) => (
+                    {Object.keys(item).filter(key => key !== 'filmScheduleId').map((key) => (
                         <td>{item[key]}</td>
                     ))}
                     <td>
-                        <button className="btnDelete">Delete</button>
+                         <Button className="btnDelete" onClick={() =>setOpenModalDelete(true)}>Delete</Button>
                     </td>
+                    <Modal isOpen={isOpenModalDelete}>
+     
+        
+                    {/* header */}
+                    <ModalHeader>Delete ticket</ModalHeader>
+                
+                    {/* body */}
+                    <ModalBody className="m-3">
+                
+                      
+                          <h2>Are you sure you want to delete?</h2>
+                        
+                
+                    </ModalBody>
+                
+                    {/* footer */}
+                    <ModalFooter>
+                      <Button  color="primary" onClick={() => handleDeleteTicket(item.filmScheduleId)}>
+                        Delete
+                      </Button>{" "}
+                
+                      <Button color="primary" onClick={handleDeleteCancel}>
+                        Cancel
+                      </Button>
+                    </ModalFooter>
+                </Modal>
                     </tr>
                 ))}
                 </tbody>
@@ -117,7 +172,7 @@ const renderCartItems = () => {
   } else {
     return (
       <div className="cart-item-empty">
-        <h3>You have not booked any ticket<a href="/">click here to</a> return to home page!!!</h3>
+        <h1 style={{fontSize: "50px"}}>You have not booked any ticket <a href="/">click here</a> to return to home page!!!</h1>
       </div>
     );
   }

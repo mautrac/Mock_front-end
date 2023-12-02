@@ -304,7 +304,7 @@ const NavbarComponent = (props) => {
                 logOut();
                 removeTokenInfo();
                 
-                history.push("auth/sign-in");
+                history.push("/");
 
               }}>Sign out</DropdownItem>
             </DropdownMenu>

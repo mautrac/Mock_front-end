@@ -25,8 +25,15 @@ const FilmPage = lazy(() => import("../pages/FilmsPage"));
 const Schedule = lazy(() => import("../pages/ScheduleUser"));
 
 
-const viewFilmRoutes = {
+const homeRoutes = {
     path: "/",
+    name: "Film View",
+    component: FilmPage,
+    children: null
+}
+
+const viewFilmRoutes = {
+    path: "/films",
     name: "Film View",
     component: FilmPage,
     children: null
@@ -68,9 +75,10 @@ const cartRouts = {
 }
 
 
-export const UserHome = [ticketViewRoutes, ticketPriceView, viewFilmRoutes, filmScheduleViewRoutes, filmInforViewRoutes, cartRouts];
+export const UserHome = [ticketViewRoutes, ticketPriceView, viewFilmRoutes, filmScheduleViewRoutes, filmInforViewRoutes, cartRouts, homeRoutes];
 
 export default [
+    homeRoutes,
     filmInforViewRoutes,
     viewFilmRoutes,
     filmScheduleViewRoutes,

@@ -8,7 +8,7 @@ import * as Icon from 'react-feather';
 
 import {TextInfor} from "../../custom_/Text"
 import  '../../css/general.scss';
-import { FilmScheduleList } from "../../pages/film/FilmScheduleList";
+import { FilmScheduleListUser } from "./FilmScheduleListUser";
 
 import filmApi from "../../api/FilmApi";
 import scheduleApi from "../../api/ScheduleApi";
@@ -150,7 +150,7 @@ function FilmInfor(props) {
                                         </Col>
                                     </Row>
 
-                                    <FilmScheduleList schedules={infor.filmSchedules} />
+                                    <FilmScheduleListUser schedules={infor.filmSchedules} />
                                 </div>
                         </div> 
                     </Col>

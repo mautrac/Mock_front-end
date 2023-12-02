@@ -276,6 +276,6 @@ export default [
   userRoutes,
   scheduleRoutes,
   // pageRoutes,
-  authRoutes,
+  //authRoutes,
   
 ];
