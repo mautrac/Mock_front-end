@@ -130,7 +130,7 @@ function AddFilmPage(props) {
                         "Create film",
                         "Create film Successfully!"
                     );
-                    props.history.push("/films");
+                    props.history.push("/admin/films");
 
                 } catch (error) {
                   console.log(error);
