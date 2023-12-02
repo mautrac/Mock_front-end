@@ -23,19 +23,18 @@ import { FastField, Formik, useField, useFormik } from "formik";
 
 export default function UploadImageModal(props) {
 
-    const [link, setLink] = useState('');
+    const preLink = props.formik.values.poster;
+    const [link, setLink] = useState(preLink);
 
-    useEffect(() => {
-        setLink(props.formik.values.poster);
-    })
+
     var handleChange = (e) => {
         console.log(e);
+        console.log(link);
         setLink(e.target.value);
     }
 
     var handleSubmit = () => {
-        console.log(link);
-        console.log(props);
+        
         props.formik.setValues((old) => {
             return {
                 ...old,
@@ -45,7 +44,7 @@ export default function UploadImageModal(props) {
         props.setOpenUploadModal(false);
     }
 
-    console.log(props);
+    //console.log(props);
 
     return (
         <Modal isOpen={props.isOpenUploadModal}>
@@ -57,8 +56,8 @@ export default function UploadImageModal(props) {
             <ModalBody>
                 <Row className="justify-content-md-center">
                     <div style={{width:'50%'}}>
-                        <TextInput placeholder="Enter image link" onChange={handleChange} size={3}/>    
-                        <div>Preview</div>
+                        <TextInput placeholder="Enter image link" onChange={handleChange} />    
+                        <div style={{textAlign:"center"}}>Preview</div>
                     </div>
                     
                 </Row>

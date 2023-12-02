@@ -15,10 +15,13 @@ import { selectFilms } from "../../redux/selectors/FilmSelector";
 import { getListFilmAction } from "../../redux/actions/FilmActions";
 import '../../css/film.css'
 import FilmApi from "../../api/FilmApi"
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import * as Icon from 'react-feather';
 
 // import { Search } from "react-bootstrap-table2-toolkit";
 const Film = (props) => {
   const getListFilm = props.getListFilmAction;
+  const history = useHistory();
 
   useEffect(() =>{
     const getAllFilm = async() =>{
@@ -30,6 +33,10 @@ const Film = (props) => {
   },[getListFilm]);
 
  const data = props.films;
+
+ const gotoAddFilm = () => {
+  history.push("/admin/films/add");
+ }
 //  console.log(data);
   return(
   <Container fluid className="p-0">
@@ -38,7 +45,17 @@ const Film = (props) => {
       <Col> 
         <Card>
           <CardHeader>
-            <CardTitle tag="h5" className="mb-0">Danh sách phim</CardTitle>
+            <CardTitle tag="h5" className="mb-0">
+              <Row >
+                  <Col lg="auto">
+                      <h3>Film list</h3>
+                  </Col>
+                  <Col lg={{offset: 1}}>
+                      <Icon.PlusCircle type="button" onClick={gotoAddFilm}></Icon.PlusCircle>
+                  </Col>
+              </Row>
+
+            </CardTitle>
 
           </CardHeader>
           <CardBody>
@@ -48,10 +65,10 @@ const Film = (props) => {
                 <li className="film-lists item last">
                      <div className="product-images">
                         <a
-                           href="#"
-                title={film.name}
-                className="product-image"
-                        >
+                           href={`/admin/films/${film.filmId}`}
+                          title={film.name}
+                          className="product-image"
+                                  >
                             <img
                                id="product-collection-image-5416"
                                 src={film.poster}
@@ -65,14 +82,12 @@ const Film = (props) => {
             >
               <h2 className="product-name">
                 <a
-                  href="#"
+                  href={`/admin/films/${film.filmId}`}
                   title={film.name}
                 >
                   {film.name}
                 </a>
               </h2>
-
-
 
               <div className="cgv-movie-info">
                 <span className="cgv-info-bold">Thể loại: </span>

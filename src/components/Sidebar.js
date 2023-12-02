@@ -168,7 +168,7 @@ const Sidebar = (props) => {
             })}
           </ul>
 
-          {!props.layout.isBoxed && !props.sidebar.isSticky ? (
+          {/* {!props.layout.isBoxed && !props.sidebar.isSticky ? (
             <div className="sidebar-bottom d-none d-lg-block">
               <div className="media">
                 <img
@@ -190,7 +190,7 @@ const Sidebar = (props) => {
                 </div>
               </div>
             </div>
-          ) : null}
+          ) : null} */}
         </PerfectScrollbar>
       </div>
     </nav>

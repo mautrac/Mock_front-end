@@ -28,16 +28,19 @@
 
 .film-lists .product-images {
   width: 100%;
+  max-width: -webkit-fill-available;
+  border-radius: 5px;
 }
 
 .film-lists .product-images img {
-  width: 70%;
-  height: max-content;
+  width: 80%;
+  height: 550px;
   object-fit: cover;
 }
 
 .film-lists .product-info {
   padding: 10px;
+  font-size: large;
 }
 
 .film-lists .product-info .product-name {
@@ -52,8 +55,7 @@
 
 .film-lists .product-info .cgv-movie-info .cgv-info-bold {
   font-weight: bold;
-
-  font-size: medium;
+  font-size: large;
 
 }
 

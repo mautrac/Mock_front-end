@@ -11,7 +11,7 @@ import {
   ModalFooter,
   ModalHeader
 } from "reactstrap";
-import { FastField, Form, Formik, Field } from "formik";
+import { FastField, Form, Formik, Field, ErrorMessage } from "formik";
 import { TextInput } from "../../custom_/Text";
 import * as Yup from 'yup';
 import UserApi from "../../api/UserApi";
@@ -32,7 +32,7 @@ const SignUp = (props) => {
   }
 
   const redirectToLogin = () => {
-    props.history.push("/auth/sign-in");
+    props.history.push("/sign-in");
   }
 
   return (
@@ -52,12 +52,11 @@ const SignUp = (props) => {
             username: '',
             email: '',
             password: '',
-            confirmPassword: '',
-            role: 'user' // Thêm giá trị mặc định cho role
+            confirmPassword: ''
           }
         }
         validationSchema={
-          Yup.object({
+          Yup.object().shape({
             firstname: Yup.string()
               .max(50, 'Must be less than 50 characters')
               .required('Required'),
@@ -81,6 +80,7 @@ const SignUp = (props) => {
               .email('Invalid email address')
               .required('Required')
               .test('checkExistsEmail', 'This email is already registered.', async email => {
+                // console.log(email);
                 // call api
                 const isExists = await UserApi.existsByEmail(email);
                 return !isExists;
@@ -91,14 +91,14 @@ const SignUp = (props) => {
               .max(50, 'Must be between 6 and 50 characters')
               .required('Required'),
 
-            confirmPassword: Yup.string()
+              confirmPassword: Yup.string()
               .required('Required')
               .when("password", {
-                is: value => (value && value.length > 0 ? true : false),
-                then: Yup.string().oneOf(
-                  [Yup.ref("password")],
+                  is: value => (value && value.length > 0 ? true : false),
+                  then: () => Yup.string().oneOf(
+                  [Yup.ref("password"), null],
                   "Confirm Password do not match"
-                )
+                  )
               })
           })
         }
@@ -106,22 +106,26 @@ const SignUp = (props) => {
         onSubmit={
           async (values) => {
             try {
+                console.log(values);
+              // const userInfo = {
+              //   username:values.username,
+              //   email:values.email,
+              //   password:values.password,
+              //   firstName:values.firstname,
+              //   lastName:values.lastname, 
+              // }
+              
               // call api
-              await UserApi.create(
-                values.username,
-                values.email,
-                values.password,
-                values.firstname,
-                values.lastname,                                        
-              );
+              await UserApi.create(values);
 
               // message
               setEmail(values.email);
               setOpenModal(true);
 
             } catch (error) {
+              console.log(error);
               // redirect page error server
-              props.history.push("/auth/500");
+              props.history.push("/500");
             }
           }
         }
@@ -132,17 +136,10 @@ const SignUp = (props) => {
           <Card>
             <CardBody>
               <div className="m-sm-4">
-
-                  {/* Nút Sign in */}
-                  <div className="text-center mt-3">
-                  <Link to="/auth/sign-in" className="signup-link">
-                    <span className="signup-text">Already have account? Sign in</span>
-                  </Link>
-                </div>
                 <Form>
-
                   <FormGroup>
                     <FastField
+                    
                       label="First Name"
                       type="text"
                       bsSize="lg"
@@ -150,6 +147,7 @@ const SignUp = (props) => {
                       placeholder="Enter your first name"
                       component={TextInput}
                     />
+                    <ErrorMessage name="firstname" />
                   </FormGroup>
 
                   <FormGroup>
@@ -161,6 +159,7 @@ const SignUp = (props) => {
                       placeholder="Enter your last name"
                       component={TextInput}
                     />
+                    <ErrorMessage name="lastname" />
                   </FormGroup>
 
                   <FormGroup>
@@ -172,6 +171,7 @@ const SignUp = (props) => {
                       placeholder="Enter your username"
                       component={TextInput}
                     />
+                    <ErrorMessage name="username" />
                   </FormGroup>
 
                   <FormGroup>
@@ -183,6 +183,7 @@ const SignUp = (props) => {
                       placeholder="Enter your email"
                       component={TextInput}
                     />
+                    <ErrorMessage name="email" />
                   </FormGroup>
 
                   <FormGroup>
@@ -194,6 +195,7 @@ const SignUp = (props) => {
                       placeholder="Enter password"
                       component={TextInput}
                     />
+                    <ErrorMessage name="password" />
                   </FormGroup>
 
                   <FormGroup>
@@ -205,21 +207,20 @@ const SignUp = (props) => {
                       placeholder="Enter confirm password"
                       component={TextInput}
                     />
+                    <ErrorMessage name="confirmPassword" />
                   </FormGroup>
 
-                  <FormGroup>
-                    <Field as="select" name="role" placeholder="Select role">
-                      <option value="admin">Admin</option>
-                      <option value="manager">Manager</option>
-                      <option value="user">User</option>
-                    </Field>
-                  </FormGroup>
-                  
+                  {/* Nút Sign in */}
+                  <div className="text-center mt-3">
+                    <Link to="/sign-in" className="signup-link">
+                      <span className="signup-text">Already have account? Sign in</span>
+                    </Link>
+                  </div>
 
                   <div className="text-center mt-3">
                     <Button type='submit' color="primary" size="lg" disabled={isSubmitting}>
                       Sign up
-                </Button>
+                    </Button>
                   </div>
                 </Form>
               </div>

@@ -14,6 +14,11 @@ import Page404 from "../pages/auth/Page404";
 
 import ScrollToTop from "../components/ScrollToTop";
 
+//user
+import LayoutUser from "../USER/layout/LayoutUser";
+import { UserHome } from "../USER/routes/indexUser";
+
+
 const childRoutes = (Layout, routes) =>
   routes.map(({ children, path, component: Component }, index) =>
     children ? (
@@ -49,9 +54,10 @@ const Routes = () => (
   <Router>
     <ScrollToTop>
       <Switch>
-        {childRoutes(LandingLayout, landingRoutes)}
+        {/* {childRoutes(LandingLayout, landingRoutes)} */}
         {childRoutes(DashboardLayout, dashboardRoutes)}
         {childRoutes(AuthLayout, pageRoutes)}
+        {childRoutes(LayoutUser, UserHome)}
     
         <Route
           render={() => (

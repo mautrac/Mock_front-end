@@ -1,6 +1,8 @@
 import Api from './Api';
+import scheduleAPI from "./ScheduleApi";
 
 const url = "/films";
+
 
 const getAllFilm = () => {
 
@@ -59,5 +61,78 @@ const getAllFilm = () => {
 // };
 
 // export
-const api = { getAllFilm}
+const createFilm = (values) => {
+    const body = {
+        name: values.name,
+        directors: values.directors,
+        actors: values.actors,
+        genre: values.genre,
+        duration: values.duration,
+        description: values.description,
+        ticketPrice: values.ticketPrice,
+        poster: values.poster,
+        releaseDate: values.releaseDate
+    }
+
+    const f = () => {
+     
+        
+        Api.post(`${url}`, body)
+        .then((response) => {
+            //console.log(response);
+            let id = response;
+
+            scheduleAPI.createSchedulesInFilm(id, values.filmSchedules);
+            
+        })
+        .catch((error) => {
+            console.log(error);
+            throw error;
+        })
+        
+    }
+    f();
+
+}
+
+
+const updateFilm = (values) => {
+    const body = {
+        filmId: values.filmId,
+        name: values.name,
+        directors: values.directors,
+        actors: values.actors,
+        genre: values.genre,
+        duration: values.duration,
+        description: values.description,
+        ticketPrice: values.ticketPrice,
+        poster: values.poster,
+        //releaseDate: values.releaseDate
+    }
+    const f = async () => {
+        try {
+            //await Api.put(`${url}/${values.filmId}`, body);
+            let newSchedules = values.filmSchedules;
+            scheduleAPI.updateFilmSchedules(values.filmId, newSchedules);
+
+        } catch (error) {
+            throw error;
+        }
+    }
+    try {
+        f();
+    }
+    catch (error) {
+        throw error;
+    }
+    
+}
+const getFilmById = (id)  => {
+    return Api.get(`${url}/${id}`);
+}
+
+const deleteFilm = (id) => {
+    return Api.delete(`${url}/${id}`);
+}
+const api = { getAllFilm, createFilm, getFilmById, updateFilm, deleteFilm}
 export default api;
