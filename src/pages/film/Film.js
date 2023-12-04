@@ -35,7 +35,7 @@ const Film = (props) => {
  const data = props.films;
 
  const gotoAddFilm = () => {
-  history.push("/films/add");
+  history.push("/admin/films/add");
  }
 //  console.log(data);
   return(
@@ -82,7 +82,7 @@ const Film = (props) => {
             >
               <h2 className="product-name">
                 <a
-                  href="#"
+                  href={`/admin/films/${film.filmId}`}
                   title={film.name}
                 >
                   {film.name}

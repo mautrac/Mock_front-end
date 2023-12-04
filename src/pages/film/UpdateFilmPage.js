@@ -141,6 +141,16 @@ function UpdateFilmPage(props) {
         getData();
     }, []);
 
+    const handleDelete = () => {
+        // filmApi.deleteFilm(filmId);
+        setOpenDelete(true);
+        // props.history.push("/admin/films");
+    }
+
+    const handleCancel = () =>{
+        props.history.push("/admin/films");
+    }
+
     return (infor.name.length > 1?
     <>
         <Formik
@@ -169,7 +179,7 @@ function UpdateFilmPage(props) {
                   console.log(error);
                   props.setOpenModalCreate(false);
                   // redirect page error server
-                  props.history.push("/auth/500");
+                  props.history.push("/500");
                 }
               }
             }
@@ -187,6 +197,7 @@ function UpdateFilmPage(props) {
                         }}
                     </FormikConsumer>
                     <div >
+                        <h1 className="h3 mb-3">Film Detail</h1>
                         <Row >
                             <Col lg={3} >
                                 
@@ -370,8 +381,12 @@ function UpdateFilmPage(props) {
                                             Save
                                     </Button>
                                     
-                                    <Button type="button" color="primary" >
+                                    <Button type="button" color="primary" style={{marginRight: "50px"}} onClick={handleDelete}>
                                         Delete
+                                    </Button>
+
+                                    <Button type="button" color="primary" style={{marginRight: "50px"}} onClick={handleCancel}>
+                                        Cancel
                                     </Button>
 
                                 </p>
@@ -405,8 +420,9 @@ function UpdateFilmPage(props) {
                                                 <Col style={{display:"flex", justifyContent: "center"}}>    
                                                     <Button type="button" onClick={() => {
                                                         setOpenDelete(false);
-                                                        props.history.goBack();
+                                                        // props.history.goBack();
                                                         filmApi.deleteFilm(formik.values.filmId);
+                                                        props.history.push("/admin/films");
                                                     }} >Yes</Button>
                                                 </Col>
                                                 <Col style={{display:"flex", justifyContent: "center"}}>    

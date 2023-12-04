@@ -8,6 +8,7 @@ import { TextInput } from "../../custom_/Text";
 function AddFilmScheduleModal(props) {
 
     const close = props.close;
+    
     const submit = (values ,{setSubmitting}) => {
         //window.event.stopPropagation();
         //setSubmitting(false);

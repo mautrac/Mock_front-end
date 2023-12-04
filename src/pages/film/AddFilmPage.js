@@ -66,6 +66,10 @@ function AddFilmPage(props) {
         setOpenAddScheduleModal(false);
     }
 
+    const handleCancel = () =>{
+        props.history.push("/admin/films");
+    }
+
     let validatationObject = Yup.object().shape({
         name: Yup.string()
             .required("Required")
@@ -79,10 +83,8 @@ function AddFilmPage(props) {
         genre: Yup.string()
             .required("Required")
             .max(100, '100 characters max'),
-        duration: Yup.number()
-            .required("Required")
-            .integer()
-            .positive(),
+        duration: Yup.string()
+            .required("Required"),
         description: Yup.string()
             .required("Required")
             .max(500, '50 characters max'),
@@ -130,13 +132,13 @@ function AddFilmPage(props) {
                         "Create film",
                         "Create film Successfully!"
                     );
-                    props.history.push("/films");
+                    props.history.push("/admin/films");
 
                 } catch (error) {
                   console.log(error);
                   props.setOpenModalCreate(false);
                   // redirect page error server
-                  props.history.push("/auth/500");
+                  props.history.push("/500");
                 }
               }
             }
@@ -252,7 +254,7 @@ function AddFilmPage(props) {
                                             classNameLabel="film-infor-label"
                                             label_width={label_width}
                                             input_width={input_width.duration}
-                                            type="number"
+                                            type="text"
                                             label="Duration"
                                             name="duration"
                                             placeholder="Enter duration"
@@ -324,6 +326,10 @@ function AddFilmPage(props) {
                                 <p>
                                     <Button type="submit" color="primary" style={{marginRight: "50px"}} >
                                             Save
+                                    </Button>
+
+                                    <Button color="primary" style={{marginRight: "50px"}} onClick={handleCancel}>
+                                            Cancel
                                     </Button>
                                 </p>
                             </div>
