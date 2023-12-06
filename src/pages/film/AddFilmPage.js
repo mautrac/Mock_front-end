@@ -24,6 +24,7 @@ import { FilmScheduleList } from "./FilmScheduleList";
 import { AddFilmScheduleModal } from "./AddFilmScheduleModal";
 
 import api from "../../api/FilmApi";
+import { useHistory } from "react-router-dom";
 
 
 function AddFilmPage(props) {
@@ -56,9 +57,6 @@ function AddFilmPage(props) {
     // show notification
     toastr.success(title, message, options);
     }
-
-    
-
     const openAddScheduleModal = (e) => {
         setOpenAddScheduleModal(true);
     }
@@ -133,6 +131,7 @@ function AddFilmPage(props) {
                         "Create film Successfully!"
                     );
                     props.history.push("/admin/films");
+                    window.location.reload();
 
                 } catch (error) {
                   console.log(error);

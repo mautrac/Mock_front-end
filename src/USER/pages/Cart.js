@@ -92,7 +92,7 @@ const handleDeleteTicket = async (filmScheduleId) => {
     } catch (error) {
       console.log(error);
       // redirect page error server
-      props.history.push("/auth/500");
+      props.history.push("/500");
     }
   
 };

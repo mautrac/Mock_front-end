@@ -30,7 +30,7 @@ const ResetPassword = (props) => {
   }
 
   const redirectToLogin = () => {
-    props.history.push("/auth/sign-in");
+    props.history.push("/sign-in");
   }
 
   return (
@@ -71,7 +71,7 @@ const ResetPassword = (props) => {
 
             } catch (error) {
               // redirect page error server
-              props.history.push("/auth/500");
+              props.history.push("/500");
             }
           }
         }

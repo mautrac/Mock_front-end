@@ -82,10 +82,8 @@ function UpdateFilmPage(props) {
         genre: Yup.string()
             .required("Required")
             .max(100, '100 characters max'),
-        duration: Yup.number()
-            .required("Required")
-            .integer()
-            .positive(),
+        duration: Yup.string()
+            .required("Required"),
         description: Yup.string()
             .required("Required")
             .max(500, '50 characters max'),
@@ -174,7 +172,7 @@ function UpdateFilmPage(props) {
                         "Update film",
                         "Update film Successfully!"
                     );
-                    //props.history.goBack();
+                    props.history.goBack();
                 } catch (error) {
                   console.log(error);
                   props.setOpenModalCreate(false);
@@ -303,7 +301,7 @@ function UpdateFilmPage(props) {
                                             classNameLabel="film-infor-label"
                                             label_width={label_width}
                                             input_width={input_width.duration}
-                                            type="number"
+                                            type="text"
                                             label="Duration"
                                             name="duration"
                                             placeholder="Enter duration"
@@ -378,7 +376,7 @@ function UpdateFilmPage(props) {
                                 <div className="film-infor-save-row">
                                 <p>
                                     <Button type="submit" color="primary" style={{marginRight: "50px"}}>
-                                            Save
+                                        Save
                                     </Button>
                                     
                                     <Button type="button" color="primary" style={{marginRight: "50px"}} onClick={handleDelete}>

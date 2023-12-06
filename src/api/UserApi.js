@@ -85,7 +85,7 @@ const createAccountFromAdmin = (values) => {
         role: values.role
     }
 
-    return Api.post(url, body);
+    return Api.post(`${url}/byAdmin`, body);
 };
 const getAllUsers = (page = 1 , size = 10, sortField = 'id', sortType = 'desc', search ='') => {
     const parameters= {

@@ -151,7 +151,6 @@ const FilmPage = (props) => {
                           setOpenModal(true);
                           setFilmname(film.name);
                           setFilmID(film.filmId);
-                          console.log(film.filmId, "12312414");
 
                           scheduleApi.getSchedulesByFilmId(film.filmId)
                             .then((res) => {
