@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
 import {
   Button,
   Card,
@@ -44,12 +44,14 @@ import AddAccount from '../acount/AddAccountAdmin';
 const User = (props) =>{
   const getListUser = props.getListUserAction;
   const size = props.size;
-
   const [isOpenModalCreate, setOpenModalCreate] = useState(false);
   const createAccountModel = ({isOpenModalCreate}) => (
     isOpenModalCreate ? <AddAccount refreshForm={refreshForm} setOpenModalCreate={setOpenModalCreate} /> : ''
   );
-
+  const currenUserId = localStorage.getItem('user.id');
+  console.log(currenUserId);
+  const currenUserEmail = localStorage.getItem('email');
+  console.log(currenUserEmail);
   useEffect(() =>{
     const getAllUser = async() =>{
       const result = await UserApi.getAllUsers(1, size);
@@ -252,7 +254,7 @@ const tableColumns = [
           <CardBody>
           <ToolkitProvider
           keyField="id"
-          data={props.users}
+          data={props.users.filter((user)=>user.email !==currenUserEmail)}
           columns={tableColumns}
           search
         >
