@@ -234,7 +234,7 @@ const tableColumns = [
       } catch (error) {
         console.log(error);
         // redirect page error server
-        props.history.push("/auth/500");
+        props.history.push("/500");
       }
     }
     const handleDeleteCancel =() =>{
@@ -356,18 +356,23 @@ const tableColumns = [
         <Formik
           enableReinitialize
           initialValues={
+            // {
+            //   email: userUpdateInfo && userUpdateInfo.email ? userUpdateInfo.email : '',
+            //   firstName: userUpdateInfo && userUpdateInfo.firstName !== undefined && userUpdateInfo.firstName !== null ? userUpdateInfo.firstName : '',
+            //   lastName: userUpdateInfo && userUpdateInfo.lastName !== undefined && userUpdateInfo.lastName !== null ? userUpdateInfo.lastName : ''
+            // }
             {
-              email: userUpdateInfo && userUpdateInfo.email ? userUpdateInfo.email : '',
-              firstName: userUpdateInfo && userUpdateInfo.firstName !== undefined && userUpdateInfo.firstName !== null ? userUpdateInfo.firstName : '',
-              lastName: userUpdateInfo && userUpdateInfo.lastName !== undefined && userUpdateInfo.lastName !== null ? userUpdateInfo.lastName : ''
-                }
+              email: '',
+              firstName: '',
+              lastName: ''
+            }
           }
           validationSchema={
             Yup.object().shape({
               email: Yup.string()
-                .min(6, 'Must be between 6 and 50 characters')
-                .max(50, 'Must be between 6 and 50 characters')
-                .required('Required')
+                // .min(6, 'Must be between 6 and 50 characters')
+                // .max(50, 'Must be between 6 and 50 characters')
+                // .required('Required')
                 .test('checkUniqueName', 'This name is already registered.', async email => {
                   if (email === userUpdateInfo.email) {
                     return true;
@@ -403,7 +408,7 @@ const tableColumns = [
                 console.log(error);
                 setOpenModalUpdate(false);
                 // redirect page error server
-                props.history.push("/auth/500");
+                props.history.push("/500");
               }
             }
           }

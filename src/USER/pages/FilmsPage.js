@@ -78,6 +78,7 @@ const FilmPage = (props) => {
   }
  
 //  console.log(data);
+if(scheduleMap.length>0){
   return(
   <Container fluid className="p-0">
     {/* <h1 className="h3 mb-3">Film Page</h1> */}
@@ -116,7 +117,7 @@ const FilmPage = (props) => {
                         >
                         <h2 className="product-name">
                           <a
-                            href={`/admin/films/${film.filmId}`}
+                            href={`/films/${film.filmId}`}
                             title={film.name}
                           >
                             {film.name}
@@ -151,7 +152,6 @@ const FilmPage = (props) => {
                           setOpenModal(true);
                           setFilmname(film.name);
                           setFilmID(film.filmId);
-                          console.log(film.filmId, "12312414");
 
                           scheduleApi.getSchedulesByFilmId(film.filmId)
                             .then((res) => {
@@ -183,7 +183,6 @@ const FilmPage = (props) => {
 
       {/* header */}
       <ModalHeader>
-        <h2>{filmID}</h2>
         <p>Chọn lịch chiếu</p>
         <ListGroup horizontal style={{ borderBottom: "1px solid", borderColor: "#002843", borderRadius: 0 }}>
 
@@ -248,7 +247,131 @@ const FilmPage = (props) => {
     </Modal>
 
   </Container>
-)};
+)
+}else{
+  return(
+    <Container fluid className="p-0">
+      {/* <h1 className="h3 mb-3">Film Page</h1> */}
+      <div className="h3 mb-5"></div>
+      <Row>
+        <Col> 
+          <Card>
+            <CardHeader>
+              <CardTitle tag="h5" className="mb-0">
+  
+              </CardTitle>
+  
+            </CardHeader>
+            <CardBody>
+                <div className="category-products cgv-movies">
+                <ul className="products-grid products-grid--max-4-col first last odd">
+                {data.map((film)=>(
+                      <li className="film-lists item last">
+                          <div className="product-images">
+                              <a
+                                href={`/films/${film.filmId}`}
+                                title={film.name}
+                                className="product-image"
+                              >
+                                  <img
+                                    className="product-images"
+                                    id="product-collection-image-5416"
+                                      src={film.poster}
+                                      alt={film.name}
+                                  />
+                              </a>
+                          </div>
+                          <div
+                            className="product-info"
+                            style={{ maxHeight: "none", height: "auto", minHeight: 36 }}
+                          >
+                          <h2 className="product-name">
+                            <a
+                              href={`/films/${film.filmId}`}
+                              title={film.name}
+                            >
+                              {film.name}
+                            </a>
+                          </h2>
+  
+                          <div className="cgv-movie-info">
+                            <span className="cgv-info-bold">Thể loại: </span>
+                            <span className="cgv-info-normal">
+                              {film.genre}
+                            </span>
+                          </div>
+                          <div className="cgv-movie-info">
+                            <span className="cgv-info-bold">Thời lượng: </span>
+                            <span className="cgv-info-normal">{film.duration}</span>
+                          </div>
+  
+                  
+                          <div className="cgv-movie-info">
+                            <span className="cgv-info-bold">Khởi chiếu: </span>
+                            <span className="cgv-info-normal">{film.releaseDate}</span>
+                          </div>
+                          <div className="cgv-movie-info">
+                          <span className="cgv-info-bold">Giá vé: </span>
+                          <span className="cgv-info-normal">{film.ticketPrice} VNĐ</span>
+                          </div>
+                          <div><Button type='button' color="primary" size="lg" onClick={() => {
+                            //reset state
+                            setTime('');
+                            setscheduleId('');
+  
+                            setOpenModal(true);
+                            setFilmname(film.name);
+                            setFilmID(film.filmId);
+  
+                            scheduleApi.getSchedulesByFilmId(film.filmId)
+                              .then((res) => {
+                                console.log(res);
+                                setScheduleMap(res);
+                                Object.assign(scheduleMap, res);
+                              })
+                              .catch((error) => {
+                                console.log(error);
+                              })
+  
+  
+                          }}>
+                            Mua
+                          </Button></div>
+                        </div>
+                      </li>
+  
+                ))}
+                </ul>
+              </div>
+          
+            </CardBody>
+          </Card>
+        </Col>
+      </Row>
+  
+      <Modal isOpen={isOpenModal}>
+
+        {/* body */}
+        <ModalBody className="m-3">
+          <div>
+              <h1>Phim chưa có lịch chiếu !!!</h1>
+          </div>
+        </ModalBody>
+  
+        {/* footer */}
+        <ModalFooter>
+          <Button color="primary" onClick={() => setOpenModal(false)}>
+            Close
+          </Button>
+  
+        </ModalFooter>
+      </Modal>
+  
+    </Container>
+  )
+}
+
+};
 const mapGlobalStateToProps = state => {
   return {
     films: selectFilms(state),

@@ -207,7 +207,7 @@ const tableColumns = [
       } catch (error) {
         console.log(error);
         // redirect page error server
-        props.history.push("/auth/500");
+        props.history.push("/500");
       }
     }
     const handleDeleteCancel =() =>{
@@ -216,7 +216,7 @@ const tableColumns = [
 
    return (
   <Container fluid className="p-0">
-    <h1 className="h3 mb-3">Admin Management</h1>
+    <h1 className="h3 mb-3">Schedule Management</h1>
 
     <Row>
       <Col>

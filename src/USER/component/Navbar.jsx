@@ -6,6 +6,7 @@ import { GoSignIn } from "react-icons/go";
 import Storage from "../../Storage/Storage";
 
 export const Navbar = () => {
+  const history = useHistory();
   const [menuOpen, setMenuOpen] = useState(false);
   const role = Storage.getUserInfo().role;
   const checkRole = role == "Admin";
@@ -18,6 +19,14 @@ export const Navbar = () => {
       Storage.removeToken();
     }
   }
+
+  // const handleCart = () =>{
+  //   if(Storage.getToken() === null || Storage.getToken() === undefined){
+  //     history.push("/sign-in")
+  //   } else{
+  //     history.push("/cart")
+  //   }
+  // }
   return (
     <div className="f">
 

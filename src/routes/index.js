@@ -47,7 +47,6 @@ const Default = async(() => import("../pages/dashboards/Default"));
 // Icons
 
 // groups
-const Group = async(() => import("../pages/group/Group"));
 const User = async(() => import("../pages/user/User"));
 const Schedule = async(() => import("../pages/schedule/Schedule"));
 
@@ -276,6 +275,6 @@ export default [
   userRoutes,
   scheduleRoutes,
   // pageRoutes,
-  authRoutes,
+  //authRoutes,
   
 ];

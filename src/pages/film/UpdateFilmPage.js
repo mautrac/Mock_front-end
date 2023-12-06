@@ -82,10 +82,8 @@ function UpdateFilmPage(props) {
         genre: Yup.string()
             .required("Required")
             .max(100, '100 characters max'),
-        duration: Yup.number()
-            .required("Required")
-            .integer()
-            .positive(),
+        duration: Yup.string()
+            .required("Required"),
         description: Yup.string()
             .required("Required")
             .max(500, '50 characters max'),
@@ -142,7 +140,13 @@ function UpdateFilmPage(props) {
     }, []);
 
     const handleDelete = () => {
-        filmApi.deleteFilm(filmId);
+        // filmApi.deleteFilm(filmId);
+        setOpenDelete(true);
+        // props.history.push("/admin/films");
+    }
+
+    const handleCancel = () =>{
+        props.history.push("/admin/films");
     }
 
     return (infor.name.length > 1?
@@ -168,12 +172,13 @@ function UpdateFilmPage(props) {
                         "Update film",
                         "Update film Successfully!"
                     );
-                    //props.history.goBack();
+                    props.history.goBack();
+                    
                 } catch (error) {
                   console.log(error);
                   props.setOpenModalCreate(false);
                   // redirect page error server
-                  props.history.push("/auth/500");
+                  props.history.push("/500");
                 }
               }
             }
@@ -187,10 +192,11 @@ function UpdateFilmPage(props) {
                 <Container fluid>
                     <FormikConsumer >
                         {({values}) => {
-                            console.log(values);
+                            // console.log(values);
                         }}
                     </FormikConsumer>
                     <div >
+                        <h1 className="h3 mb-3">Film Detail</h1>
                         <Row >
                             <Col lg={3} >
                                 
@@ -296,7 +302,7 @@ function UpdateFilmPage(props) {
                                             classNameLabel="film-infor-label"
                                             label_width={label_width}
                                             input_width={input_width.duration}
-                                            type="number"
+                                            type="text"
                                             label="Duration"
                                             name="duration"
                                             placeholder="Enter duration"
@@ -371,11 +377,15 @@ function UpdateFilmPage(props) {
                                 <div className="film-infor-save-row">
                                 <p>
                                     <Button type="submit" color="primary" style={{marginRight: "50px"}}>
-                                            Save
+                                        Save
                                     </Button>
                                     
-                                    <Button type="button" color="primary" onClick={handleDelete}>
+                                    <Button type="button" color="primary" style={{marginRight: "50px"}} onClick={handleDelete}>
                                         Delete
+                                    </Button>
+
+                                    <Button type="button" color="primary" style={{marginRight: "50px"}} onClick={handleCancel}>
+                                        Cancel
                                     </Button>
 
                                 </p>
@@ -409,8 +419,9 @@ function UpdateFilmPage(props) {
                                                 <Col style={{display:"flex", justifyContent: "center"}}>    
                                                     <Button type="button" onClick={() => {
                                                         setOpenDelete(false);
-                                                        props.history.goBack();
+                                                        // props.history.goBack();
                                                         filmApi.deleteFilm(formik.values.filmId);
+                                                        props.history.push("/admin/films");
                                                     }} >Yes</Button>
                                                 </Col>
                                                 <Col style={{display:"flex", justifyContent: "center"}}>    

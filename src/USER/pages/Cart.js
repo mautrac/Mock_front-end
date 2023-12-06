@@ -31,8 +31,13 @@ const handlePayCancel =() =>{
   const getListTicket = props.getListTicketAction;
   useEffect(() =>{
     const getAllTicket = async() =>{
-      const tickets = await TicketApi.getAllTicketByUser();
-      getListTicket(tickets);
+      try {
+        const tickets = await TicketApi.getAllTicketByUser();
+        getListTicket(tickets);
+      } catch (error) {
+        //throw error;
+        console.log(error);
+      }
     }
     getAllTicket();
   },[getListTicket]);
@@ -87,7 +92,7 @@ const handleDeleteTicket = async (filmScheduleId) => {
     } catch (error) {
       console.log(error);
       // redirect page error server
-      props.history.push("/auth/500");
+      props.history.push("/500");
     }
   
 };
