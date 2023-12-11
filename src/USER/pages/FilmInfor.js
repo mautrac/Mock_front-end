@@ -25,6 +25,7 @@ import ticketApi from "../../api/TicketApi";
 import scheduleApi from "../../api/ScheduleApi";
 import filmApi from "../../api/FilmApi";
 import daysOfWeek from "../../utils/DaysOfWeek";
+
 function FilmInfor(props) {
 
     const label_width = 3;
@@ -56,11 +57,26 @@ function FilmInfor(props) {
 
     const [infor, setInfor] = useState(film);
     const [isOpenModal, setOpenModal] = useState(false);
+    const [isOpenModal1, setOpenModal1] = useState(false);
     const [isDisabledButton, setDisabledButton] = useState(false);
     const [scheduleMap, setScheduleMap] = useState([]);
     const [time, setTime] = useState("");
     const [quantity, setQuantity] = useState();
     const [scheduleId, setscheduleId] = useState();
+    const [ticketValid, setTicketValid] = useState(false);
+
+
+    const existsSchedule = () =>{
+        if(scheduleMap.length > 0){
+            setTicketValid(true);
+            setOpenModal(true);
+            setOpenModal1(false);
+        }else{
+            setTicketValid(false);
+            setOpenModal(false);
+            setOpenModal1(true);
+        }
+    }
 
     let location = useLocation();
     let filmId = location.pathname;
@@ -134,6 +150,7 @@ function FilmInfor(props) {
                                     setTime('');
                                     setscheduleId('');
                                     setOpenModal(true);
+                                    existsSchedule();
 
                                     scheduleApi.getSchedulesByFilmId(infor.filmId)
                                         .then((res) => {
@@ -226,14 +243,17 @@ function FilmInfor(props) {
                 </Row>              
                                 
             </div>
+            
+            {ticketValid === true ? (
 
             <Modal isOpen={isOpenModal}>
             {/* header */}
             <ModalHeader>
                 <p>Chọn lịch chiếu</p>
                 <ListGroup horizontal style={{ borderBottom: "1px solid", borderColor: "#002843", borderRadius: 0 }}>
-
+                
                 {Array.from(scheduleMap).map((value) => {
+                    
                     return (
                     <>
                         <ListGroupItem key={value.scheduleId} className="film-infor-schedule-list-item" onClick={() => {
@@ -289,7 +309,13 @@ function FilmInfor(props) {
                 </Button>
 
             </ModalFooter>
+            </Modal>):(
+            <Modal isOpen={isOpenModal1}>
+                <ModalHeader>
+                    <h1>Phim chưa có lịch chiếu</h1>
+                </ModalHeader>
             </Modal>
+            )}
         </Container>
                 
     </>
