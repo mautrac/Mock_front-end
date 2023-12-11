@@ -6,6 +6,7 @@ import {
   FormGroup,
   Modal,
   ModalBody,
+  ModalFooter,
   ModalHeader,
   Row,
 } from "reactstrap";
@@ -71,27 +72,25 @@ function UpdateFilmPage(props) {
     
     let validatationObject = Yup.object().shape({
         name: Yup.string()
-        .required("Required")
-        .max(50, '50 characters max'),
+        // .required("Required")
+        .max(100, '100 characters max'),
         directors: Yup.string()
-            .required("Required")
+            // .required("Required")
             .max(50, '50 characters max'),
         actors: Yup.string()
-            .required("Required")
-            .max(200, '50 characters max'),
+            // .required("Required")
+            .max(200, '200 characters max'),
         genre: Yup.string()
-            .required("Required")
+            // .required("Required")
             .max(100, '100 characters max'),
-        duration: Yup.string()
-            .required("Required"),
+        duration: Yup.string(),
+            // .required("Required"),
         description: Yup.string()
-            .required("Required")
-            .max(500, '50 characters max'),
-        releaseDate: Yup.date()
-            .required("Required"),
+            // .required("Required")
+            .max(500, '500 characters max'),
             
         ticketPrice: Yup.number()
-            .required("Required")
+            // .required("Required")
             .integer()
             .positive()
             
@@ -411,12 +410,12 @@ function UpdateFilmPage(props) {
                                 <>
                                     <Modal isOpen={isOpenDelete}>
                                         <ModalHeader>
-                                            Do you want to delete <h3>{formik.values.name}</h3> ?
+                                            <p style={{fontSize:"20px"}}>Bạn thật sự muốn xóa phim: <span style={{fontStyle:"italic"}}>{formik.values.name}</span> ?</p>
                                         </ModalHeader>
-                                        <ModalBody>
+                                        <ModalFooter>
                                             <Row lg={2} >
                                                 <Col style={{display:"flex", justifyContent: "center"}}>    
-                                                    <Button type="button" onClick={() => {
+                                                    <Button type="button" color="primary" onClick={() => {
                                                         setOpenDelete(false);
                                                         // props.history.goBack();
                                                         filmApi.deleteFilm(formik.values.filmId);
@@ -424,10 +423,10 @@ function UpdateFilmPage(props) {
                                                     }} >Yes</Button>
                                                 </Col>
                                                 <Col style={{display:"flex", justifyContent: "center"}}>    
-                                                    <Button type="button" onClick={() => setOpenDelete(false)} >No</Button>
+                                                    <Button type="button" color="primary" onClick={() => setOpenDelete(false)} >No</Button>
                                                 </Col>
                                             </Row>
-                                        </ModalBody>
+                                        </ModalFooter>
                                     </Modal>
                                 </>
                             )

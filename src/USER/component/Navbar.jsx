@@ -20,13 +20,6 @@ export const Navbar = () => {
     }
   }
 
-  // const handleCart = () =>{
-  //   if(Storage.getToken() === null || Storage.getToken() === undefined){
-  //     history.push("/sign-in")
-  //   } else{
-  //     history.push("/cart")
-  //   }
-  // }
   return (
     <div className="f">
 

@@ -25,6 +25,7 @@ import ticketApi from "../../api/TicketApi";
 import scheduleApi from "../../api/ScheduleApi";
 import filmApi from "../../api/FilmApi";
 import daysOfWeek from "../../utils/DaysOfWeek";
+import Storage from "../../Storage/Storage";
 
 function FilmInfor(props) {
 
@@ -64,6 +65,8 @@ function FilmInfor(props) {
     const [quantity, setQuantity] = useState();
     const [scheduleId, setscheduleId] = useState();
     const [ticketValid, setTicketValid] = useState(false);
+    const [isOpenModal2, setOpenModal2] = useState(false);
+    const checkToken = Storage.getToken();
 
 
     const existsSchedule = () =>{
@@ -119,7 +122,6 @@ function FilmInfor(props) {
             }
         } catch (error) {
             throw error;
-            console.log(error)
         }
     }
     const handleQuantity = (event) => {
@@ -146,6 +148,7 @@ function FilmInfor(props) {
                             </div>
                             <div className="film-infor-buy-button">
                                 <Button type='button' color="primary" size="lg" onClick={() => {
+                                    if(checkToken){
                                     //reset state
                                     setTime('');
                                     setscheduleId('');
@@ -161,6 +164,10 @@ function FilmInfor(props) {
                                         .catch((error) => {
                                         console.log(error);
                                         })
+                                    }
+                                    else{
+                                        setOpenModal2(true);
+                                    }
                                     }}>Mua</Button>
                             </div>
                         </Row>
@@ -243,13 +250,34 @@ function FilmInfor(props) {
                 </Row>              
                                 
             </div>
-            
+
+            <Modal isOpen={isOpenModal2}>
+                {/* body */}
+                <ModalBody className="m-3">
+                <div>
+                    <h1>Bạn cần đăng nhập để đặt vé</h1>
+                </div>
+                </ModalBody>
+
+                {/* footer */}
+                <ModalFooter>
+                <Button color="primary" onClick={() => {props.history.push("sign-in")}}>
+                    Login
+                </Button>
+
+                <Button color="primary" onClick={() => setOpenModal2(false)}>
+                    Close
+                </Button>
+
+                </ModalFooter>
+            </Modal>
+
             {ticketValid === true ? (
 
             <Modal isOpen={isOpenModal}>
             {/* header */}
             <ModalHeader>
-                <p>Chọn lịch chiếu</p>
+            <p style={{fontSize:"30px"}}>Chọn lịch chiếu</p>
                 <ListGroup horizontal style={{ borderBottom: "1px solid", borderColor: "#002843", borderRadius: 0 }}>
                 
                 {Array.from(scheduleMap).map((value) => {
@@ -288,14 +316,14 @@ function FilmInfor(props) {
 
             {/* body */}
             <ModalBody className="m-3">
-                <p className="mb-0">
-                {`Tên Phim: ${infor.name}`}
+                <p className="mb-0"  style={{fontSize:"20px"}}>
+                Tên Phim: <span style={{fontStyle:"italic"}}>{infor.name}</span>
                 </p>
-                <p className="mb-0">
-                {`Xuất chiếu: ${time}`}
+                <p className="mb-0"  style={{fontSize:"20px"}}>
+                Xuất chiếu: <span style={{fontStyle:"italic"}}>{time}</span>
                 </p>
-                <label htmlFor="">Chọn số vé cần mua</label>
-                <input type="number" name="" id="" onChange={handleQuantity} />
+                <label style={{fontSize:"20px"}}>Chọn số vé cần mua:</label>
+                <input type="number" style={{height:"30px", width:"60px"}} onChange={handleQuantity} />
             </ModalBody>
 
             {/* footer */}
@@ -311,11 +339,43 @@ function FilmInfor(props) {
             </ModalFooter>
             </Modal>):(
             <Modal isOpen={isOpenModal1}>
-                <ModalHeader>
+                {/* body */}
+                <ModalBody className="m-3">
+                <div>
                     <h1>Phim chưa có lịch chiếu</h1>
-                </ModalHeader>
+                </div>
+                </ModalBody>
+
+                {/* footer */}
+                <ModalFooter>
+                <Button color="primary" onClick={() => setOpenModal1(false)}>
+                    Close
+                </Button>
+
+                </ModalFooter>
             </Modal>
             )}
+
+            <Modal isOpen={isOpenModal2}>
+                {/* body */}
+                <ModalBody className="m-3">
+                <div>
+                    <h1>Bạn cần đăng nhập để đặt vé</h1>
+                </div>
+                </ModalBody>
+
+                {/* footer */}
+                <ModalFooter>
+                <Button color="primary" onClick={() => {props.history.push("sign-in")}}>
+                    Login
+                </Button>
+
+                <Button color="primary" onClick={() => setOpenModal2(false)}>
+                    Close
+                </Button>
+
+                </ModalFooter>
+            </Modal>
         </Container>
                 
     </>

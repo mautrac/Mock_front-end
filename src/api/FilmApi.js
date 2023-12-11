@@ -75,26 +75,19 @@ const createFilm = (values) => {
     }
 
     const f = () => {
-     
-        
         Api.post(`${url}`, body)
         .then((response) => {
             //console.log(response);
             let id = response;
-
             scheduleAPI.createSchedulesInFilm(id, values.filmSchedules);
-            
         })
         .catch((error) => {
             console.log(error);
             throw error;
         })
-        
     }
     f();
-
 }
-
 
 const updateFilm = (values) => {
     const body = {
@@ -109,23 +102,19 @@ const updateFilm = (values) => {
         poster: values.poster,
         //releaseDate: values.releaseDate
     }
-    const f = async () => {
-        try {
-            //await Api.put(`${url}/${values.filmId}`, body);
+    const f = () => {
+        Api.put(`${url}/${values.filmId}`, body)
+        .then(() => {
+            //console.log(response);
             let newSchedules = values.filmSchedules;
             scheduleAPI.updateFilmSchedules(values.filmId, newSchedules);
-
-        } catch (error) {
+        })
+        .catch((error) => {
+            console.log(error);
             throw error;
-        }
+        })
     }
-    try {
-        f();
-    }
-    catch (error) {
-        throw error;
-    }
-    
+    f();
 }
 const getFilmById = (id)  => {
     return Api.get(`${url}/${id}`);

@@ -30,11 +30,11 @@ import scheduleApi from "../../api/ScheduleApi";
 import * as Icon from 'react-feather';
 
 import daysOfWeek from "../../utils/DaysOfWeek";
+import Storage from "../../Storage/Storage";
 
 // import { Search } from "react-bootstrap-table2-toolkit";
 const FilmPage = (props) => {
   const getListFilm = props.getListFilmAction;
-  
 
   useEffect(() =>{
     const getAllFilm = async() =>{
@@ -57,6 +57,9 @@ const FilmPage = (props) => {
   const [time, setTime] = useState("");
   const [quantity, setQuantity] = useState();
   const [scheduleId, setscheduleId] = useState();
+  const [isOpenModal1, setOpenModal1] = useState(false);
+  const [isOpenModal2, setOpenModal2] = useState(false);
+  const checkToken = Storage.getToken();
 
   const handleCreatTicket = async () => {
     try {
@@ -68,16 +71,15 @@ const FilmPage = (props) => {
         ticketObj
       );
       setOpenModal(false);
+      setOpenModal1(true);
     } catch (error) {
       throw error;
-      console.log(error)
     }
   }
   const handleQuantity = (event) => {
     setQuantity(event.target.value);
   }
- 
-//  console.log(data);
+  
   if(scheduleMap.length>0){
   return(
   <Container fluid className="p-0">
@@ -145,25 +147,28 @@ const FilmPage = (props) => {
                         <span className="cgv-info-normal">{film.ticketPrice} VNĐ</span>
                         </div>
                         <div><Button type='button' color="primary" size="lg" onClick={() => {
-                          //reset state
-                          setTime('');
-                          setscheduleId('');
+                            if(checkToken){
+                              //reset state
+                              setTime('');
+                              setscheduleId('');
 
-                          setOpenModal(true);
-                          setFilmname(film.name);
-                          setFilmID(film.filmId);
+                              setOpenModal(true);
+                              setFilmname(film.name);
+                              setFilmID(film.filmId);
 
-                          scheduleApi.getSchedulesByFilmId(film.filmId)
-                            .then((res) => {
-                              console.log(res);
-                              setScheduleMap(res);
-                              Object.assign(scheduleMap, res);
-                            })
-                            .catch((error) => {
-                              console.log(error);
-                            })
-
-
+                              scheduleApi.getSchedulesByFilmId(film.filmId)
+                                .then((res) => {
+                                  console.log(res);
+                                  setScheduleMap(res);
+                                  Object.assign(scheduleMap, res);
+                                })
+                                .catch((error) => {
+                                  console.log(error);
+                                })
+                            }
+                            else{
+                              setOpenModal2(true);
+                            }
                         }}>
                           Mua
                         </Button></div>
@@ -179,12 +184,49 @@ const FilmPage = (props) => {
       </Col>
     </Row>
 
+    <Modal isOpen={isOpenModal1}>
+        {/* body */}
+        <ModalBody className="m-3">
+          <div>
+              <h1>Đặt vé thành công</h1>
+          </div>
+          </ModalBody>
+
+          {/* footer */}
+          <ModalFooter>
+          <Button color="primary" onClick={() => setOpenModal1(false)}>
+              Close
+          </Button>
+
+          </ModalFooter>
+      </Modal>
+
+      <Modal isOpen={isOpenModal2}>
+        {/* body */}
+        <ModalBody className="m-3">
+          <div>
+              <h1>Bạn cần đăng nhập để đặt vé</h1>
+          </div>
+          </ModalBody>
+
+          {/* footer */}
+          <ModalFooter>
+          <Button color="primary" onClick={() => {props.history.push("sign-in")}}>
+            Login
+          </Button>
+
+          <Button color="primary" onClick={() => setOpenModal2(false)}>
+              Close
+          </Button>
+
+          </ModalFooter>
+      </Modal>
+
     <Modal isOpen={isOpenModal}>
 
       {/* header */}
       <ModalHeader>
-        <h2>{filmID}</h2>
-        <p>Chọn lịch chiếu</p>
+        <p style={{fontSize:"30px"}}>Chọn lịch chiếu</p>
         <ListGroup horizontal style={{ borderBottom: "1px solid", borderColor: "#002843", borderRadius: 0 }}>
 
           {Array.from(scheduleMap).map((value) => {
@@ -219,19 +261,19 @@ const FilmPage = (props) => {
           })}
 
         </ListGroup>
-        <p></p>
+
       </ModalHeader>
 
       {/* body */}
       <ModalBody className="m-3">
-        <p className="mb-0">
-          {`Tên Phim: ${filmname}`}
+        <p className="mb-0"  style={{fontSize:"20px"}}>
+          Tên Phim: <span style={{fontStyle:"italic"}}>{filmname}</span>
         </p>
-        <p className="mb-0">
-          {`Xuất chiếu: ${time}`}
+        <p className="mb-0"  style={{fontSize:"20px"}}>
+          Xuất chiếu: <span style={{fontStyle:"italic"}}>{time}</span>
         </p>
-        <label htmlFor="">Chọn số vé cần mua   </label>
-        <input type="number" name="" id="" onChange={handleQuantity} />
+        <label style={{fontSize:"20px"}}>Chọn số vé cần mua:</label>
+        <input type="number" style={{height:"30px", width:"60px"}} onChange={handleQuantity} />
       </ModalBody>
 
       {/* footer */}
@@ -333,8 +375,6 @@ const FilmPage = (props) => {
                               .catch((error) => {
                                 console.log(error);
                               })
-
-
                           }}>
                             Mua
                           </Button></div>
@@ -355,7 +395,7 @@ const FilmPage = (props) => {
         {/* body */}
         <ModalBody className="m-3">
           <div>
-              <h1>Phim chưa có lịch chiếu !!!</h1>
+              <h1>Phim chưa có lịch chiếu</h1>
           </div>
         </ModalBody>
 
